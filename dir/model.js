@@ -1,6 +1,7 @@
-import * as THREE from 'three';
-// Import OrbitControls from Three.js
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/examples/js/controls/OrbitControls.js"></script>
+<script src="model.js"></script>
+
 
 // Init
 const scene = new THREE.Scene();
