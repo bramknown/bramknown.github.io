@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Python Finger Print Comparer | Bram’s AI Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Blog" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Deep learning journey" />
+<meta property="og:description" content="Deep learning journey" />
+<link rel="canonical" href="https://bramknown.github.io/" />
+<meta property="og:url" content="https://bramknown.github.io/" />
+<meta property="og:site_name" content="Bram’s AI Blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Blog" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Feel free to follow my AI journey with fastai.","headline":"Blog","name":"bram’s AI Blog","url":"https://bramknown.github.io/"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://bramknown.github.io/feed.xml" title="Bram&apos;s AI Blog" />
+
+  <script>
+  function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+  }
+  window.onload = wrap_img;
+  </script>
+
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Bram Games</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="bram.html">About Me</a><a class="page-link" href="/">Games</a></div>
+      </nav></div>
+</header>
+<header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How can I Fork a Public Repository, but make my Fork Private?</h1>
+    <p class="post-meta">
+      <time class="dt-published" datetime="2025-03-23T00:00:00+00:00" itemprop="datePublished">Mar 23, 2025
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <h2 id="method-1">Method 1</h2>
+<p>Choose a repository in lovellbrian from GitHUB (https://github.com/lovellbrian). Click on fork. Unclick <code class="language-plaintext highlighter-rouge">Copy the master branch only</code>, then click on <code class="language-plaintext highlighter-rouge">Create Fork</code>. Now you will be placed in your fork of my repository. Your fork is set to <code class="language-plaintext highlighter-rouge">Public</code> access which is against UQ policy for Assignments and may lead to misconduct proceedings.</p>
+
+<p>What you really need is to convert this to a <code class="language-plaintext highlighter-rouge">Private Fork</code>. Click on <code class="language-plaintext highlighter-rouge">Settings</code> and scroll down until you see the <code class="language-plaintext highlighter-rouge">Danger Zone</code> in red.  Click on <code class="language-plaintext highlighter-rouge">Leave Fork Network</code>. Now select <code class="language-plaintext highlighter-rouge">Change Visibility</code> and  <code class="language-plaintext highlighter-rouge">Change to Private</code>. You have now converted your <code class="language-plaintext highlighter-rouge">Public</code> repository to <code class="language-plaintext highlighter-rouge">Private</code> which is fine for assignment submissions.</p>
+
+<h2 id="method-2">Method 2</h2>
+<p>Create a new repository on GitHub.  Make sure it is a private repository.</p>
+
+<p>Then go into VS Code and type F1 <code class="language-plaintext highlighter-rouge">WSL:Connect to WSL</code> so you are working in Linux. Open a terminal window and type</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">git clone --bare https://github.com/lovellbrian/&lt;my-public-repository&gt;</span><span class="w">
+</span></code></pre></div></div>
+<p>(for example, for <code class="language-plaintext highlighter-rouge">fastbook</code> type in <code class="language-plaintext highlighter-rouge">git clone --bare https://github.com/lovellbrian/fastbook</code>)</p>
+
+<p>Then <code class="language-plaintext highlighter-rouge">cd</code> into the new directory.</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">cd &lt;my-public-repository&gt;</span><span class="w">
+</span></code></pre></div></div>
+<p>Finally clone it to your new private repo on GitHub that you just created.</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">git clone --bare https://github.com/&lt;yourusername&gt;</span>/&lt;private-repo&gt;
+</code></pre></div></div>
+
+<p>For a full explanation take a look at  <a href="https://stackoverflow.com/questions/10065526/github-how-to-make-a-fork-of-public-repository-private">Stack Exchange</a>.</p>
+
+<h2 id="stack-exchange-post">Stack Exchange Post</h2>
+
+<p>First, duplicate the repo:</p>
+
+<p>Create a new repo (let’s call it private-repo) via the Github UI. Then:</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">git clone --bare https://github.com/exampleuser/public-repo.git
+cd public-repo.git
+git push --mirror https://github.com/yourname/private-repo.git
+cd ..
+rm -rf public-repo.git
+</span></code></pre></div></div>
+
+<p>Clone the private repo so you can work on it:</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">git clone https://github.com/yourname/private-repo.git
+cd private-repo
+make some changes
+git commit
+git push origin master
+</span></code></pre></div></div>
+
+<p>To pull new changes from the public repo:</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">cd private-repo
+git remote add public https://github.com/exampleuser/public-repo.git
+</span><span class="gp">git pull public master #</span><span class="w"> </span>Creates a merge commit
+<span class="go">git push origin master
+</span></code></pre></div></div>
+
+<p>Awesome, your private repo now has the latest code from the public repo plus your changes.</p>
+
+<p>Finally, to create a pull request private repo -&gt; public repo:</p>
+
+<p>Use the GitHub UI to create a fork of the public repo (the small “Fork” button at the top right of the public repo page). Then:</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">git clone https://github.com/yourname/the-fork.git
+cd the-fork
+git remote add private_repo_yourname https://github.com/yourname/private-repo.git
+git checkout -b pull_request_yourname
+git pull private_repo_yourname master
+git push origin pull_request_yourname
+</span></code></pre></div></div>
+<p>Now you can create a pull request via the Github UI for public-repo, as described <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork">here</a>.</p>
+
+<p>Once project owners review your pull request, they can merge it.</p>
+
+<p>Of course the whole process can be repeated (just leave out the steps where you add remotes).</p>
+
+<p>Enjoy!</p>
+
+<p>Happy coding on your private fork on GitHub.</p>
+
+<p>Brian</p>
+
+<p><img src="/images/Lovell_portrait_small.jpg" alt="Lovell Portrait" title="Brian Lovell" /></p>
+
+<!-- Put Javascript here! -->
+
+<script src="/assets/scripts/copyCode.js" async=""> </script>
+
+
+  </div><a class="u-url" href="/2025/03/23/private.html" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Brian Lovell&#39;s Awesome fastai Blog</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Brian Lovell&#39;s Awesome fastai Blog</li><li><a class="u-email" href="mailto:lovell@eecs.uq.edu.au">lovell@eecs.uq.edu.au</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list">
+  <li><a href="https://github.com/lovellbrian"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">lovellbrian</span></a></li><li><a href="https://www.twitter.com/LovellProf"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#twitter"></use></svg> <span class="username">LovellProf</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Feel free to follow my AI journey with fastai.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+    
