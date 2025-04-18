@@ -73,7 +73,7 @@ ol {
 
     /* Layout */
     &:nth-of-type(1) { grid-column: 15; }
-    &:nth-of-type(5), &:nth-of-type(11) { grid-column: 11; }
+    &:nth-of-type(5), &:nth-of-type(13) { grid-column: 11; }
     
     /* Lanthenides */
     &:nth-of-type(57) { grid-area: 9 / 4 / 9/ 4; }
