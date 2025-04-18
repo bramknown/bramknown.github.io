@@ -72,8 +72,8 @@ ol {
     }
 
     /* Layout */
-    &:nth-of-type(2) { grid-column: 18; }
-    &:nth-of-type(5), &:nth-of-type(13) { grid-column: 13; }
+    &:nth-of-type(1) { grid-column: 15; }
+    &:nth-of-type(5), &:nth-of-type(11) { grid-column: 11; }
     
     /* Lanthenides */
     &:nth-of-type(58) { grid-area: 9 / 4 / 9/ 4; }
