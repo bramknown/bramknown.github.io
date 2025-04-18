@@ -1,1 +1,60 @@
-
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="robots" content="index,follow,noarchive">
+    <title>Periodic Table of Elements</title>
+    <script type="text/javascript">
+      window.ncbi_startTime = new Date ()
+      
+    </script>
+    <link rel="apple-touch-icon" sizes="180x180" href="/pcfe/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/pcfe/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/pcfe/favicon/favicon-16x16.png">
+    <link rel="shortcut icon" href="/pcfe/favicon/favicon.ico">
+    <link rel="modulepreload" href="react.production.min.js">
+    <link rel="modulepreload" href="react-dom.production.min.js">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+    <meta name="color-scheme" content="dark light">
+    <meta name="application-name" content="PubChem">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="white">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="black">
+    <meta property="og:title" content="Periodic Table of Elements">
+    <meta property="og:url" content="https://pubchem.ncbi.nlm.nih.gov/periodic-table/">
+    <meta property="og:image" content="https://pubchem.ncbi.nlm.nih.gov/periodic-table/Periodic_Table.png">
+    <meta property="og:image:secure_url" content="https://pubchem.ncbi.nlm.nih.gov/periodic-table/Periodic_Table.png">
+    <meta property="og:type" content="website">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1650">
+    <meta property="og:image:height" content="1100">
+    <meta name="author" content="PubChem">
+    <meta name="ncbi_db" content="pubchem">
+    <meta name="ncbi_pinger_ga_track" content="true">
+    <meta name="ncbi_pinger_track_stat" content="true">
+    <meta name="ncbi_pinger_section_duration" content="false">
+    <meta name="ncbi_app" content="pc-ptable">
+    <meta name="ncbi_pdid" content="ptable-interface">
+    <meta name="pubchem_tracking_category" content="ptable-app">
+    <meta name="description" content="Interactive periodic table with up-to-date element property data collected from authoritative sources. Look up chemical element names, symbols, atomic masses and other properties, visualize trends, or even test your elements knowledge by playing a periodic table game!">
+    <link rel="canonical" href="https://pubchem.ncbi.nlm.nih.gov/periodic-table/">
+    <script type="module">const storageAvailable=function(){try{return window.localStorage.test=0,window.localStorage.removeItem("test"),!0}catch(e){return!1}}();function setMode(){"dark"!==localStorage.mode&&("mode"in localStorage&&"system"!==localStorage.mode||!window.matchMedia("(prefers-color-scheme: dark)").matches)?document.documentElement.classList.remove("dark"):document.documentElement.classList.add("dark")}!String(location.hash).match(/mode=light/i)&&storageAvailable&&(window.addEventListener("storage",(()=>{setMode()})),setMode());</script>
+    <link rel="stylesheet" href="pubchem.min.css" type="text/css">
+  </head>
+  <body>
+    <noscript>
+      <div class="main-width pt-8 pb-8">
+        <div class="bg-spill pt-4">
+          <h1 class="text-red-500 font-bold text-2xl mb-2">JavaScript is required...</h1>
+          <p>Please enable Javascript in order to use PubChem website.</p>
+        </div>
+      </div>
+    </noscript>
+    <div class="theme-element" id="root"></div>
+    <div class="theme-element" id="root-modal"></div>
+    <script type="text/javascript" async src="pinger.js"></script>
+    <script nomodule>document.querySelector ('#root').innerHTML = '<div class="main-width pt-8 pb-8"><div><img src="https://pubchem.ncbi.nlm.nih.gov/pcfe/logo/PubChem_logo.png" alt="PubChem logo" width="200" height="60" /></div><div class="bg-spill pt-4"><h1 class="text-red-500 font-bold text-2xl mb-2">Apologies, we no longer support your browser...</h1><p>Please use a modern browser, such as <a href="https://www.google.com/chrome" class="underline" target="_blank" rel="noreferrer noopener">Chrome</a>, <a href="https://www.mozilla.org/firefox" class="underline" target="_blank" rel="noreferrer noopener">Firefox</a>, or <a href="https://www.microsoft.com/edge" class="underline" target="_blank" rel="noreferrer noopener">Edge</a> to access PubChem website.</p></div><div>';</script>
+    <script type="module" src="react.production.min.js"></script>
+    <script type="module" src="react-dom.production.min.js"></script>
+    <script type="module" src="ptable.min.js"></script>
+  </body>
+</html>
