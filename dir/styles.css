@@ -29,7 +29,7 @@ ol {
   font-size: 2cqi;
   gap: 1px;
   grid-template-columns: repeat(32, 1fr);
-  grid-template-rows: repeat(10, 1fr);
+  grid-template-rows: repeat(7, 1fr);
 
   /* Element name and abbreviation */
   abbr {
