@@ -12,7 +12,7 @@
         display: inline-block;
     }
     .element-details {
-        margin-top: 10px;
+        margin-top: 2px;
     }
 </style>
   <script type="importmap">
@@ -56,7 +56,28 @@
       list.innerHTML = '';
       elements.forEach(element => {
           const li = document.createElement('li');
-          li.textContent = element.Symbol;
+          li.setAttribute('data-mass', element.AtomicMass);
+          
+          // Add appropriate class based on group block (example: 'hln' for nonmetals)
+          const groupClassMap = {
+              "Halogen": "hln",
+              "Noble gas": "nbl",
+              "Alkali metal": "alk",
+              "Alkaline earth metal": "aec",
+              "Metalloid": "met",
+              "Nonmetal": "rnm",
+              "Post-transition metal": "trm",
+              "Transition metal": "trn",
+              "Lanthanide": "lan",
+              "Actinide": "act"
+          };
+          li.className = groupClassMap[element.GroupBlock] || 'default-class';
+
+          const abbr = document.createElement('abbr');
+          abbr.setAttribute('title', element.Name);
+          abbr.textContent = element.Symbol;
+
+          li.appendChild(abbr);
           li.onclick = () => displayDetails(element.Symbol);
           list.appendChild(li);
       });

@@ -28,7 +28,7 @@ ol {
   display: grid; 
   font-size: 2cqi;
   gap: 1px;
-  grid-template-columns: repeat(18, 1fr);
+  grid-template-columns: repeat(32, 1fr);
   grid-template-rows: repeat(10, 1fr);
 
   /* Element name and abbreviation */
@@ -77,10 +77,10 @@ ol {
     }
 
     /* Layout */
-    &:nth-of-type(1) { grid-column: 15; }
-    &:nth-of-type(5), &:nth-of-type(13) { grid-column: 11; }
-    
-    /* Lanthenides */
+    &:nth-of-type(1) { grid-column: 29; }
+    &:nth-of-type(5), &:nth-of-type(17) { grid-column: 25; }
+    &:nth-of-type(21), &:nth-of-type(39) { grid-column: 14; }
+    /* Lanthenides 
     &:nth-of-type(57) { grid-area: 9 / 4 / 9/ 4; }
     &:nth-of-type(58) { grid-area: 9 / 5 / 9/ 5; }
     &:nth-of-type(59) { grid-area: 9 / 6 / 9/ 6; }
@@ -96,7 +96,7 @@ ol {
     &:nth-of-type(69) { grid-area: 9 / 16 / 9 / 16; }
     &:nth-of-type(70) { grid-area: 9 / 17 / 9 / 17; }
 
-    /* Actinides */
+    Actinides
     &:nth-of-type(89) { grid-area: 10 / 4 / 10 / 4; }
     &:nth-of-type(90) { grid-area: 10 / 5 / 10 / 5; }
     &:nth-of-type(91) { grid-area: 10 / 6 / 10 / 6; }
@@ -111,6 +111,7 @@ ol {
     &:nth-of-type(100) { grid-area: 10 / 15 / 10 / 15; }
     &:nth-of-type(101) { grid-area: 10 / 16 / 10 / 16; }
     &:nth-of-type(102) { grid-area: 10 / 17 / 10 / 17; }
+    */
   }
 }
 
