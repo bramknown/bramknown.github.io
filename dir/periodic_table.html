@@ -41,6 +41,10 @@
 
       populateElementList();
   }
+  async function initializePage() {
+            await loadCSV(); // Fetch and parse CSV
+            populateElementList(); // Populate content
+        }
 
   // Function to populate the list of elements
   function populateElementList() {
@@ -98,8 +102,11 @@
           `;
       }
   }
+  window.onload = async function() {
+            await initializePage(); // Load CSV and prepare the page
+        };
   // Load the CSV data when the page loads
-  document.addEventListener('DOMContentLoaded', loadCSV);
+  //document.addEventListener('DOMContentLoaded', loadCSV);
 </script>
 </head>
 <body>
