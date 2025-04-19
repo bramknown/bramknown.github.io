@@ -3,7 +3,7 @@ body {
   font-family: system-ui, sans-serif;
   margin: .25em;
   padding: 0;
-  width: 200%; /* Fits within viewport width */
+  width: 100%; /* Fits within viewport width */
 }
 @media (min-width: 768px) {
   div {
