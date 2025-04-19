@@ -39,10 +39,12 @@
       const headers = rows.shift().split(',');
 
       elements = rows.map(row => {
-          const values = row.split(',');
+          // Use regex to properly split by commas while preserving quoted fields
+          const values = row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
           const element = {};
           headers.forEach((header, index) => {
-              element[header.replace(/\"/g, '').trim()] = values[index].replace(/\"/g, '').trim();
+              const value = values[index] ? values[index].replace(/\"/g, '').trim() : '';
+              element[header.replace(/\"/g, '').trim()] = value;
           });
           return element;
       });
