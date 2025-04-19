@@ -5,6 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Periodic Table</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .element-list li {
+        cursor: pointer;
+        padding: 5px;
+        border: 1px solid #ccc;
+        margin: 5px;
+        display: inline-block;
+    }
+    .element-details {
+        margin-top: 20px;
+    }
+</style>
   <script type="importmap">
 {
   "imports": {
@@ -13,8 +25,79 @@
   }
 }
 </script>
+<script>
+  let elements = [];
+
+  // Function to read and parse the CSV
+  async function loadCSV() {
+      const response = await fetch('elements.csv');
+      const csvText = await response.text();
+      parseCSV(csvText);
+  }
+
+  // Function to parse CSV text into a JSON array
+  function parseCSV(csvText) {
+      const rows = csvText.split('\n').filter(row => row.trim() !== '');
+      const headers = rows.shift().split(',');
+
+      elements = rows.map(row => {
+          const values = row.split(',');
+          const element = {};
+          headers.forEach((header, index) => {
+              element[header.replace(/\"/g, '').trim()] = values[index].replace(/\"/g, '').trim();
+          });
+          return element;
+      });
+
+      populateElementList();
+  }
+
+  // Function to populate the list of elements
+  function populateElementList() {
+      const list = document.querySelector('.element-list');
+      list.innerHTML = '';
+      elements.forEach(element => {
+          const li = document.createElement('li');
+          li.textContent = element.Symbol;
+          li.onclick = () => displayDetails(element.Symbol);
+          list.appendChild(li);
+      });
+  }
+
+  // Function to display details of the selected element
+  function displayDetails(symbol) {
+      const element = elements.find(e => e.Symbol === symbol);
+      if (element) {
+          const detailsDiv = document.getElementById('element-details');
+          detailsDiv.innerHTML = `
+              <h2>${element.Name} (${element.Symbol})</h2>
+              <p><strong>Atomic Mass:</strong> ${element.AtomicMass}</p>
+              <p><strong>Electron Configuration:</strong> ${element.ElectronConfiguration}</p>
+              <p><strong>Electronegativity:</strong> ${element.Electronegativity}</p>
+              <p><strong>Atomic Radius:</strong> ${element.AtomicRadius}</p>
+              <p><strong>Ionization Energy:</strong> ${element.IonizationEnergy}</p>
+              <p><strong>Electron Affinity:</strong> ${element.ElectronAffinity}</p>
+              <p><strong>Oxidation States:</strong> ${element.OxidationStates}</p>
+              <p><strong>Standard State:</strong> ${element.StandardState}</p>
+              <p><strong>Melting Point:</strong> ${element.MeltingPoint}</p>
+              <p><strong>Boiling Point:</strong> ${element.BoilingPoint}</p>
+              <p><strong>Density:</strong> ${element.Density}</p>
+              <p><strong>Group Block:</strong> ${element.GroupBlock}</p>
+              <p><strong>Year Discovered:</strong> ${element.YearDiscovered}</p>
+          `;
+      }
+  }
+
+  // Load the CSV data when the page loads
+  document.addEventListener('DOMContentLoaded', loadCSV);
+</script>
 </head>
 <body>
+  <h1>Periodic Elements</h1>
+  <ul class="element-list"></ul>
+  <div id="element-details" class="element-details">
+      <p>Click on an element to view its details!</p>
+  </div>
 <ol>
   <li data-mass="1.0078" class="hln">
     <abbr title="Hydrogen">H</abbr>
