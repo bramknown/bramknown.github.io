@@ -23,7 +23,7 @@ ol {
   display: grid; 
   font-size: 2cqi;
   gap: 1px;
-  grid-template-columns: repeat(31, 1fr);
+  grid-template-columns: repeat(32, 1fr);
   grid-template-rows: repeat(7, 1fr);
 
   /* Element name and abbreviation */
@@ -72,9 +72,9 @@ ol {
     }
 
     /* Layout */
-    &:nth-of-type(1) { grid-column: 28; }
-    &:nth-of-type(5), &:nth-of-type(13) { grid-column: 24; }
-    &:nth-of-type(21), &:nth-of-type(39) { grid-column: 14; }
+    &:nth-of-type(1) { grid-column: 29; }
+    &:nth-of-type(5), &:nth-of-type(13) { grid-column: 25; }
+    &:nth-of-type(21), &:nth-of-type(39) { grid-column: 15; }
   }
 }
 
