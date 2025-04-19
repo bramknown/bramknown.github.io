@@ -1,5 +1,5 @@
 "AtomicNumber","Symbol","Name","AtomicMass","CPKHexColor","ElectronConfiguration","Electronegativity","AtomicRadius","IonizationEnergy","ElectronAffinity","OxidationStates","StandardState","MeltingPoint","BoilingPoint","Density","GroupBlock","YearDiscovered"
-1,"H","Hydrogen",1.0080,"FFFFFF","1s1",2.2,120,13.598,0.754,"+1, -1","Gas",13.81,20.28,0.00008988,"Nonmetal",1766
+1,"H","Hydrogen",1.0080,"FFFFFF","1s1",2.2,120,13.598,0.754,"+1, -1","Gas",13.81,20.28,0.00008988,"Halogen",1766
 2,"He","Helium",4.00260,"D9FFFF","1s2","",140,24.587,"","0","Gas",0.95,4.22,0.0001785,"Noble gas",1868
 3,"Li","Lithium",7.0,"CC80FF","[He]2s1",0.98,182,5.392,0.618,"+1","Solid",453.65,1615,0.534,"Alkali metal",1817
 4,"Be","Beryllium",9.012183,"C2FF00","[He]2s2",1.57,153,9.323,"","+2","Solid",1560,2744,1.85,"Alkaline earth metal",1798
