@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Blog | Bram’s AI Blog</title>
+<meta name="generator" content="Jekyll v3.10.0" />
+<meta property="og:title" content="Blog" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Deep learning journey" />
+<meta property="og:description" content="Deep learning journey" />
+<link rel="canonical" href="https://bramknown.github.io/" />
+<meta property="og:url" content="https://bramknown.github.io/" />
+<meta property="og:site_name" content="Bram’s AI Blog" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Blog" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","description":"Feel free to follow my AI journey with fastai.","headline":"Blog","name":"bram’s AI Blog","url":"https://bramknown.github.io/"}</script>
+<!-- End Jekyll SEO tag -->
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://bramknown.github.io/feed.xml" title="Bram&apos;s AI Blog" />
+
+  <script>
+  function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+  }
+  window.onload = wrap_img;
+  </script>
+
+</head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Bram Games</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="bram.html">About Me</a><a class="page-link" href="/">Games</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div class="home"><h1 class="page-heading">Blog</h1><p>I am a Mechatronics Engineer, studying at The University of Queensland and I have many projects and this is one of them.</p>
+            <p>This is code for the game set to compute the amount of left over cards. It is coded in python with some processed values, getting approxiamtely 1.5% chance of ending with zero left over cards.</p>
+
+<div class="code-header">
+    <button class="copy-code-button">
+      📋Copy
+    </button>
+  </div>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">
+import random
+
+def func(C, e):
+    for i in range(0,e-2):
+        for j in range(i+1,e-1):
+            for k in range(j+1,e):
+                h = 0;
+                for p in range(4):
+                    if ((C[i][p] == C[j][p]) and (C[j][p] == C[k][p])) or ((C[i][p] != C[j][p]) and (C[i][p] != C[k][p]) and (C[k][p] != C[j][p])):
+                        h = h+1;
+                    else:
+                        break
+                    if h == 4:
+                        #print(C[i], C[j], C[k])
+                        C.pop(k)
+                        C.pop(j)
+                        C.pop(i)
+                        return 0
+    #print(C[0:e])
+    return 1
+
+def game():
+    C = ([[color,symbol,number,shading]
+        for color in range(3)
+        for symbol in range(3)
+        for number in range(3)
+        for shading in range(3)
+    ])
+    random.shuffle(C)
+    #C =[[0, 2, 2, 1], [0, 1, 2, 1], [1, 0, 1, 0], [0, 0, 0, 0], [1, 2, 0, 0], [1, 1, 2, 2], [1, 1, 0, 1], [0, 1, 1, 0], [0, 1, 1, 1], [2, 0, 2, 1], [1, 0, 2, 2], [0, 2, 0, 2], [2, 2, 2, 1], [1, 2, 2, 0], [1, 0, 0, 0], [2, 0, 0, 0], [0, 2, 1, 1], [2, 2, 0, 2], [0, 0, 1, 2], [1, 0, 2, 0], [2, 2, 1, 2], [0, 0, 2, 1], [2, 2, 1, 0], [2, 0, 2, 2], [2, 0, 1, 1], [1, 2, 2, 2], [1, 1, 1, 0], [1, 0, 0, 2], [0, 2, 2, 2], [0, 2, 0, 1]]
+    w = 0;
+    while True:
+        if len(C) <= 12:
+            q = len(C)
+        elif len(C) > 12 and w == 0:
+            q = 12
+        elif w == 1 and q != 15:
+            q = 15
+        elif w == 1:
+            q = 18
+        w = func(C, q)
+        if w == 1 and len(C) <= 15 and q == len(C):
+            break
+    #print(C)
+    return len(C)
+
+a = [0,0,0,0,0,0]
+for x in range(100):
+    y = game()
+    #print(y)
+    if y == 0:
+        a[0] = a[0]+1
+    else:
+        s = int(y / 3)
+        a[s] = a[s] + 1
+print(a)
+    
+#10000 [146, 0, 4906, 4284, 658, 6, 0]
+#100000 [1539, 0, 48696, 42746, 6950, 68, 1]
+#10000 [159, 0, 4921, 4228, 684, 8]
+#100000 [1513, 0, 48812, 42820, 6787, 68]
+</span></code></pre></div></div>
+        </div>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Bram&#39;s blog</li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list">
+  <li><a href="https://github.com/bramknown"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bramknown</span></a></li><li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>Feel free to follow my Coding and AI.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
