@@ -19,7 +19,7 @@
 {"@context":"https://schema.org","@type":"WebSite","description":"Feel free to follow my AI journey with fastai.","headline":"Blog","name":"bram’s AI Blog","url":"https://bramknown.github.io/"}</script>
 <!-- End Jekyll SEO tag -->
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://bramknown.github.io/feed.xml" title="Bram&apos;s AI Blog" />
+  <link rel="stylesheet" href="main.css"><link type="application/atom+xml" rel="alternate" href="https://bramknown.github.io/feed.xml" title="Bram&apos;s AI Blog" />
 
   <script>
   function wrap_img(fn) {
@@ -63,7 +63,8 @@
       <div class="wrapper">
         <div class="home"><h1 class="page-heading">Blog</h1><p>I am a Mechatronics Engineer, studying at The University of Queensland and I have many projects and this is one of them.</p>
             <p>This shows MathML so you can copy past it into word. With thw following MathML you can also paste into source code of a website to show the equation.</p>
-<?xml version="1.0"?>
+            <p> you can use ```contenteditable="true"``` inside a div to change text </p>
+<template id="mathTemplate"><?xml version="1.0"?>
 <math  xmlns="http://www.w3.org/1998/Math/MathML" display="block">
   <mrow>
     <mi>x</mi>
@@ -99,53 +100,14 @@
       </mrow>
     </mfrac>
   </mrow>
-</math>
-<br>
-<div class="code-header">
-    <button class="copy-code-button">
-      📋Copy
-    </button>
-  </div>
+</math></template>
 
-<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">
-<?xml version="1.0"?>
-<math  xmlns="http://www.w3.org/1998/Math/MathML" display="block">
-  <mrow>
-    <mi>x</mi>
-    <mo>=</mo>
-    <mfrac>
-      <mrow>
-        <mrow>
-          <mo>−</mo>
-          <mi>b</mi>
-        </mrow>
-        <mo>±</mo>
-        <msqrt>
-          <mrow>
-            <msup>
-              <mi>b</mi>
-              <mn>2</mn>
-            </msup>
-            <mo>−</mo>
-            <mrow>
-              <mn>4</mn>
-              <mo>⁢</mo>
-              <mi>a</mi>
-              <mo>⁢</mo>
-              <mi>c</mi>
-            </mrow>
-          </mrow>
-        </msqrt>
-      </mrow>
-      <mrow>
-        <mn>2</mn>
-        <mo>⁢</mo>
-        <mi>a</mi>
-      </mrow>
-    </mfrac>
-  </mrow>
-</math>
-</span></code></pre></div></div>
+    <div class="code-header">
+        <button class="copy-code-button">📋 Copy</button>
+    </div>
+    <div id="mathDisplay"></div>
+    <br>
+    <textarea id="mathTextarea" rows="37" cols="90"></textarea>
         </div>
       </div>
     </main><footer class="site-footer h-card">
@@ -154,22 +116,21 @@
   <div class="wrapper">
     <div class="footer-col-wrapper">
       <div class="footer-col footer-col-1">
-        <ul class="contact-list">
-          <li class="p-name">Bram&#39;s blog</li></ul>
+        <ul class="contact-list"><li class="p-name">Bram&#39;s blog</li></ul>
       </div>
-
       <div class="footer-col footer-col-2"><ul class="social-media-list">
   <li><a href="https://github.com/bramknown"><svg class="svg-icon"><use xlink:href="/assets/minima-social-icons.svg#github"></use></svg> <span class="username">bramknown</span></a></li><li></ul>
 </div>
-
       <div class="footer-col footer-col-3">
         <p>Feel free to follow my Coding and AI.</p>
       </div>
     </div>
-
   </div>
-
 </footer>
+<script>
+      const mathContent = document.getElementById("mathTemplate").innerHTML;
+      document.getElementById("mathDisplay").innerHTML = mathContent;
+      document.getElementById("mathTextarea").value = mathContent;
+</script>
 </body>
-
 </html>

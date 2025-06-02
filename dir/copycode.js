@@ -1,24 +1,33 @@
-// This assumes that you're using Rouge; if not, update the selector
-const codeBlocks = document.querySelectorAll('.code-header + .highlighter-rouge');
 const copyCodeButtons = document.querySelectorAll('.copy-code-button');
-// codeBlocks.style.textAlign = 'right'; // Adjust the left margin to align the button
-
 
 copyCodeButtons.forEach((copyCodeButton, index) => {
-  const code = codeBlocks[index].innerText;
+  const codeBlock = copyCodeButton.closest('.code-header').nextElementSibling;
+  const textarea = codeBlock.querySelector('textarea');
+  const mathBlock = codeBlock.querySelector('math'); // Find the equation next to the button
 
   copyCodeButton.addEventListener('click', () => {
-    // Copy the code to the user's clipboard
-    window.navigator.clipboard.writeText(code);
+    let codeToCopy;
 
-    // Update the button text visually
-    const { innerText: originalText } = copyCodeButton;
+    if (textarea) {
+      // If a textarea exists, copy its value (MathML raw code)
+      codeToCopy = textarea.value;
+    } else if (mathBlock) {
+      // If there's a rendered MathML equation, copy its HTML
+      codeToCopy = mathBlock.outerHTML;
+    } else {
+      // Otherwise, copy the text content from the code block
+      codeToCopy = codeBlock.innerText;
+    }
+
+    // Copy to clipboard
+    window.navigator.clipboard.writeText(codeToCopy);
+
+    // Update button text visually
+    const originalText = copyCodeButton.innerText;
     copyCodeButton.innerText = '✔️Copied!';
-
-    // (Optional) Toggle a class for styling the button
     copyCodeButton.classList.add('copied');
 
-    // After 2 seconds, reset the button to its initial UI
+    // Reset button after 2 seconds
     setTimeout(() => {
       copyCodeButton.innerText = originalText;
       copyCodeButton.classList.remove('copied');
