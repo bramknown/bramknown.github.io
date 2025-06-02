@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sidebar Navigation</title>
+    <link rel="stylesheet" href="knowledgestyles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <div class="icon" onclick="showList('general')">🏠</div>
+            <div class="icon" onclick="showList('maths')">🧮</div>
+            <div class="icon" onclick="showList('chemistry')">⚗️</div>
+            <div class="icon" onclick="showList('physics')">🌌</div>
+            <div class="icon" onclick="showList('biology')">🧬</div>
+            <div class="icon" onclick="showList('electrical')">🔌</div>
+            <div class="icon" onclick="showList('mechanical')">⚙️</div>
+            <div class="icon" onclick="showList('materials')">🏗️</div>
+            <div class="icon" onclick="showList('civil')">🚧</div>
+            <div class="icon" onclick="showList('software')">💻</div>
+            <div class="icon" onclick="showList('ai')">🤖</div>
+        </div>
+        <div class="list-container">
+            <ul id="general" class="list hidden">
+                <li onclick="loadContent('home.html')">Home</li>
+            </ul>
+            <ul id="list2" class="list hidden">
+                <li onclick="loadContent('projects.html')">Projects</li>
+                <li onclick="loadContent('gallery.html')">Gallery</li>
+            </ul>
+            <ul id="list3" class="list hidden">
+                <li onclick="loadContent('settings.html')">Settings</li>
+                <li onclick="loadContent('profile.html')">Profile</li>
+            </ul>
+        </div>
+        <iframe id="content" src="" class="content"></iframe>
+    </div>
+    <script src="knowledgescript.js"></script>
+</body>
+
+</html>
