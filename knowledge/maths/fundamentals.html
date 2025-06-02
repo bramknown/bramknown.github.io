@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprehensive Mathematics Fundamentals</title>
+    <style>
+        body {
+            background: #1c2526;
+            color: #e0e0e0;
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 40px;
+            line-height: 1.6;
+        }
+        h1, h2, h3 {
+            color: #00b4d8;
+            margin-bottom: 16px;
+        }
+        section {
+            margin-bottom: 48px;
+            background: #252e30;
+            padding: 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        table {
+            border-collapse: collapse;
+            margin: 16px 0;
+            width: 100%;
+            background: #2a3439;
+        }
+        th, td {
+            border: 1px solid #444;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background: #1a2224;
+            color: #00b4d8;
+        }
+        code {
+            background: #1a2224;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: #ff6f61;
+            font-family: 'Courier New', monospace;
+        }
+        .graph {
+            background: #2a3439;
+            border-radius: 8px;
+            margin: 24px 0;
+            padding: 16px;
+            display: block;
+            max-width: 600px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+        }
+        ul, ol {
+            margin: 16px 0;
+            padding-left: 24px;
+        }
+        li {
+            margin-bottom: 12px;
+        }
+        p {
+            margin: 12px 0;
+        }
+        .constant-list li::before {
+            content: "•";
+            color: #00b4d8;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        .note {
+            background: #1a2224;
+            padding: 12px;
+            border-left: 4px solid #00b4d8;
+            margin: 16px 0;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Comprehensive Mathematics Fundamentals</h1>
+
+    <section>
+        <h2>Basic Arithmetic Operations</h2>
+        <p>Arithmetic is the cornerstone of mathematics, enabling manipulation of numbers through fundamental operations. These operations are governed by properties like commutativity, associativity, and distributivity.</p>
+        <ul>
+            <li><b>Addition (+):</b> Combines quantities to yield their sum. Example: <code>7 + 4 = 11</code>. It is commutative (<code>a + b = b + a</code>) and associative (<code>(a + b) + c = a + (b + c)</code>).</li>
+            <li><b>Subtraction (−):</b> Determines the difference between quantities. Example: <code>10 − 6 = 4</code>. It is neither commutative nor associative, as order matters.</li>
+            <li><b>Multiplication (×):</b> Represents repeated addition. Example: <code>5 × 3 = 15</code> (equivalent to 5 + 5 + 5). It is commutative, associative, and distributive over addition (<code>a × (b + c) = a × b + a × c</code>).</li>
+            <li><b>Division (÷):</b> Splits a quantity into equal parts. Example: <code>20 ÷ 5 = 4</code>. It is not commutative or associative, and division by zero is undefined.</li>
+        </ul>
+        <div class="note">
+            <p><b>Properties:</b> The identity for addition is 0 (<code>a + 0 = a</code>), and for multiplication, it is 1 (<code>a × 1 = a</code>). The inverse for addition is the negative (<code>a + (−a) = 0</code>), and for multiplication, it is the reciprocal (<code>a × (1/a) = 1</code>, for <code>a ≠ 0</code>).</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Exponents and Powers</h2>
+        <p>Exponents represent repeated multiplication. For a base <code>a</code> and exponent <code>n</code>, <code>aⁿ</code> means <code>a</code> multiplied by itself <code>n</code> times. Example: <code>2³ = 2 × 2 × 2 = 8</code>.</p>
+        <ul>
+            <li><b>Zero Exponent:</b> <code>a⁰ = 1</code> (for <code>a ≠ 0</code>).</li>
+            <li><b>Negative Exponent:</b> <code>a⁻ⁿ = 1/aⁿ</code>. Example: <code>2⁻² = 1/2² = 1/4</code>.</li>
+            <li><b>Fractional Exponent:</b> <code>a^(1/n)</code> is the <code>n</code>-th root. Example: <code>16^(1/2) = √16 = 4</code>.</li>
+            <li><b>Laws of Exponents:</b>
+                <ul>
+                    <li><code>a^m × a^n = a^(m+n)</code></li>
+                    <li><code>a^m ÷ a^n = a^(m−n)</code></li>
+                    <li><code>(a^m)^n = a^(m×n)</code></li>
+                    <li><code>a^m × b^m = (a×b)^m</code></li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Negative Numbers</h2>
+        <p>Negative numbers extend the number line below zero, denoted with a minus sign (−). They are used in contexts like debt, temperatures below zero, or coordinates left/down of an origin. Operations with negatives follow specific rules.</p>
+        <ul>
+            <li><b>Addition:</b> Adding a negative is equivalent to subtracting. Example: <code>5 + (−3) = 5 − 3 = 2</code>.</li>
+            <li><b>Subtraction:</b> Subtracting a negative is equivalent to adding. Example: <code>5 − (−3) = 5 + 3 = 8</code>.</li>
+            <li><b>Multiplication/Division:</b> Two negatives yield a positive; one negative yields a negative. Examples: <code>(−2) × (−3) = 6</code>, <code>(−6) ÷ (−2) = 3</code>, <code>(−4) × 2 = −8</code>.</li>
+        </ul>
+        <svg class="graph" width="600" height="100">
+            <line x1="20" y1="50" x2="580" y2="50" stroke="#00b4d8" stroke-width="2"/>
+            <line x1="300" y1="20" x2="300" y2="80" stroke="#e0e0e0" stroke-width="2"/>
+            <text x="20" y="40" fill="#e0e0e0">−20</text>
+            <text x="150" y="40" fill="#e0e0e0">−10</text>
+            <text x="290" y="40" fill="#e0e0e0">0</text>
+            <text x="420" y="40" fill="#e0e0e0">+10</text>
+            <text x="560" y="40" fill="#e0e0e0">+20</text>
+            <circle cx="150" cy="50" r="6" fill="#ff6f61"/>
+            <text x="130" y="75" fill="#ff6f61">−10</text>
+            <circle cx="420" cy="50" r="6" fill="#6ff"/>
+            <text x="400" y="75" fill="#6ff">+10</text>
+        </svg>
+    </section>
+
+    <section>
+        <h2>Fractions and Decimals</h2>
+        <p>Fractions represent parts of a whole, written as <code>a/b</code>, where <code>a</code> is the numerator and <code>b</code> is the denominator (non-zero). Decimals are a way to express fractions using a base-10 system.</p>
+        <ul>
+            <li><b>Fractions:</b> Example: <code>3/4</code> means 3 parts out of 4 equal parts. Operations include:
+                <ul>
+                    <li>Addition/Subtraction: Common denominator needed. <code>1/3 + 1/6 = 2/6 + 1/6 = 3/6 = 1/2</code>.</li>
+                    <li>Multiplication: <code>(a/b) × (c/d) = (a×c)/(b×d)</code>. Example: <code>(2/3) × (3/5) = 6/15 = 2/5</code>.</li>
+                    <li>Division: Multiply by the reciprocal. <code>(a/b) ÷ (c/d) = (a/b) × (d/c)</code>. Example: <code>(2/3) ÷ (4/5) = (2/3) × (5/4) = 10/12 = 5/6</code>.</li>
+                </ul>
+            </li>
+            <li><b>Decimals:</b> Express fractions with denominators as powers of 10. Example: <code>0.75 = 75/100 = 3/4</code>. Terminating decimals (e.g., 0.5) and repeating decimals (e.g., <code>0.333… = 1/3</code>) are common.</li>
+        </ul>
+        <div class="note">
+            <p><b>Simplifying Fractions:</b> Divide numerator and denominator by their greatest common divisor (GCD). Example: <code>12/18 ÷ 6/6 = 2/3</code>.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Number Systems</h2>
+        <p>Number systems define how numbers are represented using different bases, each with a unique set of digits and positional value rules.</p>
+        <table>
+            <tr><th>System</th><th>Base</th><th>Digits</th><th>Example</th><th>Description</th></tr>
+            <tr>
+                <td>Binary</td><td>2</td><td>0, 1</td><td><code>1011₂ = 1×2³ + 0×2² + 1×2¹ + 1×2⁰ = 11₁₀</code></td>
+                <td>Used in digital systems, each digit represents a power of 2.</td>
+            </tr>
+            <tr>
+                <td>Decimal</td><td>10</td><td>0–9</td><td><code>123₁₀ = 1×10² + 2×10¹ + 3×10⁰</code></td>
+                <td>Standard for human use, based on 10 digits and powers of 10.</td>
+            </tr>
+            <tr>
+                <td>Hexadecimal</td><td>16</td><td>0–9, A–F</td><td><code>1A₁₆ = 1×16¹ + 10×16⁰ = 26₁₀</code></td>
+                <td>Compact for computing, where A–F represent 10–15.</td>
+            </tr>
+            <tr>
+                <td>Octal</td><td>8</td><td>0–7</td><td><code>17₈ = 1×8¹ + 7×8⁰ = 15₁₀</code></td>
+                <td>Used in some computing contexts, each digit is a power of 8.</td>
+            </tr>
+        </table>
+        <div class="note">
+            <p><b>Converting Between Bases:</b> To convert from decimal to another base, divide by the base and collect remainders in reverse order. Example: 13₁₀ to binary: 13 ÷ 2 = 6 R1, 6 ÷ 2 = 3 R0, 3 ÷ 2 = 1 R1, 1 ÷ 2 = 0 R1 → <code>1101₂</code>.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Imaginary and Complex Numbers</h2>
+        <p>Imaginary numbers solve equations where squares are negative, such as <code>x² = −1</code>. The imaginary unit <b>i</b> is defined as <code>i = √−1</code>, so <code>i² = −1</code>.</p>
+        <ul>
+            <li><b>Imaginary Numbers:</b> Multiples of <b>i</b>. Example: <code>3i</code> (3 units along the imaginary axis). Powers of <b>i</b> cycle: <code>i¹ = i, i² = −1, i³ = −i, i⁴ = 1</code>.</li>
+            <li><b>Complex Numbers:</b> Form <code>a + bi</code>, where <code>a</code> is the real part and <code>b</code> is the imaginary part. Example: <code>4 + 3i</code>.</li>
+            <li><b>j in Engineering:</b> Used instead of <b>i</b> to avoid confusion with electrical current. <code>j² = −1</code>.</li>
+            <li><b>Quaternions:</b> Extend complex numbers with units <b>i, j, k</b>, where <code>i² = j² = k² = ijk = −1</code>. Used in 3D graphics and rotations.</li>
+        </ul>
+        <p>Complex numbers are plotted on a complex plane, with real parts on the x-axis and imaginary parts on the y-axis.</p>
+        <svg class="graph" width="500" height="400">
+            <line x1="250" y1="380" x2="250" y2="20" stroke="#00b4d8" stroke-width="2"/>
+            <line x1="20" y1="200" x2="480" y2="200" stroke="#00b4d8" stroke-width="2"/>
+            <text x="260" y="30" fill="#e0e0e0">Imaginary (i)</text>
+            <text x="420" y="220" fill="#e0e0e0">Real</text>
+            <text x="240" y="220" fill="#e0e0e0">0</text>
+            <text x="310" y="220" fill="#e0e0e0">1</text>
+            <text x="240" y="140" fill="#e0e0e0">1i</text>
+            <circle cx="370" cy="80" r="6" fill="#ff6f61"/>
+            <text x="375" y="75" fill="#ff6f61">z = 2 + 3i</text>
+            <line x1="250" y1="200" x2="370" y2="80" stroke="#ff6f61" stroke-width="1" stroke-dasharray="5,5"/>
+            <text x="370" y="220" fill="#e0e0e0">2</text>
+            <text x="230" y="80" fill="#e0e0e0">3i</text>
+        </svg>
+        <div class="note">
+            <p><b>Operations:</b> Add/subtract real and imaginary parts separately. Multiply using the distributive property and <code>i² = −1</code>. Example: <code>(2 + 3i) + (1 − i) = 3 + 2i</code>, <code>(2 + 3i)(1 − i) = 5 + i</code>.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Sets and Number Types</h2>
+        <p>Sets are collections of distinct objects, fundamental to mathematics. Number types are organized into sets based on their properties.</p>
+        <ul>
+            <li><b>Natural Numbers (ℕ):</b> Counting numbers {1, 2, 3, …}. Sometimes includes 0.</li>
+            <li><b>Integers (ℤ):</b> {…, −2, −1, 0, 1, 2, …}, including negatives.</li>
+            <li><b>Rational Numbers (ℚ):</b> Fractions <code>a/b</code> where <code>a, b</code> are integers, <code>b ≠ 0</code>. Example: <code>1/2, −3/4, 0.25</code>.</li>
+            <li><b>Irrational Numbers:</b> Cannot be expressed as fractions, e.g., <code>√2, π, e</code>.</li>
+            <li><b>Real Numbers (ℝ):</b> All numbers on the number line, including rationals and irrationals.</li>
+            <li><b>Complex Numbers (ℂ):</b> Includes real and imaginary numbers, form <code>a + bi</code>.</li>
+        </ul>
+        <div class="note">
+            <p><b>Set Operations:</b> Union (∪), intersection (∩), complement, and subset (⊆). Example: If <code>A = {1, 2, 3}</code> and <code>B = {2, 3, 4}</code>, then <code>A ∪ B = {1, 2, 3, 4}</code>, <code>A ∩ B = {2, 3}</code>.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Mathematical Constants</h2>
+        <p>Constants are fixed values with significant roles in mathematics, appearing in geometry, calculus, and physics.</p>
+        <svg class="graph" width="600" height="100">
+            <line x1="20" y1="50" x2="580" y2="50" stroke="#00b4d8" stroke-width="2"/>
+            <line x1="300" y1="20" x2="300" y2="80" stroke="#e0e0e0" stroke-width="2"/>
+            <text x="20" y="40" fill="#e0e0e0">−π</text>
+            <text x="150" y="40" fill="#e0e0e0">−1</text>
+            <text x="290" y="40" fill="#e0e0e0">0</text>
+            <text x="350" y="40" fill="#e0e0e0">e</text>
+            <text x="390" y="40" fill="#e0e0e0">π</text>
+            <text x="420" y="40" fill="#e0e0e0">√2</text>
+            <text x="450" y="40" fill="#e0e0e0">φ</text>
+            <circle cx="390" cy="50" r="6" fill="#ff6f61"/>
+            <text x="380" y="75" fill="#ff6f61">π ≈ 3.14159</text>
+        </svg>
+        <ul class="constant-list">
+            <li><b>π (Pi):</b> Approximately 3.1415926535, the ratio of a circle’s circumference to its diameter in Euclidean geometry. Used in trigonometry, geometry, and physics.</li>
+            <li><b>e (Euler’s Number):</b> Approximately 2.7182818285, the base of natural logarithms. Central to exponential functions, growth models, and calculus.</li>
+            <li><b>φ (Golden Ratio):</b> Approximately 1.6180339887, defined by <code>φ = (1 + √5)/2</code>. Appears in art, architecture, and nature (e.g., spirals in sunflowers).</li>
+            <li><b>√2:</b> Approximately 1.4142135623, the diagonal of a unit square. An irrational number, key in geometry and number theory.</li>
+            <li><b>γ (Euler-Mascheroni Constant):</b> Approximately 0.5772156649, appears in number theory and integrals, defined as the limit of the difference between the harmonic series and the natural logarithm.</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Prime Numbers and Sequences</h2>
+        <p><b>Prime Numbers:</b> Natural numbers greater than 1 divisible only by 1 and themselves. Examples: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29, … Primes are fundamental to number theory, with applications in cryptography.</p>
+        <p><b>Sequences:</b> Ordered lists of numbers following a rule.</p>
+        <ul>
+            <li><b>Fibonacci Sequence:</b> Starts with 0, 1; each term is the sum of the two previous terms: 0, 1, 1, 2, 3, 5, 8, 13, 21, … Relates to the golden ratio as <code>F(n+1)/F(n) → φ</code> as <code>n</code> increases.</li>
+            <li><b>Arithmetic Sequence:</b> Constant difference between terms. Example: 3, 7, 11, 15, … (difference of 4). General form: <code>a_n = a_1 + (n−1)d</code>, where <code>d</code> is the common difference.</li>
+            <li><b>Geometric Sequence:</b> Constant ratio between terms. Example: 2, 6, 18, 54, … (ratio of 3). General form: <code>a_n = a_1 × r^(n−1)</code>, where <code>r</code> is the common ratio.</li>
+            <li><b>Harmonic Sequence:</b> Terms are reciprocals of arithmetic sequences. Example: 1, 1/2, 1/3, 1/4, …</li>
+        </ul>
+        <div class="note">
+            <p><b>Prime Testing:</b> A number <code>n</code> is prime if it has no divisors other than 1 and itself. Efficient tests include trial division up to <code>√n</code> or the Sieve of Eratosthenes for finding multiple primes.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>Basic Geometry</h2>
+        <p>Geometry studies shapes, sizes, and spatial relationships. Key concepts include:</p>
+        <ul>
+            <li><b>Points, Lines, Planes:</b> Points have no size, lines extend infinitely in one dimension, and planes extend in two dimensions.</li>
+            <li><b>Angles:</b> Measured in degrees or radians. Types include acute (<0° to 90°), right (90°), and obtuse (90° to 180°).</li>
+            <li><b>Shapes:</b>
+                <ul>
+                    <li><b>Triangles:</b> Sum of angles is 180°. Types: equilateral (all sides equal), isosceles (two sides equal), scalene (no sides equal).</li>
+                    <li><b>Circles:</b> Defined by radius <code>r</code>. Area: <code>πr²</code>, circumference: <code>2πr</code>.</li>
+                    <li><b>Rectangles:</b> Opposite sides equal, area: <code>length × width</code>, perimeter: <code>2(length + width)</code>.</li>
+                </ul>
+            </li>
+        </ul>
+        <svg class="graph" width="400" height="200">
+            <polygon points="200,20 300,180 100,180" fill="none" stroke="#00b4d8" stroke-width="2"/>
+            <text x="190" y="10" fill="#e0e0e0">A</text>
+            <text x="310" y="190" fill="#e0e0e0">B</text>
+            <text x="90" y="190" fill="#e0e0e0">C</text>
+            <text x="180" y="100" fill="#ff6f61">Triangle ABC</text>
+        </svg>
+    </section>
+
+    <section>
+        <h2>Metric and Imperial Systems</h2>
+        <p>The metric system is a decimal-based, internationally standardized system (SI, or International System of Units) designed for simplicity and consistency. The imperial system, used primarily in the United States, relies on historical units with non-decimal conversions.</p>
+        <h3>Metric System</h3>
+        <p>The metric system uses base units (e.g., meter for length) with prefixes indicating powers of 10. It is logical and scalable, used globally in science and most countries for everyday measurements.</p>
+        <ul>
+            <li><b>Base Unit:</b> Meter (m) for length.</li>
+            <li><b>Prefixes:</b> Kilo- (10³), milli- (10⁻³), micro- (10⁻⁶), nano- (10⁻⁹), etc.</li>
+            <li><b>Conversions:</b> 1 meter (m) = 1000 millimeters (mm), 1 millimeter (mm) = 1000 micrometers (μm), 1 micrometer (μm) = 1000 nanometers (nm).</li>
+            <li><b>Advantages:</b> Easy conversions (move decimal point), universal adoption in science, and consistency across units (e.g., volume in liters, mass in grams).</li>
+        </ul>
+        <h3>Imperial System</h3>
+        <p>The imperial system uses units like inches, feet, and miles, with conversions that are not based on powers of 10. It is less systematic but entrenched in some regions.</p>
+        <ul>
+            <li><b>Units:</b> Inch, foot (12 inches), yard (3 feet), mile (5280 feet).</li>
+            <li><b>Conversions:</b> Non-decimal, e.g., 1 mile = 1760 yards, 1 foot = 12 inches.</li>
+            <li><b>Usage:</b> Common in the US for everyday measurements (e.g., height in feet/inches, distance in miles).</li>
+        </ul>
+        <h3>Measurement Units (SI)</h3>
+        <table>
+            <tr><th>Unit</th><th>Symbol</th><th>Metric Value</th><th>Imperial Comparison</th><th>Description</th></tr>
+            <tr>
+                <td>Kilometer</td><td>km</td><td>1000 m</td><td>Approximately 0.621 miles</td>
+                <td>Used for long distances, e.g., between cities or countries.</td>
+            </tr>
+            <tr>
+                <td>Meter</td><td>m</td><td>1 m = 1000 mm</td><td>Approximately 39.37 inches or 3.281 feet</td>
+                <td>Base unit of length, used for human-scale measurements.</td>
+            </tr>
+            <tr>
+                <td>Millimeter</td><td>mm</td><td>0.001 m = 1000 μm</td><td>Approximately 0.03937 inches</td>
+                <td>For small measurements, e.g., thickness of objects.</td>
+            </tr>
+            <tr>
+                <td>Micrometer</td><td>μm</td><td>0.000001 m = 1000 nm</td><td>Approximately 0.00003937 inches</td>
+                <td>Used in precision engineering and microscopy.</td>
+            </tr>
+            <tr>
+                <td>Nanometer</td><td>nm</td><td>0.000000001 m</td><td>Approximately 0.00000003937 inches</td>
+                <td>Used in nanotechnology and semiconductor manufacturing.</td>
+            </tr>
+            <tr>
+                <td>Ångström</td><td>Å</td><td>0.0000000001 m</td><td>Approximately 0.000000003937 inches</td>
+                <td>Used for atomic and molecular scales, e.g., bond lengths.</td>
+            </tr>
+        </table>
+        <div class="note">
+            <p><b>Conversion Example:</b> To convert 1 km to miles, multiply by 0.621: <code>1 km × 0.621 = 0.621 miles</code>. To convert 1 mile to kilometers, divide by 0.621: <code>1 mile ÷ 0.621 ≈ 1.609 km</code>.</p>
+        </div>
+    </section>
+</body>
+</html>
