@@ -64,6 +64,7 @@ function addCards(num) {
         }
     }
     if (isMultiplayer && isHost && newCards.length > 0) {
+        console.log("Host sending add_cards:", newCards);
         conn.send({type: 'add_cards', cards: newCards});
     }
 }
@@ -74,15 +75,19 @@ function removeCards(cardIds) {
         if (card) card.remove();
     });
     if (isMultiplayer && isHost) {
+        console.log("Host sending remove_cards:", cardIds);
         conn.send({type: 'remove_cards', cardIds: cardIds});
     }
 }
 
 function updateBoardFromData(boardData) {
+    console.log("Updating board with data:", boardData);
     gameBoard.innerHTML = '';
     boardData.forEach(attrs => {
         gameBoard.appendChild(createCard(attrs));
     });
+    gameBoard.style.display = 'grid';
+    skipButton.style.display = 'block';
 }
 
 function drawShapes(card) {
@@ -214,16 +219,23 @@ function handleCardSelection(card) {
     const selected = Array.from(gameBoard.children).filter(c => c.classList.contains("selected"));
     if (card.classList.contains("selected")) {
         card.classList.remove("selected");
+        if (isMultiplayer) {
+            conn.send({type: 'deselect_card', cardId: card.dataset.id, player: myPlayerId});
+        }
         return;
     }
     if (selected.length >= 3) {
         return;
     }
     card.classList.add("selected");
+    if (isMultiplayer) {
+        conn.send({type: 'select_card', cardId: card.dataset.id, player: myPlayerId});
+    }
     const newSelected = Array.from(gameBoard.children).filter(c => c.classList.contains("selected"));
     if (newSelected.length === 3) {
         if (isMultiplayer) {
             const cardIds = newSelected.map(c => c.dataset.id);
+            console.log("Sending check_set:", cardIds, "by player", myPlayerId);
             conn.send({type: 'check_set', cardIds: cardIds, player: myPlayerId});
         } else {
             checkSelectedSet(newSelected, 1);
@@ -232,6 +244,7 @@ function handleCardSelection(card) {
 }
 
 function checkSelectedSet(selected, player) {
+    console.log("Checking set for player", player, "with cards:", selected.map(c => c.dataset));
     const cardsData = selected.map(card => ({
         number: card.dataset.number,
         color: card.dataset.color,
@@ -243,6 +256,7 @@ function checkSelectedSet(selected, player) {
         scores[player] += 1;
         updateScoreboard();
         const cardIds = selected.map(card => card.dataset.id);
+        console.log("Valid set found, removing cards:", cardIds);
         removeCards(cardIds);
         if (currentSize <= 12) {
             addCards(3);
@@ -251,12 +265,23 @@ function checkSelectedSet(selected, player) {
         scores[player] -= 1;
         updateScoreboard();
         selected.forEach(card => card.classList.remove("selected"));
+        if (isMultiplayer) {
+            conn.send({type: 'invalid_set', to: player});
+        }
+    }
+    if (isMultiplayer && isHost) {
+        console.log("Host sending update_scores:", scores);
+        conn.send({type: 'update_scores', scores: scores});
+        if (currentSize <= 12) {
+            conn.send({type: 'update_board', board: Array.from(gameBoard.children).map(c => c.dataset)});
+        }
     }
 }
 
 skipButton.addEventListener("click", () => {
     if (gameEnded) return;
     if (isMultiplayer) {
+        console.log("Player", myPlayerId, "clicked skip");
         conn.send({type: 'skip', player: myPlayerId});
     } else {
         if (checkRemainingSets()) {
@@ -279,6 +304,7 @@ skipButton.addEventListener("click", () => {
 });
 
 function handleSkip(player) {
+    console.log("Handling skip for player", player);
     if (checkRemainingSets()) {
         scores[player] -= 1;
     } else {
@@ -301,6 +327,7 @@ function handleSkip(player) {
         }
     }
     if (isHost) {
+        console.log("Host sending update_scores after skip:", scores);
         conn.send({type: 'update_scores', scores: scores});
         if (deck.length > 0) {
             conn.send({type: 'update_board', board: Array.from(gameBoard.children).map(c => c.dataset)});
@@ -328,6 +355,18 @@ function showCongrats() {
     gameBoard.style.display = 'none';
     skipButton.style.display = 'none';
     connectionStatus.style.display = 'none';
+    if (continuousCheck.checked && !gameEnded) {
+        setTimeout(() => {
+            if (isMultiplayer && isHost) {
+                restartGame();
+                conn.send({type: 'restart', board: Array.from(gameBoard.children).map(c => c.dataset)});
+            } else if (isMultiplayer) {
+                conn.send({type: 'request_restart'});
+            } else {
+                restartGame();
+            }
+        }, 5000);
+    }
 }
 
 continueButton.addEventListener("click", () => {
@@ -369,6 +408,7 @@ hostBtn.addEventListener('click', () => {
             attrs.id = nextCardId++;
             gameBoard.appendChild(createCard(attrs));
         }
+        console.log("Host sending initial board:", Array.from(gameBoard.children).map(c => c.dataset));
         conn.send({type: 'init_board', board: Array.from(gameBoard.children).map(c => c.dataset)});
         gameBoard.style.display = 'grid';
         skipButton.style.display = 'block';
@@ -407,12 +447,16 @@ function setupConnection() {
     conn.on('open', () => {
         console.log('Connected to peer');
         connectionStatus.textContent = 'Connected to opponent!';
-    });
-    conn.on('data', data => {
-        if (data.type === 'init_board') {
-            updateBoardFromData(data.board);
+        if (!isHost) {
             gameBoard.style.display = 'grid';
             skipButton.style.display = 'block';
+        }
+    });
+    conn.on('data', data => {
+        console.log("Received data:", data);
+        if (data.type === 'init_board') {
+            updateBoardFromData(data.board);
+            scores = {1: 0, 2: 0};
             updateScoreboard();
             connectionStatus.textContent = 'Connected to opponent!';
         } else if (data.type === 'update_board') {
@@ -484,6 +528,16 @@ function setupConnection() {
                     if (card) card.remove();
                 });
             }
+        } else if (data.type === 'select_card') {
+            if (data.player !== myPlayerId) {
+                const card = Array.from(gameBoard.children).find(c => c.dataset.id === data.cardId);
+                if (card) card.classList.add("selected");
+            }
+        } else if (data.type === 'deselect_card') {
+            if (data.player !== myPlayerId) {
+                const card = Array.from(gameBoard.children).find(c => c.dataset.id === data.cardId);
+                if (card) card.classList.remove("selected");
+            }
         }
     });
     conn.on('close', () => {
@@ -491,6 +545,7 @@ function setupConnection() {
         gameBoard.style.display = 'none';
         skipButton.style.display = 'none';
         multiSetup.style.display = 'block';
+        congratsDiv.style.display = 'none';
     });
 }
 
