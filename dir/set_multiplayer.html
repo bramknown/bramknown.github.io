@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Game</title>
+    <link rel="stylesheet" href="setstyle.css">
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+    <h1>Set Game</h1>
+    <div id="options">
+        <label>Continuous Play <input type="checkbox" id="continuous"></label>
+        <label>Single Player <input type="radio" name="mode" value="single" checked></label>
+        <label>Multiplayer <input type="radio" name="mode" value="multi"></label>
+    </div>
+    <div id="multi-setup" style="display: none;">
+        <button id="host-btn">Host Game</button>
+        <button id="join-btn">Join Game</button>
+    </div>
+    <div id="peer-id-display" style="display: none;"></div>
+    <div id="join-input" style="display: none;">
+        <input id="peer-id-input" type="text" placeholder="Enter Host ID">
+        <button id="connect-btn">Connect</button>
+    </div>
+    <div id="connection-status" style="display: none;"></div>
+    <div id="scoreboard">Player: 0</div>
+    <div id="game-board" class="game-board"></div>
+    <button id="skip-button">Skip</button>
+    <div id="congrats" style="display: none; text-align: center; margin-top: 20px;">
+        <h2 class="congrats-animation">Congratulations! Game Over!</h2>
+        <div id="final-scores"></div>
+        <p id="win-message"></p>
+        <button id="continue-button">Continue</button>
+    </div>
+    <script src="setscript.js"></script>
+</body>
+</html>
