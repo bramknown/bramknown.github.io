@@ -44,7 +44,6 @@ function generateDeck() {
             }
         }
     }
-    // Shuffle
     for (let i = deck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [deck[i], deck[j]] = [deck[j], deck[i]];
@@ -59,7 +58,7 @@ function addCards(num) {
         if (deck.length > 0) {
             const attrs = deck.pop();
             attrs.id = nextCardId++;
-            newCards.push(attrs);
+            newCards.push({ ...attrs }); // Create a copy to avoid reference issues
             gameBoard.appendChild(createCard(attrs));
         }
     }
@@ -176,13 +175,19 @@ function createCard(attributes) {
 
 function updateScoreboard() {
     if (isMultiplayer) {
-        scoreboard.innerHTML = `Player1: ${scores[1] || 0} Player2: ${scores[2] || 0}`;
+        const myScore = scores[myPlayerId] || 0;
+        const opponentId = myPlayerId === 1 ? 2 : 1;
+        const opponentScore = scores[opponentId] || 0;
+        scoreboard.innerHTML = `My Score: ${myScore} | Opponent Score: ${opponentScore}`;
     } else {
         scoreboard.innerHTML = `Player: ${scores[1]}`;
     }
 }
 
 function setupGame() {
+    if (peer) peer.destroy();
+    peer = null;
+    conn = null;
     isMultiplayer = multiRadio.checked;
     gameEnded = false;
     noSetAwarded = false;
@@ -195,6 +200,7 @@ function setupGame() {
         connectionStatus.style.display = 'block';
         connectionStatus.textContent = 'Select Host or Join to start multiplayer';
         updateScoreboard();
+        congratsDiv.style.display = 'none';
     } else {
         scores = {1: 0};
         myPlayerId = 1;
@@ -219,24 +225,21 @@ function handleCardSelection(card) {
     const selected = Array.from(gameBoard.children).filter(c => c.classList.contains("selected"));
     if (card.classList.contains("selected")) {
         card.classList.remove("selected");
-        if (isMultiplayer) {
-            conn.send({type: 'deselect_card', cardId: card.dataset.id, player: myPlayerId});
-        }
         return;
     }
     if (selected.length >= 3) {
         return;
     }
     card.classList.add("selected");
-    if (isMultiplayer) {
-        conn.send({type: 'select_card', cardId: card.dataset.id, player: myPlayerId});
-    }
     const newSelected = Array.from(gameBoard.children).filter(c => c.classList.contains("selected"));
     if (newSelected.length === 3) {
         if (isMultiplayer) {
             const cardIds = newSelected.map(c => c.dataset.id);
-            console.log("Sending check_set:", cardIds, "by player", myPlayerId);
+            console.log("Checking set with cards:", cardIds, "by player", myPlayerId);
             conn.send({type: 'check_set', cardIds: cardIds, player: myPlayerId});
+            if (isHost) {
+                checkSelectedSet(newSelected, myPlayerId);
+            }
         } else {
             checkSelectedSet(newSelected, 1);
         }
@@ -261,6 +264,7 @@ function checkSelectedSet(selected, player) {
         if (currentSize <= 12) {
             addCards(3);
         }
+        selected.forEach(card => card.classList.remove("selected"));
     } else {
         scores[player] -= 1;
         updateScoreboard();
@@ -280,9 +284,10 @@ function checkSelectedSet(selected, player) {
 
 skipButton.addEventListener("click", () => {
     if (gameEnded) return;
+    console.log("Skip button clicked by player", myPlayerId);
     if (isMultiplayer) {
-        console.log("Player", myPlayerId, "clicked skip");
         conn.send({type: 'skip', player: myPlayerId});
+        handleSkip(myPlayerId); // Ensure host processes skip locally
     } else {
         if (checkRemainingSets()) {
             scores[1] -= 1;
@@ -326,7 +331,8 @@ function handleSkip(player) {
             }
         }
     }
-    if (isHost) {
+    updateScoreboard(); // Ensure scoreboard updates after skip
+    if (isMultiplayer && isHost) {
         console.log("Host sending update_scores after skip:", scores);
         conn.send({type: 'update_scores', scores: scores});
         if (deck.length > 0) {
@@ -384,6 +390,30 @@ continueButton.addEventListener("click", () => {
     }
 });
 
+function restartGame() {
+    gameBoard.innerHTML = '';
+    deck = generateDeck();
+    nextCardId = 0;
+    noSetAwarded = false;
+    firstSkipper = null;
+    scores = isMultiplayer ? {1: 0, 2: 0} : {1: 0};
+    updateScoreboard();
+    for (let i = 0; i < 12; i++) {
+        const attrs = deck.pop();
+        attrs.id = nextCardId++;
+        gameBoard.appendChild(createCard(attrs));
+    }
+    if (isMultiplayer && isHost) {
+        console.log("Host sending initial board after restart:", Array.from(gameBoard.children).map(c => c.dataset));
+        conn.send({type: 'init_board', board: Array.from(gameBoard.children).map(c => c.dataset)});
+    }
+    gameEnded = false;
+    congratsDiv.style.display = 'none';
+    gameBoard.style.display = 'grid';
+    skipButton.style.display = 'block';
+    connectionStatus.textContent = isMultiplayer ? 'Connected to opponent!' : '';
+}
+
 hostBtn.addEventListener('click', () => {
     if (peer) peer.destroy();
     peer = new Peer();
@@ -400,18 +430,6 @@ hostBtn.addEventListener('click', () => {
         conn = connection;
         setupConnection();
         deck = generateDeck();
-        nextCardId = 0;
-        scores = {1: 0, 2: 0};
-        gameBoard.innerHTML = '';
-        for (let i = 0; i < 12; i++) {
-            const attrs = deck.pop();
-            attrs.id = nextCardId++;
-            gameBoard.appendChild(createCard(attrs));
-        }
-        console.log("Host sending initial board:", Array.from(gameBoard.children).map(c => c.dataset));
-        conn.send({type: 'init_board', board: Array.from(gameBoard.children).map(c => c.dataset)});
-        gameBoard.style.display = 'grid';
-        skipButton.style.display = 'block';
         connectionStatus.textContent = 'Connected to opponent!';
         updateScoreboard();
     });
@@ -437,6 +455,7 @@ connectBtn.addEventListener('click', () => {
         setupConnection();
         joinInput.style.display = 'none';
         connectionStatus.textContent = 'Connecting to host...';
+        deck = []; // Prevent joiner from generating its own deck
     });
     peer.on('error', err => {
         connectionStatus.textContent = 'Error: ' + err.type;
@@ -451,16 +470,28 @@ function setupConnection() {
             gameBoard.style.display = 'grid';
             skipButton.style.display = 'block';
         }
+        nextCardId = 0;
+        scores = {1: 0, 2: 0};
+        gameBoard.innerHTML = '';
+        for (let i = 0; i < 12; i++) {
+            const attrs = deck.pop();
+            attrs.id = nextCardId++;
+            gameBoard.appendChild(createCard(attrs));
+        }
+        console.log("Host sending initial board:", Array.from(gameBoard.children).map(c => ({...c.dataset, id: c.dataset.id})));
+        conn.send({type: 'init_board', board: Array.from(gameBoard.children).map(c => ({...c.dataset, id: c.dataset.id}))});
+        gameBoard.style.display = 'grid';
+        skipButton.style.display = 'block';
     });
     conn.on('data', data => {
         console.log("Received data:", data);
         if (data.type === 'init_board') {
-            updateBoardFromData(data.board);
+            updateBoardFromData(data.board.map(card => ({...card, id: card.id})));
             scores = {1: 0, 2: 0};
             updateScoreboard();
             connectionStatus.textContent = 'Connected to opponent!';
         } else if (data.type === 'update_board') {
-            updateBoardFromData(data.board);
+            updateBoardFromData(data.board.map(card => ({...card, id: card.id})));
         } else if (data.type === 'update_scores') {
             scores = data.scores;
             updateScoreboard();
@@ -474,25 +505,11 @@ function setupConnection() {
             if (isHost) {
                 const selectedCards = data.cardIds.map(id => Array.from(gameBoard.children).find(c => c.dataset.id === id.toString()));
                 if (selectedCards.every(c => c)) {
-                    const cardsData = selectedCards.map(c => ({
-                        number: c.dataset.number,
-                        color: c.dataset.color,
-                        shape: c.dataset.shape,
-                        fill: c.dataset.fill
-                    }));
-                    if (isValidSet(cardsData)) {
-                        scores[data.player] += 1;
-                        const currentSize = gameBoard.children.length;
-                        removeCards(data.cardIds);
-                        if (currentSize <= 12) {
-                            addCards(3);
-                        }
-                        conn.send({type: 'update_board', board: Array.from(gameBoard.children).map(c => c.dataset)});
-                    } else {
-                        scores[data.player] -= 1;
-                        conn.send({type: 'invalid_set', to: data.player});
-                    }
+                    checkSelectedSet(selectedCards, data.player);
                     conn.send({type: 'update_scores', scores: scores});
+                    if (gameBoard.children.length <= 12) {
+                        conn.send({type: 'update_board', board: Array.from(gameBoard.children).map(c => ({...c.dataset, id: c.dataset.id}))});
+                    }
                 }
             }
         } else if (data.type === 'skip') {
@@ -502,10 +519,10 @@ function setupConnection() {
         } else if (data.type === 'request_restart') {
             if (isHost) {
                 restartGame();
-                conn.send({type: 'restart', board: Array.from(gameBoard.children).map(c => c.dataset)});
+                conn.send({type: 'restart', board: Array.from(gameBoard.children).map(c => ({...c.dataset, id: c.dataset.id}))});
             }
         } else if (data.type === 'restart') {
-            updateBoardFromData(data.board);
+            updateBoardFromData(data.board.map(card => ({...card, id: card.id})));
             scores = {1: 0, 2: 0};
             gameEnded = false;
             noSetAwarded = false;
@@ -527,16 +544,6 @@ function setupConnection() {
                     const card = Array.from(gameBoard.children).find(c => c.dataset.id === id.toString());
                     if (card) card.remove();
                 });
-            }
-        } else if (data.type === 'select_card') {
-            if (data.player !== myPlayerId) {
-                const card = Array.from(gameBoard.children).find(c => c.dataset.id === data.cardId);
-                if (card) card.classList.add("selected");
-            }
-        } else if (data.type === 'deselect_card') {
-            if (data.player !== myPlayerId) {
-                const card = Array.from(gameBoard.children).find(c => c.dataset.id === data.cardId);
-                if (card) card.classList.remove("selected");
             }
         }
     });
