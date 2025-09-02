@@ -1,6 +1,8 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
+    height:fit-content;
+    padding: 5px;
 }
 
 .game-board {
