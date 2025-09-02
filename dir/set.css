@@ -8,8 +8,8 @@ body {
 
 .game-board {
     border-left-width: 10px;
-    border-right-width: 10px;
     max-width: fit-content;
+    border-right-width: 10px;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 6px;
