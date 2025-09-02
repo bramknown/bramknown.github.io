@@ -12,6 +12,7 @@ body {
     gap: 6px;
     justify-content: center;
     margin-top: 20px;
+    margin-left: 10px;
     min-height: 100px;
     max-width: 640px;
     background-color: #ffffff;
