@@ -113,7 +113,6 @@ function drawShapes(card) {
     const shape = card.dataset.shape.toLowerCase();
     const fill = card.dataset.fill.toLowerCase();
 
-    // Use devicePixelRatio for crisp rendering on mobile/retina screens
     const dpr = window.devicePixelRatio || 1;
     const baseWidth = 200, baseHeight = 120;
     const canvas = document.createElement("canvas");
@@ -179,7 +178,6 @@ function drawShapes(card) {
     }
 }
 
-// Touch support for card selection (for iOS/Android)
 function addTouchSupport(card) {
     card.addEventListener("touchstart", function (e) {
         e.preventDefault();
@@ -201,7 +199,7 @@ function createCard(attributes) {
 function updateScoreboard() {
     scoreboard.innerHTML = "Leaderboard<br>";
     const sortedIds = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-    sortedIds.forEach id => {
+    sortedIds.forEach(id => {
         scoreboard.innerHTML += `${playerNames[id] || `Player ${id}`}: ${scores[id]}<br>`;
     });
 }
@@ -418,9 +416,8 @@ hostBtn.addEventListener("click", () => {
     }
     hostBtn.style.backgroundColor = "green";
     if (peer) peer.destroy();
-    // Use PeerJS config for iOS/Safari compatibility
     const peerConfig = getPeerConfig();
-    if (!peerConfig) return; // Abort if Tor
+    if (!peerConfig) return;
     peer = new Peer(peerConfig);
     conns = {};
     nextPlayerId = 2;
@@ -438,7 +435,6 @@ hostBtn.addEventListener("click", () => {
         skipButton.style.display = "none";
         publicGames.add(id);
         updatePublicGames();
-        // Simulate broadcasting to all users (in a real app, this would use a server)
         broadcast({ type: "new_game", gameId: id });
     });
 
@@ -460,20 +456,12 @@ hostBtn.addEventListener("click", () => {
     peer.on("error", err => {
         connectionStatus.textContent = `Error: ${err.type}`;
     });
-
-    peer.on("data", data => {
-        if (data.type === "new_game") {
-            publicGames.add(data.gameId);
-            updatePublicGames();
-        }
-    });
 });
 
 connectBtn.addEventListener("click", () => {
     if (peer) peer.destroy();
-    // Use PeerJS config for iOS/Safari compatibility
     const peerConfig = getPeerConfig();
-    if (!peerConfig) return; // Abort if Tor
+    if (!peerConfig) return;
     peer = new Peer(peerConfig);
     peer.on("open", () => {
         conn = peer.connect(peerIdInput.value);
@@ -485,12 +473,6 @@ connectBtn.addEventListener("click", () => {
     });
     peer.on("error", err => {
         connectionStatus.textContent = `Error: ${err.type}`;
-    });
-    peer.on("data", data => {
-        if (data.type === "new_game") {
-            publicGames.add(data.gameId);
-            updatePublicGames();
-        }
     });
 });
 
@@ -563,7 +545,6 @@ function setupConnection(connection, playerId = null) {
     });
 }
 
-// Polyfill for Element.closest for older browsers (iOS 9, Android 4.4)
 if (!Element.prototype.closest) {
     Element.prototype.closest = function (s) {
         let el = this;
@@ -605,18 +586,12 @@ function isValidSet(cards) {
     });
 }
 
-// PeerJS compatibility workaround for iOS/Safari and Tor Browser
 function getPeerConfig() {
-    // Use a public PeerServer that supports WebRTC over TURN for iOS/Safari.
-    // Tor Browser does not support WebRTC at all, so show a warning.
     let isTor = navigator.userAgent.toLowerCase().includes("torbrowser");
-    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
     if (isTor) {
         alert("Tor Browser is not supported because it does not support WebRTC (required for PeerJS).");
         return null;
     }
-    // Use PeerServer with TURN for iOS/Safari
     return {
         host: "peerjs.com",
         secure: true,
@@ -624,8 +599,7 @@ function getPeerConfig() {
         config: {
             iceServers: [
                 { urls: "stun:stun.l.google.com:19302" },
-                { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
-                // Free public TURN servers (limited reliability)
+                { urls: "stun:global.stun.twilio.com:3478" },
                 { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
                 { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
                 { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
