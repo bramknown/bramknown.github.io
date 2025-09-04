@@ -1,9 +1,10 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     text-align: center;
     padding: 10px;
     margin: 0;
     background-color: #f0f0f0;
+    -webkit-tap-highlight-color: transparent;
 }
 
 #game-board {
@@ -32,6 +33,7 @@ body {
     cursor: pointer;
     transition: transform 0.2s, border-color 0.2s;
     box-sizing: border-box;
+    touch-action: manipulation;
 }
 
 .card canvas {
@@ -59,7 +61,7 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-#skip-button, #continue-button, #host-btn, #join-game-btn, #connect-btn {
+#skip-button, #continue-button, #host-btn, #connect-btn {
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -68,9 +70,10 @@ body {
     background-color: #f9f9f9;
     transition: background-color 0.2s;
     margin: 5px;
+    touch-action: manipulation;
 }
 
-#skip-button:hover, #continue-button:hover, #host-btn:hover, #join-game-btn:hover, #connect-btn:hover {
+#skip-button:hover, #continue-button:hover, #host-btn:hover, #connect-btn:hover {
     background-color: #e0e0e0;
 }
 
@@ -92,26 +95,18 @@ body {
     color: white;
 }
 
-#options {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
 #multiplayer-setup, #peer-id-display, #connection-status {
     margin: 10px auto;
     max-width: 800px;
 }
 
-#peer-id-input {
+#peer-id-input, #player-name {
     padding: 8px;
     font-size: 14px;
     margin: 5px;
     border: 1px solid #333;
     border-radius: 5px;
+    width: 150px;
 }
 
 #join-menu {
@@ -119,6 +114,9 @@ body {
     padding: 10px;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .congrats-animation {
@@ -138,4 +136,18 @@ body {
     padding: 10px;
     background-color: #fff;
     border-radius: 5px;
+}
+
+#active-games button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#active-games button:hover {
+    background-color: #e0e0e0;
 }
