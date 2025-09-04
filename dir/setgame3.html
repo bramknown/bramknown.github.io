@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Game</title>
+    <link rel="stylesheet" href="setstyle3.css">
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <script src="setscript3.js" defer></script>
+</head>
+<body>
+    <h1>Set Game</h1>
+
+    <div id="game-board"></div>
+
+    <div id="controls">
+        <button id="skip-button">Skip</button>
+        <div id="scoreboard">Leaderboard</div>
+    </div>
+    <div id="multiplayer-setup">
+        <div id="peer-id-display">Share this ID: </div>
+        <div id="join-menu" style="display: flex; align-items: center; gap: 8px;">
+            <button id="continuous-btn" class="toggle-btn off">&#8634;</button>
+            <input type="text" id="player-name" placeholder="Enter name">
+            <button id="host-btn" class="toggle-btn off">Host Game</button>
+            <input type="text" id="peer-id-input" placeholder="Enter Game ID">
+            <button id="connect-btn">&#128279;</button>
+            <div id="active-games"></div>
+        </div>
+    </div>
+
+    <div id="congrats">
+        <h2 class="congrats-animation">Congratulations! Game Over!</h2>
+        <div id="win-message"></div>
+        <div id="final-scores"></div>
+        <button id="continue-button">Continue</button>
+    </div>
+
+    <div id="connection-status"></div>
+</body>
+</html>
