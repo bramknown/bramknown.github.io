@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 10px;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#game-board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    justify-content: center;
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    width: 100%;
+    aspect-ratio: 5/3;
+    max-width: 200px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s;
+    box-sizing: border-box;
+}
+
+.card canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.card.selected {
+    border-color: #ffd700;
+    transform: scale(1.05);
+}
+
+.card:hover {
+    background-color: #e8e8e8;
+}
+
+#scoreboard {
+    font-size: 18px;
+    margin: 20px auto;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+    max-width: 800px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#skip-button, #continue-button, #host-btn, #join-game-btn, #connect-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    transition: background-color 0.2s;
+    margin: 5px;
+}
+
+#skip-button:hover, #continue-button:hover, #host-btn:hover, #join-game-btn:hover, #connect-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.toggle-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: 1px solid #333;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.toggle-btn.on {
+    background-color: #4caf50;
+    color: white;
+}
+
+.toggle-btn.off {
+    background-color: #ccc;
+    color: white;
+}
+
+#options {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#multiplayer-setup, #peer-id-display, #connection-status {
+    margin: 10px auto;
+    max-width: 800px;
+}
+
+#peer-id-input {
+    padding: 8px;
+    font-size: 14px;
+    margin: 5px;
+    border: 1px solid #333;
+    border-radius: 5px;
+}
+
+#join-menu {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.congrats-animation {
+    animation: congratsFade 2s ease-in-out infinite;
+    color: #ff4500;
+}
+
+@keyframes congratsFade {
+    0% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+#connection-status {
+    font-size: 16px;
+    color: #333;
+    padding: 10px;
+    background-color: #fff;
+    border-radius: 5px;
+}
