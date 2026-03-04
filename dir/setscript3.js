@@ -731,33 +731,53 @@ function isValidSet(cards) {
 function getPeerConfig() {
     let userAgent = navigator.userAgent.toLowerCase();
     let isTor = userAgent.includes("torbrowser");
-    let isBrave = userAgent.includes("brave");
-    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
-                (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
-    
+    // Brave detection is tricky — userAgent often mimics Chrome now
+    let isBrave = userAgent.includes("brave") || 
+                  (navigator.brave && await navigator.brave.isBrave());
+    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+
     if (isTor) {
-        alert("Tor Browser is not supported because it does not support WebRTC (required for PeerJS).");
+        alert("Tor Browser is not supported because it disables WebRTC (required for PeerJS).");
         return null;
     }
-    
-    let config = {
-        host: "peerjs.metered.ca",
+
+    // Optional: Brave has WebRTC, but sometimes fingerprinting protections interfere
+    // if (isBrave) { console.warn("Brave may require shields down for WebRTC"); }
+
+    return {
+        host: "0.peerjs.com",          // ← official & working in 2026
         secure: true,
         port: 443,
-        path: "/peerjs",
+        path: "/",
         debug: 2,
         config: {
             iceServers: [
+                // Google STUN — still excellent & free
                 { urls: "stun:stun.l.google.com:19302" },
                 { urls: "stun:stun1.l.google.com:19302" },
                 { urls: "stun:stun2.l.google.com:19302" },
+                // Twilio STUN — still valid
                 { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
-                { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
-                { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
-                { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
+                // Open Relay TURN — still the go-to free relay in 2026
+                { 
+                    urls: "turn:openrelay.metered.ca:80",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                { 
+                    urls: "turn:openrelay.metered.ca:443",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                },
+                { 
+                    urls: "turn:openrelay.metered.ca:443?transport=tcp",
+                    username: "openrelayproject",
+                    credential: "openrelayproject"
+                }
+                // Optional extras if you hit limits:
+                // { urls: "stun:stun.nextcloud.com:3478" }
             ]
         }
     };
-    
-    return config;
 }
