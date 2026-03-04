@@ -731,17 +731,16 @@ function isValidSet(cards) {
 function getPeerConfig() {
     let userAgent = navigator.userAgent.toLowerCase();
     let isTor = userAgent.includes("torbrowser");
-    // Brave detection is tricky — userAgent often mimics Chrome now
-    let isBrave = userAgent.includes("brave") || 
-                  (navigator.brave && await navigator.brave.isBrave());
-    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) ||
-                (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
-
+    let isBrave = userAgent.includes("brave");
+    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
+    
     if (isTor) {
-        alert("Tor Browser is not supported because it disables WebRTC (required for PeerJS).");
+        alert("Tor Browser is not supported because it does not support WebRTC (required for PeerJS).");
         return null;
     }
-    return {
+    
+    let config = {
         host: "0.peerjs.com",
         secure: true,
         port: 443,
@@ -753,24 +752,13 @@ function getPeerConfig() {
                 { urls: "stun:stun1.l.google.com:19302" },
                 { urls: "stun:stun2.l.google.com:19302" },
                 { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
-                { 
-                    urls: "turn:openrelay.metered.ca:80",
-                    username: "openrelayproject",
-                    credential: "openrelayproject"
-                },
-                { 
-                    urls: "turn:openrelay.metered.ca:443",
-                    username: "openrelayproject",
-                    credential: "openrelayproject"
-                },
-                { 
-                    urls: "turn:openrelay.metered.ca:443?transport=tcp",
-                    username: "openrelayproject",
-                    credential: "openrelayproject"
-                }
-                // Optional extras if you hit limits:
-                // { urls: "stun:stun.nextcloud.com:3478" }
+                { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
+                { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
+                { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
             ]
         }
     };
+    
+    
+    return config;
 }
