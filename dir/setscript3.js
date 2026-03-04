@@ -76,10 +76,7 @@ function generateDeck() {
             for (let s of shapes) {
                 for (let f of fills) {
                     const card = { number: n, color: c, shape: s, fill: f };
-                    // In continuous mode, skip cards that have already been used
-                    if (!continuousMode || !usedCards.has(cardToString(card))) {
-                        newDeck.push(card);
-                    }
+                    newDeck.push(card);
                 }
             }
         }
@@ -123,6 +120,7 @@ function removeCards(cardIds) {
     cardIds.forEach(id => {
         const card = gameBoard.querySelector(`[data-id="${id}"]`);
         if (card) {
+            // Track card as used in continuous mode
             if (continuousMode) {
                 usedCards.add(cardToString({
                     number: card.dataset.number,
@@ -414,10 +412,9 @@ continueButton.addEventListener("click", () => {
 });
 
 function restartGame(keepScore = false) {
-    // Clear used cards if not keeping continuous mode, otherwise keep them to avoid duplicates
-    if (!keepScore) {
-        usedCards.clear();
-    }
+    // In continuous mode, always clear used cards to get a fresh full deck
+    // Clear used cards if not keeping continuous mode, otherwise generate full new deck for continuous play
+    usedCards.clear();
     deck = generateDeck();
     nextCardId = 0;
     noSetAwarded = false;
@@ -524,11 +521,7 @@ hostBtn.addEventListener("click", () => {
         connectionStatus.style.display = "none";
         gameBoard.style.display = "none";
         skipButton.style.display = "none";
-        publicGames.set(id, { name: playerName, isPublic: isGamePublic });
-        updatePublicGames();
         updateScoreboard();
-        // Simulate broadcasting to all users (in a real app, this would use a server)
-        broadcast({ type: "new_game", gameId: id, hostName: playerName, isPublic: isGamePublic });
     });
 
     peer.on("connection", connection => {
@@ -549,13 +542,6 @@ hostBtn.addEventListener("click", () => {
         console.error("Peer error:", err);
         connectionStatus.textContent = `Error: ${err.type || "Unknown"} - ${err.message || ""}`;
         connectionStatus.style.display = "block";
-    });
-
-    peer.on("data", data => {
-        if (data.type === "new_game") {
-            publicGames.set(data.gameId, { name: data.hostName || "Game", isPublic: data.isPublic !== false });
-            updatePublicGames();
-        }
     });
 });
 
@@ -597,14 +583,9 @@ connectBtn.addEventListener("click", () => {    // Validate game ID is entered
         joinMenuRight.style.display = "none";
     });
     peer.on("error", err => {
-        connectionStatus.textContent = `Error: ${err.type}`;
+        console.error("Peer error:", err);
+        connectionStatus.textContent = `Error: ${err.type || "Unknown"} - ${err.message || ""}`;
         connectionStatus.style.display = "block";
-    });
-    peer.on("data", data => {
-        if (data.type === "new_game") {
-            publicGames.set(data.gameId, { name: data.hostName || "Game", isPublic: data.isPublic !== false });
-            updatePublicGames();
-        }
     });
 });
 
@@ -739,6 +720,7 @@ function getPeerConfig() {
         return null;
     }
     
+    // Use public PeerJS cloud server (works on GitHub Pages and production)
     let config = {
         host: "0.peerjs.com",
         secure: true,
@@ -751,13 +733,13 @@ function getPeerConfig() {
                 { urls: "stun:stun1.l.google.com:19302" },
                 { urls: "stun:stun2.l.google.com:19302" },
                 { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
+                // Free public TURN servers (limited reliability)
                 { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
                 { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
                 { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
             ]
         }
     };
-    
     
     return config;
 }
