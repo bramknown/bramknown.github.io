@@ -123,7 +123,6 @@ function removeCards(cardIds) {
     cardIds.forEach(id => {
         const card = gameBoard.querySelector(`[data-id="${id}"]`);
         if (card) {
-            // Track card as used in continuous mode
             if (continuousMode) {
                 usedCards.add(cardToString({
                     number: card.dataset.number,
