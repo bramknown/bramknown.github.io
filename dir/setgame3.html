@@ -2,8 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Set Game</title>
     <link rel="stylesheet" href="setstyle3.css">
     <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
@@ -11,31 +10,47 @@
 </head>
 <body>
     <h1>Set Game</h1>
-
-    <div id="game-board"></div>
-
-    <div id="controls">
-        <button id="skip-button">Skip</button>
-        <div id="scoreboard">Leaderboard</div>
+    <div id="score-display">
+        <button id="continuous-btn" class="toggle-btn off" style="margin-right: 10px;">&#8634;</button>
+        <span id="score-text"></span>
     </div>
-    <div id="multiplayer-setup">
-        <div id="peer-id-display">Share this ID: </div>
-        <div id="join-menu" style="display: flex; align-items: center; gap: 8px;">
-            <button id="continuous-btn" class="toggle-btn off">&#8634;</button>
+
+    <div id="scoreboard" style="position: absolute; top: 10px; left: 10px;">Leaderboard</div>
+
+    <div id="top-controls" style="position: absolute; top: 10px; right: 10px; display: flex; align-items: center; gap: 8px; flex-direction: column; align-items: flex-end;">
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <button id="host-btn" class="toggle-btn off">Host</button>
             <input type="text" id="player-name" placeholder="Enter name">
-            <button id="host-btn" class="toggle-btn off">Host Game</button>
-            <input type="text" id="peer-id-input" placeholder="Enter Game ID">
-            <button id="connect-btn">&#128279;</button>
+            <button id="public-private-btn" class="toggle-btn off" style="display: none;" title="Toggle game visibility">Private</button>
+            <button id="join-game-btn">Join</button>
+        </div>
+        <div id="join-menu-right" style="display: none; flex-direction: column; gap: 8px; margin-top: 8px; padding: 10px; border: 1px solid #333; border-radius: 5px; background-color: #f9f9f9; z-index: 100; min-width: 250px;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <input id="peer-id-input" placeholder="Enter Game ID" style="flex: 1;">
+                <button id="connect-btn">➜</button>
+            </div>
+            <div style="margin-top: 10px; font-weight: bold; font-size: 12px;">Available Games:</div>
+            <div id="active-games" style="max-height: 200px; overflow-y: auto;">
+                <!-- Populated dynamically -->
+            </div>
         </div>
     </div>
 
-    <div id="congrats">
+    <div id="multiplayer-setup">
+        <div id="peer-id-display" style="display: none;"></div>
+    </div>
+
+    <div id="connection-status"></div>
+
+    <div id="game-board"></div>
+
+    <button id="skip-button">Skip</button>
+
+    <div id="congrats" style="display: none; text-align: center; margin-top: 20px;">
         <h2 class="congrats-animation">Congratulations! Game Over!</h2>
         <div id="win-message"></div>
         <div id="final-scores"></div>
         <button id="continue-button">Continue</button>
     </div>
-
-    <div id="connection-status"></div>
 </body>
 </html>
