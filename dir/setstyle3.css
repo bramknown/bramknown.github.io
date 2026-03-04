@@ -1,80 +1,336 @@
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
-    padding: 10px;
+    padding: 20px;
+    background: #f0eeeb;
+    min-height: 100vh;
     margin: 0;
-    background-color: #f0f0f0;
-    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+h1 {
+    color: #333;
+    font-size: 2.5em;
+    margin: 20px 0;
+    letter-spacing: 1px;
 }
 
 #game-board {
+    height: fit-content;
+    width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
     justify-content: center;
-    margin: 20px auto;
-    max-width: 800px;
-    padding: 10px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 40px auto 20px;
+    min-height: 100px;
+    max-width: 680px;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    justify-items: center;
+    align-items: center;
+    box-sizing: border-box;
 }
 
 .card {
-    width: 100%;
-    height: 120px; /* Fallback for browsers not supporting aspect-ratio */
-    max-width: 200px;
-    border: 2px solid #333;
-    border-radius: 8px;
+    width: clamp(90px, 28vw, 200px);
+    height: clamp(54px, 17vw, 120px);
+    border: 3px solid #667eea;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: white;
+    font-size: clamp(12px, 2.5vw, 20px);
+    position: relative;
     cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s;
+    background: white;
+    margin: 0;
     box-sizing: border-box;
-    touch-action: manipulation;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    cursor: pointer;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    border-color: #764ba2;
 }
 
 .card canvas {
-    width: 100%;
-    height: 100%;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100%;
+    max-height: 100%;
     display: block;
 }
 
 .card.selected {
     border-color: #ffd700;
-    transform: scale(1.05);
-}
-
-.card:hover {
-    background-color: #e8e8e8;
+    background-color: #fffacd;
+    transform: scale(1.08);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.5);
 }
 
 #scoreboard {
-    font-size: 18px;
-    margin: 20px auto;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
-    max-width: 800px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-#skip-button, #continue-button, #host-btn, #connect-btn {
-    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
     font-size: 16px;
-    cursor: pointer;
-    border: 1px solid #333;
-    border-radius: 5px;
-    background-color: #f9f9f9;
-    transition: background-color 0.2s;
-    margin: 5px;
-    touch-action: manipulation;
+    padding: 15px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 180px;
+    max-width: 250px;
+    color: #333;
+    font-weight: bold;
 }
 
-#skip-button:hover, #continue-button:hover, #host-btn:hover, #connect-btn:hover {
-    background-color: #e0e0e0;
+#scoreboard br {
+    content: "";
+    display: block;
+    height: 5px;
+}
+
+#score-display {
+    text-align: center;
+    font-size: 18px;
+    margin: 15px 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: #333;
+}
+
+#skip-button, #continue-button {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin: 20px auto;
+    display: block;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+#skip-button:hover, #continue-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+}
+
+#skip-button:active, #continue-button:active {
+    transform: translateY(-1px);
+}
+
+.toggle-btn {
+    padding: 10px 20px;
+    font-size: 14px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-btn.on {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.toggle-btn.off {
+    background: #e0e0e0;
+    color: #666;
+}
+
+.toggle-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#host-btn, #connect-btn, #join-game-btn {
+    background: #667eea;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+#connect-btn {
+    padding: 10px 15px;
+    font-size: 16px;
+    min-width: 40px;
+    text-align: center;
+}
+
+#host-btn:hover, #connect-btn:hover, #join-game-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(102, 126, 234, 0.5);
+}
+
+#host-btn.off, #public-private-btn.off {
+    background: #e0e0e0;
+    color: #666;
+}
+
+#player-name, #peer-id-input {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+#player-name:focus, #peer-id-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    background-color: #f8f9ff;
+}
+
+#multiplayer-setup {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#peer-id-display, #join-menu, #connection-status {
+    margin: 10px 0;
+}
+
+#peer-id-display {
+    text-align: center;
+    padding: 25px;
+    background: white;
+    border-radius: 12px;
+    margin: 30px auto;
+    max-width: 450px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+#peer-id-display strong {
+    display: block;
+    color: #667eea;
+    font-size: 16px;
+    margin-bottom: 15px;
+}
+
+#peer-id-display code {
+    display: block;
+    background: linear-gradient(135deg, #f5f7ff 0%, #f0f0ff 100%);
+    color: #667eea;
+    padding: 15px;
+    border: 2px solid #667eea;
+    border-radius: 8px;
+    font-size: 18px;
+    font-family: 'Courier New', monospace;
+    word-break: break-all;
+    margin-top: 10px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+#connection-status {
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    color: #333;
+    font-weight: bold;
+    max-width: 400px;
+    margin: 20px auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#top-controls {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+    z-index: 10;
+}
+
+#join-menu-right {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 15px;
+    border: none;
+    border-radius: 10px;
+    background: white;
+    z-index: 100;
+    min-width: 250px;
+    margin-top: 8px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+#peer-id-input {
+    padding: 10px 15px;
+    font-size: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+#peer-id-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+#active-games {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+#active-games button {
+    padding: 10px;
+    font-size: 13px;
+    cursor: pointer;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    background: white;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+    color: #333;
+    font-weight: 500;
+}
+
+#active-games button:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-color: #667eea;
+    transform: translateX(5px);
+}#peer-id-input {
+    padding: 8px;
+    font-size: 14px;
+    margin-right: 10px;
 }
 
 .toggle-btn {
@@ -95,45 +351,59 @@ body {
     color: white;
 }
 
-#multiplayer-setup, #peer-id-display, #connection-status {
-    margin: 10px auto;
-    max-width: 800px;
+#player-name.empty-error {
+    border: 2px solid #ff4444;
+    background-color: #ffe6e6;
+    animation: pulse-red 0.5s ease-in-out 3;
 }
 
-#peer-id-input, #player-name {
-    padding: 8px;
-    font-size: 14px;
-    margin: 5px;
-    border: 1px solid #333;
-    border-radius: 5px;
-    width: 150px;
+@keyframes pulse-red {
+    0%, 100% { 
+        box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.7);
+        transform: translateX(0);
+    }
+    50% { 
+        box-shadow: 0 0 0 10px rgba(255, 68, 68, 0);
+        transform: translateX(-5px);
+    }
 }
 
-#join-menu {
-    background-color: #fff;
-    padding: 10px;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+#congrats {
+    background: white;
+    border-radius: 15px;
+    padding: 40px;
+    margin: 40px auto;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
 }
 
 .congrats-animation {
-    animation: congratsFade 2s ease-in-out infinite;
-    color: #ff4500;
+    animation: congratsFade 1.5s ease-in-out infinite;
+    color: #764ba2;
+    font-size: 2em;
 }
 
 @keyframes congratsFade {
-    0% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.1); }
-    100% { opacity: 1; transform: scale(1); }
+    0%, 100% { 
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% { 
+        opacity: 0.7;
+        transform: scale(1.05);
+    }
 }
 
-#connection-status {
+#final-scores {
     font-size: 16px;
     color: #333;
-    padding: 10px;
-    background-color: #fff;
-    border-radius: 5px;
+    margin: 20px 0;
+    line-height: 1.8;
+}
+
+#win-message {
+    font-size: 18px;
+    color: #667eea;
+    font-weight: bold;
+    margin: 15px 0;
 }
