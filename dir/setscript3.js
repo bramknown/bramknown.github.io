@@ -531,6 +531,7 @@ hostBtn.addEventListener("click", () => {
             scores[playerId] = 0;
             playerNames[playerId] = `Player ${playerId}`;
             connection.send({ type: "assign_id", id: playerId });
+            connection.send({ type: "init_board", board: getBoardData() });
             broadcast({ type: "update_scores", scores });
             broadcast({ type: "update_players", playerNames });
             updateScoreboard();
@@ -707,6 +708,7 @@ function isValidSet(cards) {
     });
 }
 
+// PeerJS compatibility workaround for iOS/Safari, Brave, and Tor Browser
 function getPeerConfig() {
     let userAgent = navigator.userAgent.toLowerCase();
     let isTor = userAgent.includes("torbrowser");
@@ -718,6 +720,8 @@ function getPeerConfig() {
         alert("Tor Browser is not supported because it does not support WebRTC (required for PeerJS).");
         return null;
     }
+    
+    // Use public PeerJS cloud server (works on GitHub Pages and production)
     let config = {
         host: "0.peerjs.com",
         secure: true,
@@ -729,10 +733,8 @@ function getPeerConfig() {
                 { urls: "stun:stun.l.google.com:19302" },
                 { urls: "stun:stun1.l.google.com:19302" },
                 { urls: "stun:stun2.l.google.com:19302" },
-                { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
-                { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
-                { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
-                { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
+                { urls: "stun:stun3.l.google.com:19302" },
+                { urls: "stun:stun4.l.google.com:19302" }
             ]
         }
     };
