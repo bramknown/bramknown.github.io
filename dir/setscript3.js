@@ -1,18 +1,24 @@
 const gameBoard = document.getElementById("game-board");
 const continuousBtn = document.getElementById("continuous-btn");
 const hostBtn = document.getElementById("host-btn");
+const publicPrivateBtn = document.getElementById("public-private-btn");
 const multiplayerSetup = document.getElementById("multiplayer-setup");
 const peerIdDisplay = document.getElementById("peer-id-display");
 const peerIdInput = document.getElementById("peer-id-input");
 const connectBtn = document.getElementById("connect-btn");
 const skipButton = document.getElementById("skip-button");
 const scoreboard = document.getElementById("scoreboard");
+const scoreDisplay = document.getElementById("score-display");
+const scoreText = document.getElementById("score-text");
 const congratsDiv = document.getElementById("congrats");
 const finalScores = document.getElementById("final-scores");
 const winMessage = document.getElementById("win-message");
 const continueButton = document.getElementById("continue-button");
 const connectionStatus = document.getElementById("connection-status");
 const playerNameInput = document.getElementById("player-name");
+const activeGames = document.getElementById("active-games");
+const joinGameBtn = document.getElementById("join-game-btn");
+const joinMenuRight = document.getElementById("join-menu-right");
 
 const shapes = ["Circle", "Squiggle", "Square"];
 const colors = ["Red", "Blue", "Green"];
@@ -33,6 +39,9 @@ let noSetAwarded = false;
 let firstSkipper = null;
 let continuousMode = false;
 let nextCardId = 0;
+let publicGames = new Map(); // Map of gameId -> {name, isPublic}
+let isGamePublic = false; // Initially private
+let usedCards = new Set(); // Track cards in continuous mode to avoid duplicates
 
 setupGame();
 
@@ -42,13 +51,35 @@ continuousBtn.addEventListener("click", () => {
     continuousBtn.classList.toggle("off", !continuousMode);
 });
 
+publicPrivateBtn.addEventListener("click", () => {
+    isGamePublic = !isGamePublic;
+    publicPrivateBtn.textContent = isGamePublic ? "Public" : "Private";
+    publicPrivateBtn.classList.toggle("on", isGamePublic);
+    publicPrivateBtn.classList.toggle("off", !isGamePublic);
+});
+
+function highlightNameError() {
+    playerNameInput.classList.add("empty-error");
+    setTimeout(() => {
+        playerNameInput.classList.remove("empty-error");
+    }, 2000);
+}
+
+function cardToString(card) {
+    return `${card.number}-${card.color}-${card.shape}-${card.fill}`;
+}
+
 function generateDeck() {
     const newDeck = [];
     for (let n = 1; n <= 3; n++) {
         for (let c of colors) {
             for (let s of shapes) {
                 for (let f of fills) {
-                    newDeck.push({ number: n, color: c, shape: s, fill: f });
+                    const card = { number: n, color: c, shape: s, fill: f };
+                    // In continuous mode, skip cards that have already been used
+                    if (!continuousMode || !usedCards.has(cardToString(card))) {
+                        newDeck.push(card);
+                    }
                 }
             }
         }
@@ -71,9 +102,7 @@ function getBoardData() {
 }
 
 function broadcast(data) {
-    Object.values(conns).forEach(c => {
-        if (c && c.open) c.send(data);
-    });
+    Object.values(conns).forEach(c => c.send(data));
 }
 
 function addCards(num) {
@@ -93,7 +122,18 @@ function addCards(num) {
 function removeCards(cardIds) {
     cardIds.forEach(id => {
         const card = gameBoard.querySelector(`[data-id="${id}"]`);
-        if (card) card.remove();
+        if (card) {
+            // Track card as used in continuous mode
+            if (continuousMode) {
+                usedCards.add(cardToString({
+                    number: card.dataset.number,
+                    color: card.dataset.color,
+                    shape: card.dataset.shape,
+                    fill: card.dataset.fill
+                }));
+            }
+            card.remove();
+        }
     });
     if (isMultiplayer && isHost) {
         broadcast({ type: "remove_cards", cardIds });
@@ -113,6 +153,7 @@ function drawShapes(card) {
     const shape = card.dataset.shape.toLowerCase();
     const fill = card.dataset.fill.toLowerCase();
 
+    // Use devicePixelRatio for crisp rendering on mobile/retina screens
     const dpr = window.devicePixelRatio || 1;
     const baseWidth = 200, baseHeight = 120;
     const canvas = document.createElement("canvas");
@@ -122,10 +163,6 @@ function drawShapes(card) {
     canvas.style.height = baseHeight + "px";
     card.appendChild(canvas);
     const ctx = canvas.getContext("2d");
-    if (!ctx) {
-        card.textContent = "Canvas not supported";
-        return;
-    }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
     const shapeScale = 0.7;
@@ -182,17 +219,12 @@ function drawShapes(card) {
     }
 }
 
+// Touch support for card selection (for iOS/Android)
 function addTouchSupport(card) {
-    let touchActive = false;
     card.addEventListener("touchstart", function (e) {
-        if (touchActive) return;
-        touchActive = true;
         e.preventDefault();
         card.click();
     }, { passive: false });
-    card.addEventListener("touchend", () => {
-        touchActive = false;
-    });
 }
 
 function createCard(attributes) {
@@ -207,18 +239,26 @@ function createCard(attributes) {
 }
 
 function updateScoreboard() {
-    scoreboard.innerHTML = "Leaderboard<br>";
-    const sortedIds = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
-    sortedIds.forEach(id => {
-        scoreboard.innerHTML += `${playerNames[id] || `Player ${id}`}: ${scores[id]}<br>`;
-    });
+    if (!isMultiplayer) {
+        // Single player mode - show score under title, hide leaderboard
+        scoreText.innerHTML = `Score: ${scores[1] || 0}`;
+        scoreboard.innerHTML = "";
+        scoreboard.style.display = "none";
+    } else {
+        // Multiplayer mode - show leaderboard in top left, show score under title
+        scoreText.innerHTML = `Score: ${scores[myPlayerId] || 0}`;
+        scoreboard.style.display = "block";
+        scoreboard.innerHTML = "Leaderboard<br>";
+        const sortedIds = Object.keys(scores).sort((a, b) => scores[b] - scores[a]);
+        sortedIds.forEach(id => {
+            scoreboard.innerHTML += `${playerNames[id] || `Player ${id}`}: ${scores[id]}<br>`;
+        });
+    }
 }
 
 function setupGame() {
-    if (peer) {
-        peer.destroy();
-        peer = null;
-    }
+    if (peer) peer.destroy();
+    peer = null;
     conn = null;
     conns = {};
     isMultiplayer = false;
@@ -229,6 +269,7 @@ function setupGame() {
     gameEnded = false;
     noSetAwarded = false;
     firstSkipper = null;
+    usedCards.clear();
     deck = generateDeck();
     nextCardId = 0;
     gameBoard.innerHTML = "";
@@ -242,7 +283,10 @@ function setupGame() {
     peerIdDisplay.style.display = "none";
     hostBtn.classList.remove("on");
     hostBtn.classList.add("off");
-    connectionStatus.textContent = "";
+    publicPrivateBtn.style.display = "none";
+    joinGameBtn.style.display = "block";
+    joinMenuRight.style.display = "none";
+    updatePublicGames();
 }
 
 function handleCardSelection(card) {
@@ -252,12 +296,7 @@ function handleCardSelection(card) {
     if (selected.length === 3) {
         const cardIds = selected.map(c => parseInt(c.dataset.id));
         if (isMultiplayer && !isHost) {
-            if (conn && conn.open) {
-                conn.send({ type: "check_set", cardIds, player: myPlayerId });
-            } else {
-                connectionStatus.textContent = "Disconnected. Playing in single-player mode.";
-                checkSelectedSet(selected, myPlayerId);
-            }
+            conn.send({ type: "check_set", cardIds, player: myPlayerId });
         } else {
             checkSelectedSet(selected, myPlayerId);
         }
@@ -333,12 +372,7 @@ function handleSkip(player) {
 
 skipButton.addEventListener("click", () => {
     if (isMultiplayer && !isHost) {
-        if (conn && conn.open) {
-            conn.send({ type: "skip", player: myPlayerId });
-        } else {
-            connectionStatus.textContent = "Disconnected. Playing in single-player mode.";
-            handleSkip(myPlayerId);
-        }
+        conn.send({ type: "skip", player: myPlayerId });
     } else {
         handleSkip(myPlayerId);
     }
@@ -347,7 +381,7 @@ skipButton.addEventListener("click", () => {
 function showCongrats() {
     gameEnded = true;
     let scoreText = "";
-    Object.keys(scores).sort((a, b) => scores[b] - scores[a]).forEach(id => {
+    Object.keys(scores).forEach(id => {
         scoreText += `${playerNames[id] || `Player ${id}`}: ${scores[id]}<br>`;
     });
     finalScores.innerHTML = scoreText;
@@ -365,18 +399,13 @@ function showCongrats() {
     congratsDiv.style.display = "block";
     gameBoard.style.display = "none";
     skipButton.style.display = "none";
-    connectionStatus.style.display = isMultiplayer ? "block" : "none";
+    connectionStatus.style.display = "none";
 }
 
 continueButton.addEventListener("click", () => {
     if (!gameEnded) return;
     if (isMultiplayer && !isHost) {
-        if (conn && conn.open) {
-            conn.send({ type: "request_restart" });
-        } else {
-            connectionStatus.textContent = "Disconnected. Starting single-player game.";
-            restartGame(false);
-        }
+        conn.send({ type: "request_restart" });
     } else {
         restartGame(false);
         if (isMultiplayer && isHost) {
@@ -386,6 +415,10 @@ continueButton.addEventListener("click", () => {
 });
 
 function restartGame(keepScore = false) {
+    // Clear used cards if not keeping continuous mode, otherwise keep them to avoid duplicates
+    if (!keepScore) {
+        usedCards.clear();
+    }
     deck = generateDeck();
     nextCardId = 0;
     noSetAwarded = false;
@@ -401,42 +434,102 @@ function restartGame(keepScore = false) {
     congratsDiv.style.display = "none";
     gameBoard.style.display = "grid";
     skipButton.style.display = "block";
-    if (isMultiplayer) connectionStatus.textContent = "Connected!";
+    connectionStatus.style.display = "none";
 }
 
-hostBtn.addEventListener("click", () => {
-    if (hostBtn.classList.contains("on")) {
+function updatePublicGames() {
+    activeGames.innerHTML = "";
+    publicGames.forEach((gameInfo, gameId) => {
+        if (gameInfo.isPublic) {
+            const btn = document.createElement("button");
+            btn.textContent = `${gameInfo.name || "Game"} (${gameId})`;
+            btn.onclick = () => {
+                peerIdInput.value = gameId;
+            };
+            activeGames.appendChild(btn);
+        }
+    });
+}
+
+hostBtn.addEventListener("click", () => {    
+    const color = hostBtn.style.backgroundColor;
+    if (color === "red") {
         // Stop hosting
-        if (peer) peer.destroy();
+        hostBtn.style.backgroundColor = "";
+        hostBtn.textContent = "Host";
+        publicPrivateBtn.style.display = "none";
+        joinGameBtn.style.display = "block";
         setupGame();
-        connectionStatus.textContent = "Single-player mode";
-        connectionStatus.style.display = "block";
-        hostBtn.classList.remove("on");
-        hostBtn.classList.add("off");
-        hostBtn.textContent = "Host Game";
+        connectionStatus.style.display = "none";
+        peerIdDisplay.style.display = "none";
+        if (peer && peer.id) {
+            publicGames.delete(peer.id);
+        }
+        updatePublicGames();
         return;
     }
-
+    if (color === "green") {
+        // Start game
+        hostBtn.style.backgroundColor = "red";
+        hostBtn.textContent = "Stop";
+        deck = generateDeck();
+        nextCardId = 0;
+        scores = Object.fromEntries(Object.keys(playerNames).map(id => [id, 0]));
+        gameBoard.innerHTML = "";
+        addCards(12);
+        broadcast({ type: "init_board", board: getBoardData() });
+        broadcast({ type: "update_scores", scores });
+        broadcast({ type: "update_players", playerNames });
+        gameBoard.style.display = "grid";
+        skipButton.style.display = "block";
+        updateScoreboard();
+        connectionStatus.style.display = "none";
+        return;
+    }
+    
+    // Initial click to start hosting
+    // Validate that player name was entered
+    const playerName = playerNameInput.value.trim();
+    if (!playerName) {
+        highlightNameError();
+        return;
+    }
+    
+    // Show public/private button and hide join game button
+    publicPrivateBtn.style.display = "block";
+    publicPrivateBtn.textContent = "Private";
+    publicPrivateBtn.classList.remove("on");
+    publicPrivateBtn.classList.add("off");
+    isGamePublic = false;
+    joinGameBtn.style.display = "none";
+    joinMenuRight.style.display = "none";
+    
+    hostBtn.style.backgroundColor = "green";
+    hostBtn.textContent = "Start";
+    if (peer) peer.destroy();
+    // Use PeerJS config for iOS/Safari compatibility
     const peerConfig = getPeerConfig();
-    if (!peerConfig) return;
+    if (!peerConfig) return; // Abort if Tor
     peer = new Peer(peerConfig);
     conns = {};
     nextPlayerId = 2;
     isMultiplayer = true;
     isHost = true;
     scores = { 1: 0 };
-    playerNames = { 1: playerNameInput.value || "Host" };
+    playerNames = { 1: playerName };
 
     peer.on("open", id => {
-        peerIdDisplay.textContent = `Share this ID: ${id}`;
+        console.log("Peer opened with ID:", id);
+        peerIdDisplay.innerHTML = `<strong>Share this ID to invite players:</strong><br><code>${id}</code>`;
         peerIdDisplay.style.display = "block";
-        connectionStatus.textContent = "Waiting for players to join...";
-        connectionStatus.style.display = "block";
+        connectionStatus.style.display = "none";
         gameBoard.style.display = "none";
         skipButton.style.display = "none";
-        hostBtn.classList.remove("off");
-        hostBtn.classList.add("on");
-        hostBtn.textContent = "Start Game";
+        publicGames.set(id, { name: playerName, isPublic: isGamePublic });
+        updatePublicGames();
+        updateScoreboard();
+        // Simulate broadcasting to all users (in a real app, this would use a server)
+        broadcast({ type: "new_game", gameId: id, hostName: playerName, isPublic: isGamePublic });
     });
 
     peer.on("connection", connection => {
@@ -449,72 +542,85 @@ hostBtn.addEventListener("click", () => {
             broadcast({ type: "update_scores", scores });
             broadcast({ type: "update_players", playerNames });
             updateScoreboard();
-            connectionStatus.textContent = `Players joined: ${Object.keys(conns).length}`;
             setupConnection(connection, playerId);
         });
     });
 
     peer.on("error", err => {
-        connectionStatus.textContent = `Error: ${err.type}. Falling back to single-player mode.`;
-        setupGame();
+        console.error("Peer error:", err);
+        connectionStatus.textContent = `Error: ${err.type || "Unknown"} - ${err.message || ""}`;
+        connectionStatus.style.display = "block";
     });
 
-    peer.on("disconnected", () => {
-        connectionStatus.textContent = "Disconnected from server. Attempting to reconnect...";
-        if (peer && !peer.destroyed) peer.reconnect();
+    peer.on("data", data => {
+        if (data.type === "new_game") {
+            publicGames.set(data.gameId, { name: data.hostName || "Game", isPublic: data.isPublic !== false });
+            updatePublicGames();
+        }
     });
+});
 
-    // Start game when clicking "Start Game"
-    hostBtn.addEventListener("click", startGame, { once: true });
-    function startGame() {
-        if (!hostBtn.classList.contains("on")) return;
-        hostBtn.textContent = "Stop Hosting";
-        deck = generateDeck();
-        nextCardId = 0;
-        scores = Object.fromEntries(Object.keys(playerNames).map(id => [id, 0]));
-        gameBoard.innerHTML = "";
-        addCards(12);
-        broadcast({ type: "init_board", board: getBoardData() });
-        broadcast({ type: "update_scores", scores });
-        broadcast({ type: "update_players", playerNames });
-        gameBoard.style.display = "grid";
-        skipButton.style.display = "block";
-        connectionStatus.textContent = `Game started with ${Object.keys(conns).length + 1} players`;
+joinGameBtn.addEventListener("click", () => {
+    // Validate that player name was entered
+    const playerName = playerNameInput.value.trim();
+    if (!playerName) {
+        highlightNameError();
+        return;
+    } else {
+        joinMenuRight.style.display = joinMenuRight.style.display === "none" || joinMenuRight.style.display === "" ? "flex" : "none";
     }
 });
 
-connectBtn.addEventListener("click", () => {
-    if (!peerIdInput.value) {
-        connectionStatus.textContent = "Please enter a valid Game ID.";
+connectBtn.addEventListener("click", () => {    // Validate game ID is entered
+    const gameId = peerIdInput.value.trim();
+    if (!gameId) {
+        alert("Please enter a Game ID to join.");
         return;
     }
+    
+    // Disable multiplayer on localhost - only works on HTTPS/GitHub Pages
+    if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
+        alert("Multiplayer requires HTTPS. Test on GitHub Pages or a secure host.\nLocal testing is limited to single-player mode.");
+        return;
+    }
+    
     if (peer) peer.destroy();
+    // Use PeerJS config for iOS/Safari compatibility
     const peerConfig = getPeerConfig();
-    if (!peerConfig) return;
+    if (!peerConfig) return; // Abort if Tor
     peer = new Peer(peerConfig);
     peer.on("open", () => {
         conn = peer.connect(peerIdInput.value);
         isHost = false;
         isMultiplayer = true;
         setupConnection(conn);
-        connectionStatus.textContent = "Connecting...";
-        connectionStatus.style.display = "block";
+        connectionStatus.style.display = "none";
+        joinMenuRight.style.display = "none";
     });
     peer.on("error", err => {
-        connectionStatus.textContent = `Error: ${err.type}. Falling back to single-player mode.`;
-        setupGame();
+        connectionStatus.textContent = `Error: ${err.type}`;
+        connectionStatus.style.display = "block";
     });
-    peer.on("disconnected", () => {
-        connectionStatus.textContent = "Disconnected from server. Attempting to reconnect...";
-        if (peer && !peer.destroyed) peer.reconnect();
+    peer.on("data", data => {
+        if (data.type === "new_game") {
+            publicGames.set(data.gameId, { name: data.hostName || "Game", isPublic: data.isPublic !== false });
+            updatePublicGames();
+        }
     });
+});
+
+// Attach connect button to peer ID input (enter key)
+peerIdInput.addEventListener("keypress", (e) => {
+    if (e.key === "Enter") {
+        connectBtn.click();
+    }
 });
 
 function setupConnection(connection, playerId = null) {
     connection.on("open", () => {
         if (!isHost) {
             myPlayerId = 0;
-            connectionStatus.textContent = "Connected!";
+            connectionStatus.style.display = "none";
             gameBoard.style.display = "grid";
             skipButton.style.display = "block";
             connection.send({ type: "set_name", name: playerNameInput.value || "Guest" });
@@ -545,33 +651,46 @@ function setupConnection(connection, playerId = null) {
             congratsDiv.style.display = "none";
             gameBoard.style.display = "grid";
             skipButton.style.display = "block";
-            connectionStatus.textContent = "Connected!";
+            connectionStatus.style.display = "none";
         } else if (data.type === "add_cards") {
             data.cards.forEach(attrs => gameBoard.appendChild(createCard(attrs)));
         } else if (data.type === "remove_cards") {
             removeCards(data.cardIds);
         }
     });
+    if (isHost && playerId) {
+        connection.on("data", data => {
+            if (data.type === "set_name") {
+                playerNames[playerId] = data.name;
+                broadcast({ type: "update_players", playerNames });
+                updateScoreboard();
+            } else if (data.type === "check_set") {
+                const selectedCards = data.cardIds.map(id => gameBoard.querySelector(`[data-id="${id}"]`));
+                if (selectedCards.every(c => c)) {
+                    checkSelectedSet(selectedCards, data.player);
+                }
+            } else if (data.type === "skip") {
+                handleSkip(data.player);
+            } else if (data.type === "request_restart") {
+                restartGame(false);
+                broadcast({ type: "restart", board: getBoardData(), scores });
+            }
+        });
+    }
     connection.on("close", () => {
-        connectionStatus.textContent = "Disconnected. Playing in single-player mode.";
-        if (isHost) {
-            delete conns[playerId];
-            delete scores[playerId];
-            delete playerNames[playerId];
-            updateScoreboard();
-            broadcast({ type: "update_scores", scores });
-            broadcast({ type: "update_players", playerNames });
-        } else {
-            setupGame();
-        }
+        connectionStatus.style.display = "none";
+        gameBoard.style.display = "none";
+        skipButton.style.display = "none";
+        congratsDiv.style.display = "none";
     });
 }
 
+// Polyfill for Element.closest for older browsers (iOS 9, Android 4.4)
 if (!Element.prototype.closest) {
     Element.prototype.closest = function (s) {
         let el = this;
         do {
-            if (el.matches && el.matches(s)) return el;
+            if (el.matches(s)) return el;
             el = el.parentElement || el.parentNode;
         } while (el !== null && el.nodeType === 1);
         return null;
@@ -608,36 +727,39 @@ function isValidSet(cards) {
     });
 }
 
+// PeerJS compatibility workaround for iOS/Safari, Brave, and Tor Browser
 function getPeerConfig() {
-    if (!navigator.mediaDevices || !window.RTCPeerConnection) {
-        alert("WebRTC is not supported in this browser. Please use a modern browser like Chrome, Firefox, or Safari.");
+    let userAgent = navigator.userAgent.toLowerCase();
+    let isTor = userAgent.includes("torbrowser");
+    let isBrave = userAgent.includes("brave");
+    let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+                (navigator.userAgent.includes("Macintosh") && 'ontouchend' in document);
+    
+    if (isTor) {
+        alert("Tor Browser is not supported because it does not support WebRTC (required for PeerJS).");
         return null;
     }
-    return {
-        host: "peerjs.com",
+    
+    // Use public PeerJS cloud server (works on GitHub Pages and production)
+    let config = {
+        host: "peerjs-server.herokuapp.com",
         secure: true,
         port: 443,
-        debug: 3, // Enable verbose logging for debugging
+        path: "/peerjs",
+        debug: 2,
         config: {
             iceServers: [
                 { urls: "stun:stun.l.google.com:19302" },
-                { urls: "stun:global.stun.twilio.com:3478" },
-                {
-                    urls: "turn:openrelay.metered.ca:80",
-                    username: "openrelayproject",
-                    credential: "openrelayproject"
-                },
-                {
-                    urls: "turn:openrelay.metered.ca:443",
-                    username: "openrelayproject",
-                    credential: "openrelayproject"
-                },
-                {
-                    urls: "turn:openrelay.metered.ca:443?transport=tcp",
-                    username: "openrelayproject",
-                    credential: "openrelayproject"
-                }
+                { urls: "stun:stun1.l.google.com:19302" },
+                { urls: "stun:stun2.l.google.com:19302" },
+                { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
+                // Free public TURN servers (limited reliability)
+                { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
+                { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
+                { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
             ]
         }
     };
+    
+    return config;
 }
