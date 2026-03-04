@@ -740,7 +740,6 @@ function getPeerConfig() {
         return null;
     }
     
-    // Use public PeerJS cloud server (works on GitHub Pages and production)
     let config = {
         host: "peerjs.metered.ca",
         secure: true,
@@ -753,7 +752,6 @@ function getPeerConfig() {
                 { urls: "stun:stun1.l.google.com:19302" },
                 { urls: "stun:stun2.l.google.com:19302" },
                 { urls: "stun:global.stun.twilio.com:3478?transport=udp" },
-                // Free public TURN servers (limited reliability)
                 { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" },
                 { urls: "turn:openrelay.metered.ca:443", username: "openrelayproject", credential: "openrelayproject" },
                 { urls: "turn:openrelay.metered.ca:443?transport=tcp", username: "openrelayproject", credential: "openrelayproject" }
