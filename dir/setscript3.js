@@ -56,6 +56,19 @@ publicPrivateBtn.addEventListener("click", () => {
     publicPrivateBtn.textContent = isGamePublic ? "Public" : "Private";
     publicPrivateBtn.classList.toggle("on", isGamePublic);
     publicPrivateBtn.classList.toggle("off", !isGamePublic);
+
+    // If we already have a peer ID → update public list
+    if (peer && peer.id) {
+        if (isGamePublic) {
+            publicGames.set(peer.id, {
+                name: playerNameInput.value.trim() || "Unnamed Host",
+                isPublic: true
+            });
+        } else {
+            publicGames.delete(peer.id);
+        }
+        updatePublicGames();
+    }
 });
 
 function highlightNameError() {
@@ -435,77 +448,155 @@ function restartGame(keepScore = false) {
 
 function updatePublicGames() {
     activeGames.innerHTML = "";
+
+    if (publicGames.size === 0) {
+        activeGames.innerHTML = '<div style="color:#777; padding:8px;">No public games available</div>';
+        return;
+    }
+
     publicGames.forEach((gameInfo, gameId) => {
-        if (gameInfo.isPublic) {
-            const btn = document.createElement("button");
-            btn.textContent = `${gameInfo.name || "Game"} (${gameId})`;
-            btn.onclick = () => {
-                peerIdInput.value = gameId;
-            };
-            activeGames.appendChild(btn);
-        }
+        if (!gameInfo.isPublic) return;
+
+        const entry = document.createElement("div");
+        entry.style.display = "flex";
+        entry.style.justifyContent = "space-between";
+        entry.style.alignItems = "center";
+        entry.style.padding = "8px 12px";
+        entry.style.margin = "6px 0";
+        entry.style.background = "#f0f8ff";
+        entry.style.borderRadius = "6px";
+        entry.style.cursor = "pointer";
+        entry.style.border = "1px solid #d0e0ff";
+
+        const info = document.createElement("div");
+        info.innerHTML = `<strong>${gameInfo.name || "Game"}</strong><br><small>ID: ${gameId.slice(0,8)}...</small>`;
+
+        const joinBtn = document.createElement("button");
+        joinBtn.textContent = "Join";
+        joinBtn.style.background = "#28a745";
+        joinBtn.style.color = "white";
+        joinBtn.style.border = "none";
+        joinBtn.style.padding = "6px 12px";
+        joinBtn.style.borderRadius = "4px";
+        joinBtn.style.cursor = "pointer";
+
+        entry.appendChild(info);
+        entry.appendChild(joinBtn);
+        activeGames.appendChild(entry);
+
+        // Click anywhere on row → join
+        entry.addEventListener("click", () => {
+            joinGame(gameId);
+        });
+
+        joinBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            joinGame(gameId);
+        });
     });
 }
 
-hostBtn.addEventListener("click", () => {    
+// Helper function - performs the actual join
+function joinGame(gameId) {
+    if (window.location.hostname === "127.0.0.1" || window.location.hostname === "localhost") {
+        alert("Multiplayer requires HTTPS (GitHub Pages / secure host).\nLocal testing only supports single-player.");
+        return;
+    }
+
+    if (peer) peer.destroy();
+
+    const peerConfig = getPeerConfig();
+    if (!peerConfig) return;
+
+    peer = new Peer(peerConfig);
+
+    peer.on("open", () => {
+        conn = peer.connect(gameId);
+        isHost = false;
+        isMultiplayer = true;
+        setupConnection(conn);
+        connectionStatus.style.display = "none";
+        joinMenuRight.style.display = "none";
+        // Optional: hide join interface completely
+        // document.getElementById("join-container").style.display = "none";
+    });
+
+    peer.on("error", err => {
+        console.error("Peer error:", err);
+        connectionStatus.textContent = `Connection error: ${err.type || "Unknown"}`;
+        connectionStatus.style.display = "block";
+    });
+}
+
+hostBtn.addEventListener("click", () => {
     const color = hostBtn.style.backgroundColor;
+
     if (color === "red") {
         // Stop hosting
         hostBtn.style.backgroundColor = "";
         hostBtn.textContent = "Host";
         publicPrivateBtn.style.display = "none";
         joinGameBtn.style.display = "block";
+        if (peer && peer.id) {
+            publicGames.delete(peer.id);
+            updatePublicGames();
+        }
         setupGame();
         connectionStatus.style.display = "none";
         peerIdDisplay.style.display = "none";
-        if (peer && peer.id) {
-            publicGames.delete(peer.id);
-        }
-        updatePublicGames();
         return;
     }
+
     if (color === "green") {
-        // Start game
+        // Start game (green → red transition)
         hostBtn.style.backgroundColor = "red";
         hostBtn.textContent = "Stop";
+
         deck = generateDeck();
         nextCardId = 0;
         scores = Object.fromEntries(Object.keys(playerNames).map(id => [id, 0]));
         gameBoard.innerHTML = "";
         addCards(12);
+
         broadcast({ type: "init_board", board: getBoardData() });
         broadcast({ type: "update_scores", scores });
         broadcast({ type: "update_players", playerNames });
+
         gameBoard.style.display = "grid";
         skipButton.style.display = "block";
         updateScoreboard();
         connectionStatus.style.display = "none";
+
+        // Hide sharing info when game actually starts
+        peerIdDisplay.style.display = "none";
+
         return;
     }
-    
-    // Initial click to start hosting
-    // Validate that player name was entered
+
+    // Initial click → become host (show green "Start" button)
     const playerName = playerNameInput.value.trim();
     if (!playerName) {
         highlightNameError();
         return;
     }
-    
-    // Show public/private button and hide join game button
+
     publicPrivateBtn.style.display = "block";
     publicPrivateBtn.textContent = "Private";
     publicPrivateBtn.classList.remove("on");
     publicPrivateBtn.classList.add("off");
     isGamePublic = false;
+
     joinGameBtn.style.display = "none";
-    joinMenuRight.style.display = "none";
-    
+    joinMenuRight.style.display = "none";   // hide join interface
+
     hostBtn.style.backgroundColor = "green";
     hostBtn.textContent = "Start";
+
     if (peer) peer.destroy();
-    // Use PeerJS config for iOS/Safari compatibility
+
     const peerConfig = getPeerConfig();
-    if (!peerConfig) return; // Abort if Tor
+    if (!peerConfig) return;
+
     peer = new Peer(peerConfig);
     conns = {};
     nextPlayerId = 2;
@@ -516,12 +607,24 @@ hostBtn.addEventListener("click", () => {
 
     peer.on("open", id => {
         console.log("Peer opened with ID:", id);
-        peerIdDisplay.innerHTML = `<strong>Share this ID to invite players:</strong><br><code>${id}</code>`;
+        document.getElementById("peer-id-span").textContent = id;
+        // Move peer-id-display to the same container/area as join menu
+        document.getElementById("join-container").appendChild(peerIdDisplay);
         peerIdDisplay.style.display = "block";
+
         connectionStatus.style.display = "none";
         gameBoard.style.display = "none";
         skipButton.style.display = "none";
         updateScoreboard();
+
+        // If public, add to list immediately
+        if (isGamePublic) {
+            publicGames.set(id, {
+                name: playerName,
+                isPublic: true
+            });
+            updatePublicGames();
+        }
     });
 
     peer.on("connection", connection => {
