@@ -742,7 +742,7 @@ function getPeerConfig() {
     
     // Use public PeerJS cloud server (works on GitHub Pages and production)
     let config = {
-        host: "peerjs-server.herokuapp.com",
+        host: "peerjs.metered.ca",
         secure: true,
         port: 443,
         path: "/peerjs",
