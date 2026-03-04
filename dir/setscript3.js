@@ -746,7 +746,7 @@ function getPeerConfig() {
     // if (isBrave) { console.warn("Brave may require shields down for WebRTC"); }
 
     return {
-        host: "0.peerjs.com",          // ← official & working in 2026
+        host: "0.peerjs.com",          // ← official & working in 2026 updated
         secure: true,
         port: 443,
         path: "/",
