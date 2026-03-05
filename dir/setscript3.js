@@ -18,7 +18,7 @@ const connectionStatus = document.getElementById("connection-status");
 const playerNameInput = document.getElementById("player-name");
 const activeGames = document.getElementById("active-games");
 const joinGameBtn = document.getElementById("join-game-btn");
-const joinMenuRight = document.getElementById("join-menu-right");
+const joinMenu = document.getElementById("join-menu");
 
 const shapes = ["Circle", "Squiggle", "Square"];
 const colors = ["Red", "Blue", "Green"];
@@ -290,7 +290,7 @@ function setupGame() {
     isHost = false;
     myPlayerId = 1;
     scores = { 1: 0 };
-    playerNames = { 1: playerNameInput.value || "Player 1" };
+    playerNames = { 1: playerNameInput?.value || "Player 1" };
     gameEnded = false;
     noSetAwarded = false;
     firstSkipper = null;
@@ -304,13 +304,17 @@ function setupGame() {
     gameBoard.style.display = "grid";
     skipButton.style.display = "block";
     connectionStatus.style.display = "none";
-    multiplayerSetup.style.display = "block";
-    peerIdDisplay.style.display = "none";
-    hostBtn.classList.remove("on");
-    hostBtn.classList.add("off");
-    publicPrivateBtn.style.display = "none";
-    joinGameBtn.style.display = "block";
-    joinMenuRight.style.display = "none";
+    if (multiplayerSetup) multiplayerSetup.style.display = "block";
+
+    if (peerIdDisplay) peerIdDisplay.style.display = "none";
+    if (hostBtn) {
+        hostBtn.classList.remove("on");
+        hostBtn.classList.add("off");
+    }
+    if (publicPrivateBtn) publicPrivateBtn.style.display = "none";
+    if (joinGameBtn) joinGameBtn.style.display = "block";
+    if (joinMenu) joinMenu.style.display = "none";   // ← safe now
+
     updatePublicGames();
 }
 
@@ -531,7 +535,7 @@ function joinGame(gameId) {
         isMultiplayer = true;
         setupConnection(conn);
         connectionStatus.style.display = "none";
-        joinMenuRight.style.display = "none";
+        joinMenu.style.display = "none";
         // Optional: hide join interface completely
         // document.getElementById("join-container").style.display = "none";
     });
@@ -613,7 +617,7 @@ hostBtn.addEventListener("click", () => {
     isGamePublic = false;
 
     joinGameBtn.style.display = "none";
-    joinMenuRight.style.display = "none";   // hide join interface
+    joinMenu.style.display = "none";   // hide join interface
 
     hostBtn.style.backgroundColor = "green";
     hostBtn.textContent = "Start";
@@ -665,6 +669,15 @@ hostBtn.addEventListener("click", () => {
             broadcast({ type: "update_players", playerNames });
             updateScoreboard();
             setupConnection(connection, playerId);
+            console.log(`New player connected: ${playerId}`);
+        });
+
+        connection.on("close", () => {
+            console.log(`CLOSE EVENT FIRED for player ${playerId}`);
+        });
+
+        connection.on("error", err => {
+            console.log("CONN ERROR:", err);
         });
     });
 
@@ -682,7 +695,7 @@ joinGameBtn.addEventListener("click", () => {
         highlightNameError();
         return;
     } else {
-        joinMenuRight.style.display = joinMenuRight.style.display === "none" || joinMenuRight.style.display === "" ? "flex" : "none";
+        joinMenu.style.display = joinMenu.style.display === "none" || joinMenu.style.display === "" ? "flex" : "none";
     }
 });
 
@@ -710,7 +723,7 @@ connectBtn.addEventListener("click", () => {    // Validate game ID is entered
         isMultiplayer = true;
         setupConnection(conn);
         connectionStatus.style.display = "none";
-        joinMenuRight.style.display = "none";
+        joinMenu.style.display = "none";
     });
     peer.on("error", err => {
         console.error("Peer error:", err);
@@ -727,6 +740,8 @@ peerIdInput.addEventListener("keypress", (e) => {
 });
 
 function setupConnection(connection, playerId = null) {
+    let heartbeatInterval;
+    let lastPong = Date.now();
     connection.on("open", () => {
         if (!isHost) {
             myPlayerId = 0;
@@ -735,6 +750,15 @@ function setupConnection(connection, playerId = null) {
             skipButton.style.display = "block";
             connection.send({ type: "set_name", name: playerNameInput.value || "Guest" });
         }
+        heartbeatInterval = setInterval(() => {
+            if (Date.now() - lastPong > 25000) {  // no pong for ~25s → assume dead
+                console.log("Heartbeat timeout → treating as disconnected");
+                connection.emit("close"); // trigger close logic manually
+                connection.close();
+                return;
+            }
+            connection.send({ type: "ping" });
+        }, 8000);
     });
 
     connection.on("data", data => {
@@ -783,10 +807,17 @@ function setupConnection(connection, playerId = null) {
                 updateScoreboard();
             }
         }
+        if (data.type === "ping") {
+            connection.send({ type: "pong" });
+        }
+        if (data.type === "pong") {
+            lastPong = Date.now();
+        }
     });
 
     // ─── DISCONNECT / CLOSE HANDLING ──────────────────────────────────────
     connection.on("close", () => {
+        if (heartbeatInterval) clearInterval(heartbeatInterval);
         if (isHost && playerId) {
             // Host: remove disconnected player
             delete conns[playerId];
@@ -812,10 +843,20 @@ function setupConnection(connection, playerId = null) {
         console.error("Connection error:", err);
         // Optional: treat errors similar to close
     });
-
-    // If host → also listen on peer level for unexpected disconnects
     if (isHost && playerId) {
         // Already handled in connection.on("close")
+    }
+    if (connection.dataChannel) {  // only data connections have this
+        const pc = connection._peerBrowser?.peerConnection || connection.peerConnection;
+        if (pc) {
+            pc.oniceconnectionstatechange = () => {
+                console.log("ICE state:", pc.iceConnectionState);
+                if (pc.iceConnectionState === "disconnected" || pc.iceConnectionState === "failed") {
+                    console.log("ICE disconnected/failed → closing connection");
+                    connection.close(); // trigger 'close' event
+                }
+            };
+        }
     }
 }
 
