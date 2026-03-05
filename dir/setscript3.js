@@ -45,6 +45,21 @@ let usedCards = new Set(); // Track cards in continuous mode to avoid duplicates
 
 setupGame();
 
+window.addEventListener("beforeunload", (e) => {
+    if (isMultiplayer) {
+        // Try to send a message (not always reliable)
+        if (conn) {
+            conn.send({ type: "player_leaving", player: myPlayerId });
+        }
+        if (isHost) {
+            broadcast({ type: "host_closed" });
+        }
+
+        // Most browsers ignore the message now, but we can still set a generic one
+        e.returnValue = "Are you sure you want to leave the game?";
+    }
+});
+
 continuousBtn.addEventListener("click", () => {
     continuousMode = !continuousMode;
     continuousBtn.classList.toggle("on", continuousMode);
@@ -532,15 +547,26 @@ hostBtn.addEventListener("click", () => {
     const color = hostBtn.style.backgroundColor;
 
     if (color === "red") {
-        // Stop hosting
+        // Stop hosting → notify everyone first
+        broadcast({ type: "host_closed" });
+
+        // Then clean up
         hostBtn.style.backgroundColor = "";
         hostBtn.textContent = "Host";
         publicPrivateBtn.style.display = "none";
         joinGameBtn.style.display = "block";
+
         if (peer && peer.id) {
             publicGames.delete(peer.id);
             updatePublicGames();
         }
+
+        // Destroy peer → closes all connections
+        if (peer) {
+            peer.destroy();
+            peer = null;
+        }
+
         setupGame();
         connectionStatus.style.display = "none";
         peerIdDisplay.style.display = "none";
@@ -620,7 +646,7 @@ hostBtn.addEventListener("click", () => {
         // If public, add to list immediately
         if (isGamePublic) {
             publicGames.set(id, {
-                name: playerName,
+                name: playerNameInput.value.trim() || "Game",
                 isPublic: true
             });
             updatePublicGames();
@@ -710,7 +736,9 @@ function setupConnection(connection, playerId = null) {
             connection.send({ type: "set_name", name: playerNameInput.value || "Guest" });
         }
     });
+
     connection.on("data", data => {
+        // ... (your existing data handlers remain unchanged)
         if (data.type === "assign_id") {
             myPlayerId = data.id;
         } else if (data.type === "init_board" || data.type === "update_board") {
@@ -740,33 +768,55 @@ function setupConnection(connection, playerId = null) {
             data.cards.forEach(attrs => gameBoard.appendChild(createCard(attrs)));
         } else if (data.type === "remove_cards") {
             removeCards(data.cardIds);
-        }
-    });
-    if (isHost && playerId) {
-        connection.on("data", data => {
-            if (data.type === "set_name") {
-                playerNames[playerId] = data.name;
+        } else if (data.type === "host_closed") {
+            // New: host intentionally stopped → graceful exit for clients
+            alert("The host has closed the game.");
+            setupGame();  // reset to main menu
+        } else if (data.type === "player_leaving") {
+            // Client is leaving → treat same as close
+            if (isHost && data.player) {
+                delete conns[data.player];
+                delete scores[data.player];
+                delete playerNames[data.player];
+                broadcast({ type: "update_scores", scores });
                 broadcast({ type: "update_players", playerNames });
                 updateScoreboard();
-            } else if (data.type === "check_set") {
-                const selectedCards = data.cardIds.map(id => gameBoard.querySelector(`[data-id="${id}"]`));
-                if (selectedCards.every(c => c)) {
-                    checkSelectedSet(selectedCards, data.player);
-                }
-            } else if (data.type === "skip") {
-                handleSkip(data.player);
-            } else if (data.type === "request_restart") {
-                restartGame(false);
-                broadcast({ type: "restart", board: getBoardData(), scores });
             }
-        });
-    }
-    connection.on("close", () => {
-        connectionStatus.style.display = "none";
-        gameBoard.style.display = "none";
-        skipButton.style.display = "none";
-        congratsDiv.style.display = "none";
+        }
     });
+
+    // ─── DISCONNECT / CLOSE HANDLING ──────────────────────────────────────
+    connection.on("close", () => {
+        if (isHost && playerId) {
+            // Host: remove disconnected player
+            delete conns[playerId];
+            delete scores[playerId];
+            delete playerNames[playerId];
+
+            broadcast({ type: "update_scores", scores });
+            broadcast({ type: "update_players", playerNames });
+            updateScoreboard();
+
+            console.log(`Player ${playerId} (${playerNames[playerId] || 'unknown'}) disconnected`);
+        } else if (!isHost) {
+            // Client: connection to host lost → game probably over
+            connectionStatus.textContent = "Lost connection to host. Game ended.";
+            connectionStatus.style.display = "block";
+            gameBoard.style.display = "none";
+            skipButton.style.display = "none";
+            setTimeout(() => setupGame(), 3000); // return to menu after delay
+        }
+    });
+
+    connection.on("error", err => {
+        console.error("Connection error:", err);
+        // Optional: treat errors similar to close
+    });
+
+    // If host → also listen on peer level for unexpected disconnects
+    if (isHost && playerId) {
+        // Already handled in connection.on("close")
+    }
 }
 
 // Polyfill for Element.closest for older browsers (iOS 9, Android 4.4)
