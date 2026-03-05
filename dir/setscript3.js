@@ -677,12 +677,6 @@ hostBtn.addEventListener("click", () => {
             console.log("CONN ERROR:", err);
         });
     });
-
-    peer.on("error", err => {
-        console.error("Peer error:", err);
-        connectionStatus.textContent = `Error: ${err.type || "Unknown"} - ${err.message || ""}`;
-        connectionStatus.style.display = "block";
-    });
 });
 
 joinGameBtn.addEventListener("click", () => {
