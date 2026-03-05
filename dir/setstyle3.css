@@ -215,17 +215,14 @@ h1 {
 #peer-id-display, #join-menu, #connection-status {
     margin: 10px 0;
 }
-
 #peer-id-display {
-    text-align: center;
-    padding: 25px;
-    background: white;
-    border-radius: 12px;
-    margin: 30px auto;
-    max-width: 450px;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    display: none;
+    position: absolute;
+    top: 110px;           /* adjust so it's below the buttons */
+    right: 20px;
+    width: 280px;
+    z-index: 50;
 }
-
 #peer-id-display strong {
     display: block;
     color: #667eea;

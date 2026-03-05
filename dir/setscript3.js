@@ -304,7 +304,6 @@ function setupGame() {
     gameBoard.style.display = "grid";
     skipButton.style.display = "block";
     connectionStatus.style.display = "none";
-    if (multiplayerSetup) multiplayerSetup.style.display = "block";
 
     if (peerIdDisplay) peerIdDisplay.style.display = "none";
     if (hostBtn) {
@@ -638,8 +637,6 @@ hostBtn.addEventListener("click", () => {
     peer.on("open", id => {
         console.log("Peer opened with ID:", id);
         document.getElementById("peer-id-span").textContent = id;
-        // Move peer-id-display to the same container/area as join menu
-        document.getElementById("join-container").appendChild(peerIdDisplay);
         peerIdDisplay.style.display = "block";
 
         connectionStatus.style.display = "none";
@@ -761,8 +758,16 @@ function setupConnection(connection, playerId = null) {
         }, 8000);
     });
 
+
     connection.on("data", data => {
-        // ... (your existing data handlers remain unchanged)
+        if (data.type === "ping") {
+            connection.send({ type: "pong" });
+            return;
+        }
+        if (data.type === "pong") {
+            lastPong = Date.now();
+            return;
+        }
         if (data.type === "assign_id") {
             myPlayerId = data.id;
         } else if (data.type === "init_board" || data.type === "update_board") {
@@ -806,12 +811,6 @@ function setupConnection(connection, playerId = null) {
                 broadcast({ type: "update_players", playerNames });
                 updateScoreboard();
             }
-        }
-        if (data.type === "ping") {
-            connection.send({ type: "pong" });
-        }
-        if (data.type === "pong") {
-            lastPong = Date.now();
         }
     });
 
