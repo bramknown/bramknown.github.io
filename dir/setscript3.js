@@ -807,6 +807,32 @@ function setupConnection(connection, playerId = null) {
             }
         }
     });
+    if (isHost && playerId) {
+        connection.on("data", data => {
+            if (data.type === "set_name") {
+                playerNames[playerId] = data.name;
+                broadcast({ type: "update_players", playerNames });
+                updateScoreboard();
+            } else if (data.type === "check_set") {
+                const selectedCards = data.cardIds.map(id => gameBoard.querySelector(`[data-id="${id}"]`));
+                if (selectedCards.every(c => c)) {
+                    checkSelectedSet(selectedCards, data.player);
+                }
+            } else if (data.type === "skip") {
+                handleSkip(data.player);
+            } else if (data.type === "request_restart") {
+                restartGame(false);
+                broadcast({ type: "restart", board: getBoardData(), scores });
+            }
+        });
+    }
+    connection.on("close", () => {
+        connectionStatus.style.display = "none";
+        gameBoard.style.display = "none";
+        skipButton.style.display = "none";
+        congratsDiv.style.display = "none";
+    });
+}
 
     // ─── DISCONNECT / CLOSE HANDLING ──────────────────────────────────────
     connection.on("close", () => {
