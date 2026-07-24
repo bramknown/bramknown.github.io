@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<head>
+<title>Random Quiz</title>
+<style>
+      .bg{
+          background-image: url("CatMouse.png");
+        background-repeat: no-repeat;
+        background-size: cover;
+            }
+      .questionbox {
+        position: relative;
+        background-color:rgb(221, 229, 230);
+        border: 3px;
+        border-style: solid;
+        border-color: rgb(107, 242, 147);
+        padding: 10px;
+        margin-right: 540px;
+        margin-left: 540px;
+        margin-top: 120px;
+        height: 400px;
+      }
+
+</style>
+</head>
+<body>
+<center>
+
+<body text="black" link="red" vlink="purple" alink="blue" bgcolor="white" div class="bg">
+  <div class="questionbox">
+  <h4>Welcome to my game!</h4>
+<div>
+ <h2 id="test_status">Math Quiz</h2>
+ <h3 id="timeleft">Time left</h3>
+</div>
+<div id="test"></div>
+</div>
+
+<script>
+var myVar;
+function startTimer() {
+  myVar = setInterval(function(){myTimer()},1000);
+  timelimit = maxtimelimit;
+}
+
+function myTimer() {
+  if (timelimit > 0) {
+    curmin=Math.floor(timelimit/60);
+    cursec=timelimit%60;
+    if (curmin!=0) { curtime=curmin+" minutes and "+cursec+" seconds left"; }
+              else { curtime=cursec+" seconds left"; }
+    $_('timeleft').innerHTML = curtime;
+  } else {
+    $_('timeleft').innerHTML = timelimit+' - Out of Time - no credit given for answer';
+    checkAnswer();
+  }
+  timelimit--;
+} 
+
+
+
+var pos = 0, posn, choice, correct = 0, rscore = 0;
+var timelimit = 90; 
+
+var questions = [
+  ['what is opposite of Dog','Cat'],     ['what is opposite of King','Queen'],  ['what is opposite of Boy','Girl'],     ['what is opposite of Night','Day'], ['what is opposite of Deep','Shallow'],
+  ['what is opposite of Desk','Chair'],  ['what is opposite of Nice','Mean'],['what is opposite of Bad','Good'], ['what is opposite of Coffee','Tea'],        ['what is opposite of Shirt','Pants'],
+  ['what is opposite of Close','Open'], ['what is opposite of Sun','Rain'],   ['what is opposite of Rats','Mice'],    ['what is opposite of Right','Left'],         ['what is opposite of Laugh','Cry'],
+  ['what is opposite of Angel','Devil'],  ['what is opposite of Early','Late'],        ['what is opposite of Friend','Enemy'],          ['what is opposite of Land','Water'], 
+  ['what is opposite of Chair','Table'], ['what is opposite of First','Last'],  ['what is opposite of Square','Circle'],   ['what is opposite of Triangle','Rectangle'], ['what is opposite of Mum','Dad'],
+  ['what is opposite of Brother','Sister'], ['what is opposite of Me', 'You']
+];
+
+var questionOrder = [];
+  var maxNumberOfQuestions = questions.length;  
+  var maxNumberToDisplay = 10;
+
+function setQuestionOrder() {
+  questionOrder.length = 0;
+  for (var i=0; i<maxNumberOfQuestions; i++) { questionOrder.push(i); }
+  questionOrder.sort(randOrd);   
+  pos = 0;  posn = questionOrder[pos];
+}
+
+function $_(IDS) { return document.getElementById(IDS); }
+function randOrd() { return (Math.round(Math.random())-0.5); }
+function renderResults(){
+  var test = $_("test");
+  test.innerHTML = "<h2>You got "+correct+" out of "+maxNumberToDisplay +" questions correct</h2>";
+  $_("test_status").innerHTML = "Test Completed";
+  $_('timeleft').innerHTML = '';
+  test.innerHTML += '<button onclick="location.reload()">Re-test</a> ';
+  setQuestionOrder();
+  correct = 0;
+  clearInterval(myVar);
+  return false;
+}
+function renderQuestion() {
+  var test = $_("test");
+  $_("test_status").innerHTML = "Question "+(pos+1)+" of "+maxNumberToDisplay;
+  if (rscore != 0) { $_("test_status").innerHTML += '<br>Currently: '+(correct/rscore*100).toFixed(0)+'% correct'; }
+  var question = questions[posn][0];
+  var chA = questions[posn][1];
+  test.innerHTML = "<h3>"+question+"</h3>";
+  test.innerHTML += "<input type='text' id='choices' value=''><p>";
+  test.innerHTML += "<button onclick='checkAnswer()'>Submit Answer</button>";
+}
+function setupTimer() {
+  clearInterval(myVar);
+  startTimer();
+}
+
+function checkAnswer(){
+  var correctChoice = questions[posn][1];
+  var userChoice = document.getElementById("choices").value;
+  rscore++;
+  if (userChoice.toLowerCase() == correctChoice.toLowerCase() && timelimit > 0) { correct++; }
+  pos++;  posn = questionOrder[pos];
+  if (pos < maxNumberToDisplay) { renderQuestion(); } else { renderResults(); }
+}
+
+window.onload = function() {
+  setQuestionOrder();
+  renderQuestion();
+  setupTimer();  
+}
+</script>
+</body>
+</html>
