@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chemistry & Physics Reference Sheets</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="logo">
+        <span class="logo-icon">⚛</span>
+        <span class="logo-text">ChemPhys Reference</span>
+      </div>
+      <nav class="main-nav" id="mainNav">
+        <a href="#ions" class="nav-link active" data-section="ions">Common Ions</a>
+        <a href="#solubility" class="nav-link" data-section="solubility">Solubility Rules</a>
+        <a href="#constants" class="nav-link" data-section="constants">Constants & Prefixes</a>
+        <a href="#physics" class="nav-link" data-section="physics">Physics Data</a>
+        <a href="#solar" class="nav-link" data-section="solar">Solar System</a>
+        <a href="#formulas" class="nav-link" data-section="formulas">Formulas</a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="search-bar">
+    <div class="container">
+      <input type="search" id="searchInput" placeholder="Search ions, formulas, constants..." autocomplete="off">
+      <span class="search-icon">⌕</span>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- ========== COMMON IONS ========== -->
+    <section id="ions" class="content-section active">
+      <h1>Names, Formulas and Charges of Common Ions</h1>
+
+      <div class="table-wrapper">
+        <h2>Positive Ions (Cations)</h2>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th colspan="2">1+</th>
+              <th colspan="2">2+</th>
+              <th colspan="2">3+</th>
+              <th colspan="2">4+</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Ammonium</td><td>NH₄⁺</td>
+              <td>Barium</td><td>Ba²⁺</td>
+              <td>Aluminium</td><td>Al³⁺</td>
+              <td>Tin(IV)<br><small>(Stannic)</small></td><td>Sn⁴⁺</td>
+            </tr>
+            <tr>
+              <td>Caesium</td><td>Cs⁺</td>
+              <td>Calcium</td><td>Ca²⁺</td>
+              <td>Antimony(III)</td><td>Sb³⁺</td>
+              <td>Lead(IV)<br><small>(Plumbic)</small></td><td>Pb⁴⁺</td>
+            </tr>
+            <tr>
+              <td>Copper(I)<br><small>(Cuprous)</small></td><td>Cu⁺</td>
+              <td>Chromium(II)</td><td>Cr²⁺</td>
+              <td>Arsenic(III)</td><td>As³⁺</td>
+              <td>Manganese(IV)</td><td>Mn⁴⁺</td>
+            </tr>
+            <tr>
+              <td>Gold(I)</td><td>Au⁺</td>
+              <td>Cobalt(II)</td><td>Co²⁺</td>
+              <td>Bismuth(III)</td><td>Bi³⁺</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydrogen</td><td>H⁺</td>
+              <td>Copper(II)<br><small>(Cupric)</small></td><td>Cu²⁺</td>
+              <td>Chromium(III)</td><td>Cr³⁺</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Lithium</td><td>Li⁺</td>
+              <td>Iron(II)<br><small>(Ferrous)</small></td><td>Fe²⁺</td>
+              <td>Cobalt(III)</td><td>Co³⁺</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Potassium</td><td>K⁺</td>
+              <td>Lead(II)<br><small>(Plumbous)</small></td><td>Pb²⁺</td>
+              <td>Iron(III)<br><small>(Ferric)</small></td><td>Fe³⁺</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Rubidium</td><td>Rb⁺</td>
+              <td>Magnesium</td><td>Mg²⁺</td>
+              <td>Manganese(III)</td><td>Mn³⁺</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Silver</td><td>Ag⁺</td>
+              <td>Manganese(II)</td><td>Mn²⁺</td>
+              <td>Titanium(III)</td><td>Ti³⁺</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Sodium</td><td>Na⁺</td>
+              <td>Mercury(I)<br><small>(Mercurous)</small></td><td>Hg₂²⁺</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td>
+              <td>Mercury(II)<br><small>(Mercuric)</small></td><td>Hg²⁺</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td>
+              <td>Nickel(II)</td><td>Ni²⁺</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td>
+              <td>Tin(II)<br><small>(Stannous)</small></td><td>Sn²⁺</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td></td><td></td>
+              <td>Zinc</td><td>Zn²⁺</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrapper">
+        <h2>Negative Ions (Anions)</h2>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th colspan="2">1-</th>
+              <th colspan="2">2-</th>
+              <th colspan="2">3-</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Acetate</td><td>C₂H₃O₂⁻</td>
+              <td>Carbonate</td><td>CO₃²⁻</td>
+              <td>Arsenate</td><td>AsO₄³⁻</td>
+            </tr>
+            <tr>
+              <td>Bromate</td><td>BrO₃⁻</td>
+              <td>Chromate</td><td>CrO₄²⁻</td>
+              <td>Borate</td><td>BO₃³⁻</td>
+            </tr>
+            <tr>
+              <td>Bromide</td><td>Br⁻</td>
+              <td>Dichromate</td><td>Cr₂O₇²⁻</td>
+              <td>Nitride</td><td>N³⁻</td>
+            </tr>
+            <tr>
+              <td>Chlorate</td><td>ClO₃⁻</td>
+              <td>Hydrogen Phosphate<br><small>(Biphosphate)</small></td><td>HPO₄²⁻</td>
+              <td>Phosphate</td><td>PO₄³⁻</td>
+            </tr>
+            <tr>
+              <td>Chloride</td><td>Cl⁻</td>
+              <td>Oxide</td><td>O²⁻</td>
+              <td>Phosphide</td><td>P³⁻</td>
+            </tr>
+            <tr>
+              <td>Cyanide</td><td>CN⁻</td>
+              <td>Oxalate</td><td>C₂O₄²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Dihydrogen Phosphate</td><td>H₂PO₄⁻</td>
+              <td>Peroxide</td><td>O₂²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Fluoride</td><td>F⁻</td>
+              <td>Silicate</td><td>SiO₃²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydride</td><td>H⁻</td>
+              <td>Sulfate</td><td>SO₄²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydrogen Carbonate<br><small>(Bicarbonate)</small></td><td>HCO₃⁻</td>
+              <td>Sulfide</td><td>S²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydrogen Oxalate</td><td>HC₂O₄⁻</td>
+              <td>Sulfite</td><td>SO₃²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydrogen Sulfate<br><small>(Bisulfate)</small></td><td>HSO₄⁻</td>
+              <td>Thiosulfate</td><td>S₂O₃²⁻</td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydrogen Sulfide<br><small>(Bisulfide)</small></td><td>HS⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hydroxide</td><td>OH⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Hypochlorite</td><td>ClO⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Iodide</td><td>I⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Nitrate</td><td>NO₃⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Nitrite</td><td>NO₂⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Perchlorate</td><td>ClO₄⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Permanganate</td><td>MnO₄⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+            <tr>
+              <td>Thiocyanate</td><td>SCN⁻</td>
+              <td></td><td></td>
+              <td></td><td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== SOLUBILITY RULES ========== -->
+    <section id="solubility" class="content-section">
+      <h1>Solubility Rules</h1>
+      <ol class="rules-list">
+        <li>
+          <strong>All compounds of the ammonium ion (NH₄⁺) and of Alkali metal (Group IA) cations are soluble.</strong>
+        </li>
+        <li>
+          <strong>All nitrates and acetates (ethanoates) are soluble.</strong>
+        </li>
+        <li>
+          <strong>All chlorides, bromides and iodides are soluble EXCEPT those of silver, lead and mercury(I).</strong>
+        </li>
+        <li>
+          <strong>All sulphates are soluble EXCEPT those of silver, lead, mercury(I), barium, strontium and calcium.</strong>
+        </li>
+        <li>
+          <strong>All carbonates, sulfites and phosphates are insoluble EXCEPT those of ammonium and Alkali metal (Group IA) cations.</strong>
+        </li>
+        <li>
+          <strong>All hydroxides are insoluble EXCEPT those of ammonium, barium and alkali metal (Group I) cations.</strong>
+        </li>
+        <li>
+          <strong>All sulfides are insoluble EXCEPT those of ammonium, Alkali metal (Group I) cations and Alkali earth metal (Group II) cations.</strong>
+        </li>
+        <li>
+          <strong>All oxides are insoluble EXCEPT those of calcium, barium and Alkali metal (Group I) cations; these soluble ones actually react with the water to form hydroxides (hydrolyse).</strong>
+        </li>
+      </ol>
+    </section>
+
+    <!-- ========== CONSTANTS & PREFIXES ========== -->
+    <section id="constants" class="content-section">
+      <h1>Constants & SI Prefixes</h1>
+
+      <div class="grid-2">
+        <div class="card">
+          <h2>Key Constants</h2>
+          <ul class="data-list">
+            <li><span>N<sub>A</sub></span> <span>6.02 x 10²³</span></li>
+            <li><span>Value of R</span> <span>0.0821 L·atm·mol⁻¹·K⁻¹<br>62.4 L·mmHg·mol⁻¹·K⁻¹<br>8.31 J·mol⁻¹·K⁻¹<br>8.31 L·kPa·mol⁻¹·K⁻¹</span></li>
+            <li><span>Volume of 1 mol gas at 0 °C</span> <span>22.4 L</span></li>
+            <li><span>Volume of 1 mol gas at 25 °C</span> <span>24.5 L</span></li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2>SI Prefixes for Decimal Multiples</h2>
+          <div class="table-wrapper">
+            <table class="ref-table compact">
+              <thead>
+                <tr>
+                  <th>Number</th>
+                  <th>Factor</th>
+                  <th>Notation</th>
+                  <th>Name</th>
+                  <th>Symbol</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>1 000 000 000 000 000 000</td><td>10¹⁸</td><td>E+18</td><td>exa</td><td>E</td></tr>
+                <tr><td>1 000 000 000 000 000</td><td>10¹⁵</td><td>E+15</td><td>peta</td><td>P</td></tr>
+                <tr><td>1 000 000 000 000</td><td>10¹²</td><td>E+12</td><td>tera</td><td>T</td></tr>
+                <tr><td>1 000 000 000</td><td>10⁹</td><td>E+09</td><td>giga</td><td>G</td></tr>
+                <tr><td>1 000 000</td><td>10⁶</td><td>E+06</td><td>mega</td><td>M</td></tr>
+                <tr><td>1 000</td><td>10³</td><td>E+03</td><td>kilo</td><td>k</td></tr>
+                <tr><td>100</td><td>10²</td><td>E+02</td><td>hecto</td><td>h</td></tr>
+                <tr><td>10</td><td>10¹</td><td>E+01</td><td>deca</td><td>da</td></tr>
+                <tr><td>0.1</td><td>10⁻¹</td><td>E-01</td><td>deci</td><td>d</td></tr>
+                <tr><td>0.01</td><td>10⁻²</td><td>E-02</td><td>centi</td><td>c</td></tr>
+                <tr><td>0.001</td><td>10⁻³</td><td>E-03</td><td>milli</td><td>m</td></tr>
+                <tr><td>0.000 001</td><td>10⁻⁶</td><td>E-06</td><td>micro</td><td>μ</td></tr>
+                <tr><td>0.000 000 001</td><td>10⁻⁹</td><td>E-09</td><td>nano</td><td>n</td></tr>
+                <tr><td>0.000 000 000 001</td><td>10⁻¹²</td><td>E-12</td><td>pico</td><td>p</td></tr>
+                <tr><td>0.000 000 000 000 001</td><td>10⁻¹⁵</td><td>E-15</td><td>femto</td><td>f</td></tr>
+                <tr><td>0.000 000 000 000 000 001</td><td>10⁻¹⁸</td><td>E-18</td><td>atto</td><td>a</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Indicators for Titrations</h2>
+        <div class="table-wrapper">
+          <table class="ref-table">
+            <thead>
+              <tr>
+                <th>Indicator</th>
+                <th>Colour Change<br><small>(low pH colour → high pH colour)</small></th>
+                <th>pH Range</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Methyl orange</td><td>red → yellow</td><td>3.1 - 4.4</td>
+              </tr>
+              <tr>
+                <td>Bromophenol blue</td><td>yellow → blue</td><td>3.0 - 4.6</td>
+              </tr>
+              <tr>
+                <td>Methyl red</td><td>red → yellow</td><td>4.4 - 6.0</td>
+              </tr>
+              <tr>
+                <td>Bromothymol blue</td><td>yellow → blue</td><td>6.0 - 7.6</td>
+              </tr>
+              <tr>
+                <td>Phenol red</td><td>yellow → red</td><td>6.8 - 8.4</td>
+              </tr>
+              <tr>
+                <td>Phenolphthalein</td><td>colourless → pink</td><td>8.2 - 10.0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== PHYSICS DATA ========== -->
+    <section id="physics" class="content-section">
+      <h1>Physics Data Sheet</h1>
+
+      <div class="table-wrapper">
+        <h2>Fundamental Physical Constants</h2>
+        <table class="ref-table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Symbol</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Atomic Mass Unit</td><td>m<sub>u</sub></td><td>1.6605387(13) x 10⁻²⁷ kg</td></tr>
+            <tr><td>Bohr Radius</td><td>a<sub>0</sub></td><td>0.5291772083(19) x 10⁻¹⁰ m</td></tr>
+            <tr><td>Boltzmann's Constant</td><td>k</td><td>1.3806503(24) x 10⁻²³ J·K⁻¹</td></tr>
+            <tr><td>Electric Constant</td><td>ε<sub>0</sub></td><td>8.854187817 x 10⁻¹² F·m⁻¹</td></tr>
+            <tr><td>Electron Mass</td><td>m<sub>e</sub></td><td>9.10938188(72) x 10⁻³¹ kg</td></tr>
+            <tr><td>Electron-Volt</td><td>eV</td><td>1.602176462(63) x 10⁻¹⁹ J</td></tr>
+            <tr><td>Elementary Charge</td><td>e</td><td>1.602176462(63) x 10⁻¹⁹ C</td></tr>
+            <tr><td>Faraday Constant</td><td>F</td><td>9.64853415(39) x 10⁴ C·mol⁻¹</td></tr>
+            <tr><td>Hydrogen Ground State</td><td></td><td>13.6057 eV</td></tr>
+            <tr><td>Magnetic Constant</td><td>μ<sub>0</sub></td><td>4π x 10⁻⁷ N·A⁻²</td></tr>
+            <tr><td>Newtonian Constant of Gravitation</td><td>G</td><td>6.673(10) x 10⁻¹¹ m³·kg⁻¹·s⁻²</td></tr>
+            <tr><td>Neutron Mass</td><td>m<sub>n</sub></td><td>1.67492716(13) x 10⁻²⁷ kg</td></tr>
+            <tr><td>Planck Constant</td><td>h</td><td>6.62606876(52) x 10⁻³⁴ J·s</td></tr>
+            <tr><td>Proton Mass</td><td>m<sub>p</sub></td><td>1.67262158(13) x 10⁻²⁷ kg</td></tr>
+            <tr><td>Rydberg Constant</td><td>R<sub>∞</sub></td><td>1.0973731568549(83) x 10⁷ m⁻¹</td></tr>
+            <tr><td>Stefan-Boltzmann Constant</td><td>σ</td><td>5.670400(40) x 10⁻⁸ W·m⁻²·K⁻⁴</td></tr>
+            <tr><td>Speed of Light in Vacuum</td><td>c</td><td>2.99792458 x 10⁸ m·s⁻¹</td></tr>
+            <tr><td>Earth's Gravitational Acceleration</td><td>g</td><td>9.80 m·s⁻²</td></tr>
+            <tr><td>Astronomical Unit</td><td>AU</td><td>1.50 x 10¹¹ m</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="table-wrapper">
+        <h2>Decimal Prefixes and Multiples / Powers of Ten</h2>
+        <table class="ref-table compact">
+          <thead>
+            <tr>
+              <th>Multiple</th>
+              <th>Prefix</th>
+              <th>Symbol</th>
+              <th>Common Name</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>10¹²</td><td>tera</td><td>T</td><td>trillion</td></tr>
+            <tr><td>10⁹</td><td>giga</td><td>G</td><td>billion</td></tr>
+            <tr><td>10⁶</td><td>mega</td><td>M</td><td>million</td></tr>
+            <tr><td>10³</td><td>kilo</td><td>k</td><td>thousand</td></tr>
+            <tr><td>10⁻³</td><td>milli</td><td>m</td><td>thousandth</td></tr>
+            <tr><td>10⁻⁶</td><td>micro</td><td>μ</td><td>millionth</td></tr>
+            <tr><td>10⁻⁹</td><td>nano</td><td>n</td><td>billionth</td></tr>
+            <tr><td>10⁻¹²</td><td>pico</td><td>p</td><td>trillionth</td></tr>
+            <tr><td>10⁻¹⁵</td><td>femto</td><td>f</td><td>quadrillionth</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== SOLAR SYSTEM ========== -->
+    <section id="solar" class="content-section">
+      <h1>Solar System Reference</h1>
+      <div class="table-wrapper">
+        <table class="ref-table solar-table">
+          <thead>
+            <tr>
+              <th>Body</th>
+              <th>Mass</th>
+              <th>Mean Radius</th>
+              <th>Distance from Sun</th>
+              <th>Period</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Sun</strong></td>
+              <td>1.99 x 10³⁰ kg</td>
+              <td>6.96 x 10⁸ m</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+            <tr>
+              <td><strong>Mercury</strong></td>
+              <td>3.18 x 10²³ kg</td>
+              <td>2.43 x 10⁶ m</td>
+              <td>5.79 x 10¹⁰ m</td>
+              <td>7.60 x 10⁶ s</td>
+            </tr>
+            <tr>
+              <td><strong>Venus</strong></td>
+              <td>4.88 x 10²⁴ kg</td>
+              <td>6.06 x 10⁶ m</td>
+              <td>1.08 x 10¹¹ m</td>
+              <td>1.94 x 10⁷ s</td>
+            </tr>
+            <tr>
+              <td><strong>Earth</strong></td>
+              <td>5.98 x 10²⁴ kg</td>
+              <td>6.38 x 10⁶ m</td>
+              <td>1.50 x 10¹¹ m</td>
+              <td>3.156 x 10⁷ s</td>
+            </tr>
+            <tr>
+              <td><strong>Mars</strong></td>
+              <td>6.42 x 10²³ kg</td>
+              <td>3.37 x 10⁶ m</td>
+              <td>2.28 x 10¹¹ m</td>
+              <td>5.94 x 10⁷ s</td>
+            </tr>
+            <tr>
+              <td><strong>Jupiter</strong></td>
+              <td>1.90 x 10²⁷ kg</td>
+              <td>6.99 x 10⁷ m</td>
+              <td>7.78 x 10¹¹ m</td>
+              <td>3.74 x 10⁸ s</td>
+            </tr>
+            <tr>
+              <td><strong>Saturn</strong></td>
+              <td>5.68 x 10²⁶ kg</td>
+              <td>5.85 x 10⁷ m</td>
+              <td>1.43 x 10¹² m</td>
+              <td>9.26 x 10⁸ s</td>
+            </tr>
+            <tr>
+              <td><strong>Uranus</strong></td>
+              <td>8.68 x 10²⁵ kg</td>
+              <td>2.33 x 10⁷ m</td>
+              <td>2.87 x 10¹² m</td>
+              <td>2.64 x 10⁹ s</td>
+            </tr>
+            <tr>
+              <td><strong>Neptune</strong></td>
+              <td>1.03 x 10²⁶ kg</td>
+              <td>2.21 x 10⁷ m</td>
+              <td>4.50 x 10¹² m</td>
+              <td>5.20 x 10⁹ s</td>
+            </tr>
+            <tr>
+              <td><strong>Pluto</strong></td>
+              <td>1.5 x 10²² kg</td>
+              <td>1.5 x 10⁶ m</td>
+              <td>5.9 x 10¹² m</td>
+              <td>7.82 x 10⁹ s</td>
+            </tr>
+            <tr>
+              <td><strong>Moon</strong></td>
+              <td>7.36 x 10²² kg</td>
+              <td>1.74 x 10⁶ m</td>
+              <td>—</td>
+              <td>—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ========== FORMULAS ========== -->
+    <section id="formulas" class="content-section">
+      <h1>Useful Formulas</h1>
+
+      <div class="formulas-grid">
+        <!-- Mechanics / Motion -->
+        <div class="card formula-card">
+          <h3>Mechanics & Motion</h3>
+          <ul class="formula-list">
+            <li><code>v = u + at</code></li>
+            <li><code>s = ut + ½at²</code></li>
+            <li><code>v² = u² + 2as</code></li>
+            <li><code>s = (u + v)/2 x t</code></li>
+            <li><code>F = ma</code></li>
+            <li><code>W = mg</code></li>
+            <li><code>p = mv</code></li>
+            <li><code>F = Δp / Δt</code></li>
+            <li><code>KE = ½mv²</code></li>
+            <li><code>PE = mgh</code></li>
+            <li><code>W = Fs</code></li>
+            <li><code>P = W / t</code></li>
+            <li><code>P = Fv</code></li>
+          </ul>
+        </div>
+
+        <!-- Electricity -->
+        <div class="card formula-card">
+          <h3>Electricity</h3>
+          <ul class="formula-list">
+            <li><code>V = IR</code></li>
+            <li><code>P = VI</code></li>
+            <li><code>P = I²R</code></li>
+            <li><code>P = V² / R</code></li>
+            <li><code>Q = It</code></li>
+            <li><code>W = QV</code></li>
+            <li><code>R = ρL / A</code></li>
+            <li><code>R<sub>T</sub> = R₁ + R₂ + R₃ + …</code> <small>(series)</small></li>
+            <li><code>1/R<sub>T</sub> = 1/R₁ + 1/R₂ + 1/R₃ + …</code> <small>(parallel)</small></li>
+            <li><code>C = Q / V</code></li>
+            <li><code>C<sub>T</sub> = C₁ + C₂ + C₃ + …</code> <small>(parallel)</small></li>
+            <li><code>1/C<sub>T</sub> = 1/C₁ + 1/C₂ + 1/C₃ + …</code> <small>(series)</small></li>
+            <li><code>τ = RC</code></li>
+          </ul>
+        </div>
+
+        <!-- Magnetism & Induction -->
+        <div class="card formula-card">
+          <h3>Magnetism & Induction</h3>
+          <ul class="formula-list">
+            <li><code>F = BIl sinθ</code></li>
+            <li><code>F = qvB sinθ</code></li>
+            <li><code>B = μ₀I / (2πd)</code></li>
+            <li><code>B = μ₀nI</code></li>
+            <li><code>Φ = BA cosθ</code></li>
+            <li><code>ε = -N ΔΦ / Δt</code></li>
+            <li><code>ε = BLv sinθ</code></li>
+            <li><code>τ = nBIA cosθ</code></li>
+          </ul>
+        </div>
+
+        <!-- Waves & Light -->
+        <div class="card formula-card">
+          <h3>Waves & Light</h3>
+          <ul class="formula-list">
+            <li><code>v = fλ</code></li>
+            <li><code>T = 1 / f</code></li>
+            <li><code>n₁ sinθ₁ = n₂ sinθ₂</code></li>
+            <li><code>n = c / v</code></li>
+            <li><code>1/f = 1/u + 1/v</code></li>
+            <li><code>m = v / u</code></li>
+          </ul>
+        </div>
+
+        <!-- Quantum & Modern -->
+        <div class="card formula-card">
+          <h3>Quantum & Modern Physics</h3>
+          <ul class="formula-list">
+            <li><code>E = hf</code></li>
+            <li><code>E = hc / λ</code></li>
+            <li><code>KE<sub>max</sub> = hf - W</code></li>
+            <li><code>λ = h / p</code></li>
+            <li><code>E = mc²</code></li>
+            <li><code>N = N₀ e<sup>-λt</sup></code></li>
+            <li><code>T<sub>½</sub> = 0.693 / λ</code></li>
+            <li><code>A = λN</code></li>
+          </ul>
+        </div>
+
+        <!-- Gravitation & Circular -->
+        <div class="card formula-card">
+          <h3>Gravitation & Circular Motion</h3>
+          <ul class="formula-list">
+            <li><code>F = Gm₁m₂ / r²</code></li>
+            <li><code>g = GM / r²</code></li>
+            <li><code>v = √(GM / r)</code></li>
+            <li><code>T² / r³ = 4π² / GM</code></li>
+            <li><code>a = v² / r</code></li>
+            <li><code>F = mv² / r</code></li>
+            <li><code>ω = 2π / T</code></li>
+            <li><code>v = rω</code></li>
+          </ul>
+        </div>
+
+        <!-- Thermal & Ideal Gas -->
+        <div class="card formula-card">
+          <h3>Thermal & Ideal Gas</h3>
+          <ul class="formula-list">
+            <li><code>Q = mcΔT</code></li>
+            <li><code>Q = mL</code></li>
+            <li><code>PV = nRT</code></li>
+            <li><code>P₁V₁ / T₁ = P₂V₂ / T₂</code></li>
+            <li><code>R = kA(T₁ - T₂) / d</code> <small>(conduction)</small></li>
+          </ul>
+        </div>
+
+        <!-- AC & Transformers -->
+        <div class="card formula-card">
+          <h3>AC, Transformers & Circuits</h3>
+          <ul class="formula-list">
+            <li><code>V<sub>p</sub> / V<sub>s</sub> = N<sub>p</sub> / N<sub>s</sub></code></li>
+            <li><code>V<sub>p</sub> I<sub>p</sub> = V<sub>s</sub> I<sub>s</sub></code> <small>(ideal)</small></li>
+            <li><code>V<sub>rms</sub> = V<sub>peak</sub> / √2</code></li>
+            <li><code>I<sub>rms</sub> = I<sub>peak</sub> / √2</code></li>
+            <li><code>V = V₀ sin(2πft)</code></li>
+            <li><code>I = I₀ e<sup>-t/RC</sup></code></li>
+            <li><code>q(t) = Q(1 - e<sup>-t/RC</sup>)</code></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p>Chemistry & Physics Reference Sheets</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

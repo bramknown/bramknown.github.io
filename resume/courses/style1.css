@@ -1,0 +1,186 @@
+:root {
+  --ink: #2c1810;
+  --paper: #f5e6c8;
+  --aged: #e8d5b0;
+  --accent: #8B4513;
+  --gold: #c9a227;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, 'Times New Roman', serif;
+  background: 
+    radial-gradient(ellipse at center, #f8ecd4 0%, #e0c9a0 100%);
+  color: var(--ink);
+  min-height: 100vh;
+  line-height: 1.5;
+  padding: 1rem;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 1rem;
+  border-bottom: 3px double var(--ink);
+  margin-bottom: 2rem;
+  background: linear-gradient(to bottom, var(--paper), var(--aged));
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+header h1 {
+  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  font-size: 2rem;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+header p {
+  font-style: italic;
+  max-width: 700px;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+.diagrams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.diagram-card {
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 1rem;
+  box-shadow: 
+    4px 4px 0 rgba(44,24,16,0.15),
+    inset 0 0 30px rgba(139,69,19,0.08);
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.diagram-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    6px 6px 0 rgba(44,24,16,0.2),
+    inset 0 0 30px rgba(139,69,19,0.1);
+}
+
+.diagram-card.wide {
+  grid-column: 1 / -1;
+}
+
+.diagram-card h2 {
+  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  font-size: 1.15rem;
+  text-align: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--accent);
+  color: var(--ink);
+}
+
+.svg-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #faf3e3;
+  border: 1px solid #c9b896;
+  border-radius: 3px;
+  padding: 0.5rem;
+  overflow: hidden;
+}
+
+.svg-container.large {
+  max-height: 520px;
+}
+
+.svg-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.label {
+  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, 'Times New Roman', serif;
+  font-size: 14px;
+  fill: var(--ink);
+}
+
+.label.small {
+  font-size: 11px;
+}
+
+.label.tiny {
+  font-size: 9px;
+}
+
+.caption {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.6rem;
+  text-align: center;
+  color: #5a4030;
+}
+
+/* Table styling */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  background: #faf3e3;
+}
+
+th, td {
+  border: 1px solid var(--ink);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+}
+
+th {
+  background: #e8d5b0;
+  font-family: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+tr:nth-child(even) {
+  background: #f0e4c8;
+}
+
+tr:hover {
+  background: #e8d5b0;
+}
+
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  padding: 1.5rem;
+  border-top: 2px solid var(--ink);
+  font-size: 0.9rem;
+  color: #5a4030;
+}
+
+/* Interactive highlight */
+.diagram-card.active {
+  outline: 3px solid var(--gold);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  header h1 {
+    font-size: 1.4rem;
+  }
+  .diagrams-grid {
+    grid-template-columns: 1fr;
+  }
+}
