@@ -35,7 +35,7 @@ window.addEventListener('scroll', () => {
 
 // Print functionality
 const printBtn = document.createElement('button');
-printBtn.textContent = 'Print Resume';
+printBtn.textContent = 'Print Document';
 printBtn.style.position = 'fixed';
 printBtn.style.bottom = '20px';
 printBtn.style.right = '20px';

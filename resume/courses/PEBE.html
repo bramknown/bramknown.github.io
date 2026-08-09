@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HiveMind | Honey Hive Technology</title>
+    <link rel="icon" type="image/png" href="doc/logo.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.2/p5.min.js"></script>
+    <link rel="stylesheet" href="doc/bees.css">
+</head>
+<body>
+    <header>
+        <div class="brand">
+            <img src="doc/logo.png" alt="HiveMind Logo" class="logo">
+            <div>
+                <h1>Honey Hive Technology</h1>
+                <div class="subtitle">Digitalisation and AI Sustainability – Agriculture</div>
+                <div class="team">Team Leader: Bram Spriensma · Team: Hussain, Nanchong, Huanjian, Yichen</div>
+            </div>
+        </div>
+    </header>
+
+    <nav>
+        <a href="#industry" class="active" data-section="industry">Honey Industry</a>
+        <a href="#crisis" data-section="crisis">Crisis</a>
+        <a href="#solution" data-section="solution">HiveMind Solution</a>
+        <a href="#pitch" data-section="pitch">3-Min Pitch</a>
+        <a href="#roadmap" data-section="roadmap">Roadmap &amp; Finance</a>
+        <a href="#research" data-section="research">Bram's Research</a>
+        <a href="#users" data-section="users">Users &amp; Market</a>
+        <a href="#sustainability" data-section="sustainability">Sustainability</a>
+        <a href="#contact" data-section="contact">Thank You</a>
+    </nav>
+
+    <div class="layout">
+        <div class="content">
+            <!-- INDUSTRY -->
+            <section id="industry" class="active">
+                <h2>Honey Industry</h2>
+                <div class="card-grid">
+                    <div class="card yellow">
+                        <div class="number">01</div>
+                        <p><strong>Every third bite</strong> of food we eat depends on bees.</p>
+                    </div>
+                    <div class="card yellow">
+                        <div class="number">02</div>
+                        <p>Bees contribute <strong>billions</strong> to the economy.</p>
+                    </div>
+                    <div class="card red">
+                        <div class="number">03</div>
+                        <p>Bee populations are <strong>collapsing</strong>.</p>
+                    </div>
+                </div>
+                <p>Bees are not just insects — they are an ecosystem. They are the unsung heroes pollinating roughly one-third of the global food supply and underpinning a multi-billion-dollar agricultural economy.</p>
+                <p class="quote">“Imagine a world without bees. No honey on your toast and a staggering 30% drop in global food production.”</p>
+            </section>
+
+            <!-- CRISIS -->
+            <section id="crisis">
+                <h2>Crisis in the Honey Industry</h2>
+                <h3>Economic &amp; Operational Pressures</h3>
+                <ul>
+                    <li><strong>Time Consuming</strong> – Weekly manual hive inspections</li>
+                    <li><strong>Labor Intensive</strong> – Labour can consume a large share of operating budgets</li>
+                    <li><strong>Disturbance</strong> – Opening hives stresses colonies and weakens them</li>
+                </ul>
+                <h3>Major Biological Threats</h3>
+                <div class="card-grid">
+                    <div class="card">
+                        <h4>Small Hive Beetles</h4>
+                        <p>Invasive pests that destroy comb and contaminate honey.</p>
+                    </div>
+                    <div class="card">
+                        <h4>American Foulbrood</h4>
+                        <p>Highly contagious bacterial disease that can wipe out colonies.</p>
+                    </div>
+                    <div class="card">
+                        <h4>Varroa Mite</h4>
+                        <p>Parasitic mite that vectors viruses and is a leading cause of colony loss.</p>
+                    </div>
+                </div>
+                <p>Traditional monitoring relies on beekeepers suiting up, opening hives weekly, and checking for signs of trouble. Early detection is often too late, leading to massive kill-offs and economic devastation for farmers who depend on healthy pollination.</p>
+            </section>
+
+            <!-- SOLUTION -->
+            <section id="solution">
+                <h2>How HiveMind Reduces Impact</h2>
+                <p><span class="highlight">Detection of early signs + Prevention Methods</span></p>
+                <p>HiveMind is a solar-powered smart hive platform that integrates laser technology, UV cleaning systems, and advanced sensors with machine-learning predictions.</p>
+                <div class="tech-list">
+                    <div class="tech-item">
+                        <h4>☀ Solar Powered</h4>
+                        <p>Utilizes solar energy for sustainable, off-grid hive operations.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🔦 Laser Technology</h4>
+                        <p>Targets pests with precision to protect bee colonies without chemicals.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>💜 UV Light</h4>
+                        <p>Sterilizes hive environments to prevent disease spread.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🌡 Temp &amp; Humidity</h4>
+                        <p>Monitors critical climate conditions for optimal bee health.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🔊 CO₂ &amp; Sound</h4>
+                        <p>Analyzes air quality and bee activity for early issue detection.</p>
+                    </div>
+                    <div class="tech-item">
+                        <h4>🤖 ML Predictions</h4>
+                        <p>Predicts disease, Varroa risk, queen issues and swarming with high accuracy.</p>
+                    </div>
+                </div>
+                <p style="margin-top:18px;">By automating inspections and enabling non-invasive monitoring, HiveMind reduces labour costs and minimizes hive disturbances while empowering beekeepers of every scale.</p>
+            </section>
+
+            <!-- PITCH -->
+            <section id="pitch">
+                <h2>3-Minute Pitch Script</h2>
+                <div class="pitch-box">
+                    <p>Ladies and gentlemen, imagine a world without bees. No honey on your toast and a staggering 30% drop in global food production. Bees aren't just insects — they are an ecosystem, the unsung heroes pollinating one-third of our food supply, contributing billions to the economy.</p>
+                    <p>But today, they're in crisis. The bee industry is facing an existential threat: colony collapse disorder, deadly diseases like American foulbrood and invasive pests such as the Varroa mite are wiping out hives at an alarming rate. Traditional monitoring relies on manual inspections — beekeepers suiting up, opening hives weekly, checking for signs of trouble. It's time-consuming, labour-intensive and disturbs the bees, which can stress them and weaken the colony. Labour costs alone can eat up a large share of a beekeeper's budget, and early detection is often too late. Leading to massive kill-offs and economic devastation for farmers who depend on healthy pollination.</p>
+                    <p>That's where our revolutionary technology comes in. I'm thrilled to present <strong>HiveMind</strong>, the future of beekeeping. Our solar-powered smart hives integrate laser technology, UV cleaning systems, and advanced sensors to monitor critical hive conditions in real-time — temperature, humidity, sound, vibrations and CO₂ levels. These systems enable us to detect early signs of diseases, Varroa mites, queen health issues, or swarming risks before they become critical. Powered by sophisticated machine learning, HiveMind predicts potential problems with high accuracy, enabling beekeepers to act swiftly. By automating inspections and incorporating honey collection, our system reduces labour cost and minimizes hive disturbances.</p>
+                    <p>Scalable and designed for seamless integration with existing hives, HiveMind empowers beekeepers of all scales to embrace a smarter, more sustainable approach, ensuring healthier hives and a thriving future for beekeeping. With the global beekeeping market projected to hit $20 billion, we're tapping into a hungry demand for tech-driven sustainability. To bring HiveMind from prototype to production, we're seeking seed investment for research and development, testing and manufacturing. This isn't just funding a product — it's investing in food security and a thriving planet. Together, we can empower the agriculture industry to be more productive, resilient and bee-friendly.</p>
+                    <p>Thank you for your time and attention. Let's make hives smarter and our future sweeter.</p>
+                </div>
+            </section>
+
+            <!-- ROADMAP & FINANCE -->
+            <section id="roadmap">
+                <h2>Product Development Roadmap</h2>
+                <div class="roadmap">
+                    <div class="roadmap-step">
+                        <strong>Ideation</strong> — Core goals identified: early disease detection, labour reduction, sustainable hive health.
+                    </div>
+                    <div class="roadmap-step">
+                        <strong>Product Definition</strong> — Requirements for non-invasive monitoring, predictive alerts, seamless automation.
+                    </div>
+                    <div class="roadmap-step">
+                        <strong>Technical Feasibility</strong> — Prototype with deep-vision lasers, UV systems, sensors (temp, humidity, vibration, CO₂) and ML backbone.
+                    </div>
+                    <div class="roadmap-step">
+                        <strong>Engineering Validation</strong> — Optimize design, test integrations, confirm scalability and reliability.
+                    </div>
+                    <div class="roadmap-step">
+                        <strong>Design Validation</strong> — Ship prototypes to real apiaries, gather beekeeper feedback, refine for pilot.
+                    </div>
+                    <div class="roadmap-step">
+                        <strong>Pilot → Production</strong> — Small-scale deployment, then mass manufacturing, marketing and continuous optimization.
+                    </div>
+                </div>
+
+                <h3>Financials &amp; Funding Plan</h3>
+                <p>Seeking <span class="highlight">$750,000</span> seed funding:</p>
+                <ul>
+                    <li>50% – Product development</li>
+                    <li>30% – Targeted marketing</li>
+                    <li>20% – Kickstart mass production</li>
+                </ul>
+                <table class="fin-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Units</th>
+                            <th>Unit Price</th>
+                            <th>Revenue</th>
+                            <th>Net Cashflow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2025 (setup)</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td>$0</td>
+                            <td style="color:#b33;">–$750,000</td>
+                        </tr>
+                        <tr>
+                            <td>2026</td>
+                            <td>2,000</td>
+                            <td>$200</td>
+                            <td>$400,000</td>
+                            <td style="color:#b33;">–$300,000</td>
+                        </tr>
+                        <tr>
+                            <td>2027</td>
+                            <td>8,000</td>
+                            <td>$204</td>
+                            <td>$1.63 M</td>
+                            <td class="positive">+$12,800</td>
+                        </tr>
+                        <tr>
+                            <td>2028</td>
+                            <td>32,000</td>
+                            <td>$208</td>
+                            <td>$6.66 M</td>
+                            <td class="positive">+$1.33 M</td>
+                        </tr>
+                        <tr>
+                            <td>2029</td>
+                            <td>64,000</td>
+                            <td>$212</td>
+                            <td>$13.58 M</td>
+                            <td class="positive">+$3.22 M</td>
+                        </tr>
+                        <tr>
+                            <td>2030</td>
+                            <td>128,000</td>
+                            <td>$216</td>
+                            <td>$27.71 M</td>
+                            <td class="positive">+$7.15 M</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p><strong>NPV ≈ $8.38 M</strong> · <strong>IRR ≈ 80%</strong> · Positive cash-flow from year 3 · ~18-month payback trajectory.</p>
+            </section>
+
+            <!-- BRAM'S RESEARCH -->
+            <section id="research">
+                <h2>Bram Spriensma – Use-Inspired Research</h2>
+                <p><span class="badge">Student 1</span> Material extracted from the 2025 ENGG7902 Mid-Semester Human-Centred Design document.</p>
+                
+                <h3>Questions for End-Users (Beekeepers)</h3>
+                <ol>
+                    <li>How many bee hives do you have?</li>
+                    <li>How much would you spend on a product to reduce impact and improve monitoring of the beehive?</li>
+                    <li>Is there any current technology that you use to reduce impact?</li>
+                    <li>Are you impacted by pests and diseases?</li>
+                    <li>What is the estimated honey you produce per week per bee hive?</li>
+                </ol>
+
+                <h3>Interview Focus Areas</h3>
+                <p>Interviews conducted by Bram Spriensma explored:</p>
+                <ul>
+                    <li>User groups: end-users (commercial &amp; hobbyist beekeepers), stakeholders, and analogous inspiration sources.</li>
+                    <li>Assumptions before interviews versus reflections after (using 4R reflective writing: Report, Relate, Reason, Reconstruct).</li>
+                    <li>Key concerns around labour, disease detection, cost willingness-to-pay, and trust in new technology.</li>
+                </ul>
+
+                <div class="card yellow" style="margin-top:16px;">
+                    <p><strong>Insight direction:</strong> Beekeepers need solutions that are non-invasive, affordable, and deliver clear early-warning value. Trust is built through transparent data, proven accuracy, and minimal disruption to the colony.</p>
+                </div>
+            </section>
+
+            <!-- USERS & MARKET -->
+            <section id="users">
+                <h2>Who Are Our User Groups?</h2>
+                <div class="card-grid">
+                    <div class="card yellow">
+                        <h3>Commercial Beekeeping</h3>
+                        <p>Customers — large-scale operators seeking labour savings and colony survival.</p>
+                    </div>
+                    <div class="card yellow">
+                        <h3>Agriculture Farmers</h3>
+                        <p>Stakeholders — rely on reliable pollination services.</p>
+                    </div>
+                    <div class="card yellow">
+                        <h3>Hobbyist Farmers</h3>
+                        <p>Inspirators — early adopters who value sustainability and data.</p>
+                    </div>
+                </div>
+                <h3>Market Opportunity</h3>
+                <p>Global beekeeping market projected over <strong>$20 billion</strong> (growing ~6% yearly). HiveMind targets the tech-enabled segment with a clear path from seed investment to scalable production.</p>
+                <p>Our works: scalable &amp; seamless integration · economic benefit · empowers beekeepers of all scales · more productive agriculture · resilient future.</p>
+            </section>
+
+            <!-- SUSTAINABILITY -->
+            <section id="sustainability">
+                <h2>Driving Sustainability Through Innovation</h2>
+                <p>We aim to protect bees, support farmers and build a sustainable future.</p>
+                <div class="card-grid">
+                    <div class="card">
+                        <h3>Climate-Smart Farming</h3>
+                        <p>Supports climate-smart farming with AI-driven monitoring and early intervention.</p>
+                    </div>
+                    <div class="card">
+                        <h3>Biodiversity</h3>
+                        <p>Safeguards biodiversity through healthier, more resilient bee colonies.</p>
+                    </div>
+                </div>
+                <p style="margin-top:16px;">By reducing chemical treatments, cutting unnecessary hive openings, and enabling precision pest control (laser + UV), HiveMind lowers the environmental footprint of commercial and small-scale beekeeping while improving colony outcomes.</p>
+            </section>
+
+            <!-- CONTACT / THANK YOU -->
+            <section id="contact">
+                <h2>Thank You</h2>
+                <p style="font-size:1.3rem; margin:20px 0;">Let's make hives smarter &amp; our future sweeter.</p>
+                <div class="card yellow" style="max-width:420px;">
+                    <p><strong>HiveMind / Honey Hive Technology</strong></p>
+                    <p>Digitalisation and AI Sustainability – Agriculture</p>
+                    <p>Speaker: Bram Spriensma</p>
+                    <p>Team: Hussain, Nanchong, Huanjian, Yichen</p>
+                </div>
+                <p style="margin-top:24px; font-size:0.95rem; color:#666;">Interactive simulation on the right (or below on mobile) shows a live HiveMind smart hive with real-time sensor readouts, bees, solar power, and AI-driven alerts.</p>
+            </section>
+        </div>
+
+        <div class="interactive-hive" id="hiveCanvas">
+            <!-- p5 canvas injected here -->
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Honey Hive Technology / HiveMind · Empower the Future of Agriculture</p>
+    </footer>
+
+    <script src="doc/beeSimulation.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        // Navigation
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('nav a').forEach(l => l.classList.remove('active'));
+                document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+                link.classList.add('active');
+                const id = link.getAttribute('data-section');
+                document.getElementById(id).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
