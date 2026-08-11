@@ -7,6 +7,16 @@
     --text: #333;
     --accent: #8B4513;
 }
+.ppt-slideshow{max-width:100%;margin:10px 0}
+.slide-viewer{position:relative;background:transparent;display:flex;align-items:center;justify-content:center;height:500px;overflow:hidden;padding:0 50px}
+.slide-viewer img{max-width:100%;max-height:100%;display:block}
+.slide-viewer .nav{position:absolute;top:0;bottom:0;width:60px;background:transparent;border:0;color:rgba(0,0,0,0.85);font-size:28px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.slide-viewer .nav.left{left:0px}
+.slide-viewer .nav.right{right:0px}
+.thumb-bar{display:flex;gap:6px;overflow-x:auto;padding:10px 6px;background:#f8f8f8;border-radius:6px;margin-top:8px}
+.thumb-bar img{height:72px;cursor:pointer;border:2px solid transparent}
+.thumb-bar img.active{border-color:#2b7cff}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -24,7 +34,6 @@ header {
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-    position: sticky;
     top: 0;
     z-index: 100;
 }
@@ -56,14 +65,10 @@ nav {
     background-color: var(--honey-dark);
     padding: 10px 12px;
     text-align: center;
-    display: flex;
-    flex-wrap: wrap;
     justify-content: center;
     gap: 4px;
-    position: sticky;
     top: 104px;
     z-index: 99;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 nav a {
     margin: 0 6px;
@@ -74,7 +79,6 @@ nav a {
     font-size: 0.92rem;
     border-radius: 20px;
     cursor: pointer;
-    transition: all 0.2s;
 }
 nav a:hover {
     background: rgba(255,255,255,0.35);
@@ -85,20 +89,17 @@ nav a.active {
 }
 .layout {
     display: flex;
-    min-height: calc(100vh - 180px);
+    min-height: calc(100vh);
     position: relative;
 }
 .content {
     flex: 1;
-    max-width: 720px;
-    padding: 28px 32px 40px 28px;
+    max-width: 1000px;
+    padding: 10px 32px 40px 28px;
 }
 section {
-    display: none;
-    animation: fadeIn 0.35s ease;
-}
-section.active {
     display: block;
+    animation: fadeIn 0.35s ease;
 }
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(8px); }
@@ -129,12 +130,11 @@ ul {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 14px;
-    margin: 18px 0;
 }
 .card {
     background: white;
     border-radius: 12px;
-    padding: 16px;
+    padding: 8px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.06);
     border: 1px solid rgba(240, 192, 64, 0.4);
     transition: transform 0.2s;
@@ -187,18 +187,13 @@ ul {
     color: #555;
 }
 .interactive-hive {
-    position: sticky;
     top: 170px;
-    width: 48%;
-    max-width: 600px;
+    max-width: 1000px;
     height: 540px;
-    margin: 20px 16px 20px 0;
-    border-radius: 16px;
+    margin: 20px 20px 20px 0;
+    border-radius: 8px;
     overflow: hidden;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.12);
-    background: #fffbe6;
     border: 2px solid var(--honey-dark);
-    align-self: flex-start;
 }
 .interactive-hive canvas {
     display: block;
@@ -291,17 +286,6 @@ footer {
     margin-right: 6px;
 }
 @media (max-width: 980px) {
-    .layout { flex-direction: column; }
-    .interactive-hive {
-        position: relative;
-        top: auto;
-        width: 95%;
-        max-width: 600px;
-        height: 420px;
-        margin: 16px auto;
-    }
-    .content { max-width: 100%; }
-    .tech-list { grid-template-columns: 1fr; }
     nav { top: auto; position: relative; }
     header { position: relative; }
 }
@@ -311,6 +295,9 @@ footer {
         margin: none;
     }
     button,#print-btn {
+        display: none !important;
+    }
+    button,#print-btn,#pptSlideshow,.ppt-slideshow,.slide-viewer,.thumb-bar {
         display: none !important;
     }
 }
