@@ -116,29 +116,13 @@ function redrawFood(k) {
 	changer.value = Score;
 	//change Game levels
 	if(Score == level3Score){
-		var answer = confirm("Voilaaaaa!You won the game!!!")
-		alert("Bye bye!")
 		window.location = "../index.html";
 	}else if(Score == level2Score){
-		var answer = confirm("Yippiee!You cleared 2nd level...do you want to continue?")
-		if (answer){
-			alert("Continue to next Level with faster pace...")
-			clearInterval(timer);
-			timer=setInterval('mrSnake.move()', 50);
-		}else{
-			alert("Bye bye!")
-			window.location = "../index.html";
-		}
+		clearInterval(timer);
+		timer=setInterval('mrSnake.move()', 50);
 	}else if (Score == level1Score){
-		var answer = confirm("Yippiee!You cleared 1st level...do you want to continue?")
-		if (answer){
-			alert("Continue to next Level with faster pace...")
-			clearInterval(timer);
-			timer=setInterval('mrSnake.move()', 100);
-		}else{
-			alert("Bye bye!")
-			window.location = "../index.html";
-		}
+		clearInterval(timer);
+		timer=setInterval('mrSnake.move()', 100);
 	}
 	return;
 }
@@ -221,11 +205,8 @@ Snake.prototype.move = function() {
 	}
 	retval= this.draw();
 	if(!retval){
-		var answer = confirm("Oops Your snake is dead! Click Ok to Quit.")
-		if(answer){
 		clearInterval(timer);
 		window.location = "../index.html";
-		}
 	}
 	drawFood();
 }

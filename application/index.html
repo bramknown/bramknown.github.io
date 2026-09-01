@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paint</title>
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header id="menubar" aria-label="Paint ribbon"></header>
+
+  <div id="ribbon">
+    <div class="command-section">
+      <div class="command-row">
+        <button id="btn-new" title="New (Ctrl+N)"><strong>New</strong><small>Ctrl+N</small></button>
+        <button id="btn-open" title="Open"><strong>Open</strong><small>Image</small></button>
+        <button id="btn-save" title="Save PNG"><strong>Save</strong><small>PNG</small></button>
+        <button id="btn-undo" title="Undo (Ctrl+Z)">&#8630;<small>Undo</small></button>
+        <button id="btn-redo" title="Redo (Ctrl+Y)">&#8631;<small>Redo</small></button>
+        <button id="btn-clear" title="Clear layer"><strong>Clear</strong><small>Canvas</small></button>
+        <button id="btn-crop" title="Crop to selection"><strong>Crop</strong><small>Selection</small></button>
+      </div>
+      <input type="file" id="file-input" accept="image/*" hidden>
+    </div>
+    <div class="ribbon-section"><span class="section-label">Tools</span><div class="tool-row ribbon-tools">
+      <button class="tool active" data-tool="pencil" title="Pencil">&#9998;<small>Pencil</small></button>
+      <button class="tool" data-tool="brush" title="Brush">&#10002;<small>Brush</small></button>
+      <button class="tool" data-tool="eraser" title="Eraser">&#9003;<small>Eraser</small></button>
+      <button class="tool" data-tool="fill" title="Fill">&#9638;<small>Fill</small></button>
+      <button class="tool" data-tool="eyedropper" title="Eyedropper">&#9678;<small>Picker</small></button>
+      <button class="tool" data-tool="text" title="Text">T<small>Text</small></button>
+    </div></div>
+    <div class="ribbon-section"><span class="section-label">Shapes</span><div class="tool-row shape-tools">
+      <button class="tool" data-tool="select" title="Select">&#11036;<small>Select</small></button>
+      <button class="tool" data-tool="line" title="Line">&#9585;<small>Line</small></button>
+      <button class="tool" data-tool="rect" title="Rectangle">&#9633;<small>Rectangle</small></button>
+      <button class="tool" data-tool="ellipse" title="Ellipse">&#9711;<small>Ellipse</small></button>
+      <button class="tool" data-tool="roundrect" title="Rounded Rect">&#9645;<small>Rounded</small></button>
+    </div></div>
+    <div class="ribbon-section options-ribbon"><span class="section-label">Brushes</span><label>Size <input type="range" id="brush-size" min="1" max="80" value="4"><span id="size-val">4 px</span></label><label>Opacity <input type="range" id="brush-opacity" min="1" max="100" value="100"><span id="opacity-val">100%</span></label><label>Tolerance <input type="range" id="fill-tolerance" min="0" max="100" value="20"><span>20</span></label></div>
+    <div class="ribbon-section colors-ribbon"><span class="section-label">Colors</span><div class="ribbon-colors"><div class="color-stack"><input type="color" id="fg-color" value="#000000" title="Color 1"><input type="color" id="bg-color" value="#ffffff" title="Color 2"></div><button id="btn-swap-colors" title="Swap colors">&#8646;</button><div id="palette"></div></div></div>
+  </div>
+
+  <div id="workspace">
+    <main id="canvas-area">
+      <div id="ruler-corner" aria-hidden="true">px</div><div class="ruler ruler-x" aria-hidden="true"></div><div class="ruler ruler-y" aria-hidden="true"></div>
+      <div id="canvas-stage">
+      <div id="canvas-container">
+        <canvas id="main-canvas"></canvas>
+        <canvas id="overlay-canvas"></canvas>
+        <div id="selection-box" hidden></div>
+        <div id="text-input-box" hidden>
+          <textarea id="text-input" rows="2" placeholder="Type text…"></textarea>
+        </div>
+        <button class="canvas-handle handle-e" data-resize="e" aria-label="Resize canvas width"></button>
+        <button class="canvas-handle handle-s" data-resize="s" aria-label="Resize canvas height"></button>
+        <button class="canvas-handle handle-se" data-resize="se" aria-label="Resize canvas"></button>
+        <button class="canvas-handle handle-w" data-resize="w" aria-label="Resize canvas width"></button>
+        <button class="canvas-handle handle-n" data-resize="n" aria-label="Resize canvas height"></button>
+        <button class="canvas-handle handle-sw" data-resize="sw" aria-label="Resize canvas"></button>
+        <button class="canvas-handle handle-ne" data-resize="ne" aria-label="Resize canvas"></button>
+        <button class="canvas-handle handle-nw" data-resize="nw" aria-label="Resize canvas"></button>
+      </div>
+      </div>
+    </main>
+
+    <aside id="sidebar">
+      <div class="panel">
+        <h3>Layers</h3>
+        <div id="layers-list"></div>
+        <div class="layer-actions">
+          <button id="btn-add-layer">+ Layer</button>
+          <button id="btn-delete-layer">-</button>
+          <button id="btn-merge-down">Merge ↓</button>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+  <footer id="statusbar"><span id="coords">0, 0</span><span class="canvas-size">900 x 600 px</span><span class="status-spacer"></span><button id="btn-zoom-out" title="Zoom out">&#8722;</button><span id="zoom-label">100%</span><button id="btn-zoom-in" title="Zoom in">+</button><button id="btn-zoom-fit" title="Fit canvas">Fit</button></footer>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
